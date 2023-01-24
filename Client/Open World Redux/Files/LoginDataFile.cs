@@ -14,5 +14,7 @@ namespace OpenWorldRedux
         public string ServerPort;
 
         public string Username;
+
+        public int AutosaveDays = 3;
     }
 }

@@ -18,6 +18,7 @@ namespace OpenWorldRedux
             {
                 SetupCulture();
                 SetupParameterPaths();
+                LoadAutosaveDetails();
                 FactionsCache.FindFactionDefsInGame();
             }
 
@@ -38,6 +39,17 @@ namespace OpenWorldRedux
 
                 if (!Directory.Exists(FocusCache.saveFolderPath)) Directory.CreateDirectory(FocusCache.saveFolderPath);
                 if (!Directory.Exists(FocusCache.ModFolderPath)) Directory.CreateDirectory(FocusCache.ModFolderPath);
+            }
+
+            private static void LoadAutosaveDetails()
+            {
+                LoginDataFile newLoginData;
+                if (File.Exists(FocusCache.loginDataFilePath)) newLoginData = Serializer.DeserializeFromFile<LoginDataFile>(FocusCache.loginDataFilePath);
+                else newLoginData = new LoginDataFile();
+
+                FocusCache.autosaveDays = newLoginData.AutosaveDays;
+                FocusCache.autosaveInternalTicks = Mathf.RoundToInt(FocusCache.autosaveDays * 60000f);
+                Serializer.SerializeToFile(FocusCache.loginDataFilePath, newLoginData);
             }
         }
     }

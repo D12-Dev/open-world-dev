@@ -8,13 +8,12 @@ using HugsLib;
 using HarmonyLib;
 using UnityEngine;
 using System.IO;
-using static UnityEngine.GraphicsBuffer;
 
 namespace OpenWorldRedux
 {
 	public class Injections : ModBase
 	{
-		public override string ModIdentifier => "OpenWorldRedux";
+		public override string ModIdentifier => "OpenWorld";
 
 		public static List<Action> thingsToDoInUpdate = new List<Action>();
 	}
@@ -234,11 +233,11 @@ namespace OpenWorldRedux
             if (!BooleanCache.isConnectedToServer) return true;
             else
             {
-                FocusCache.autosaveIntervalTicks++;
-                if (FocusCache.autosaveIntervalTicks >= FocusCache.autosaveInternalTicks && !GameDataSaveLoader.SavingIsTemporarilyDisabled)
+                FocusCache.actualSaveTicks++;
+                if (FocusCache.actualSaveTicks >= FocusCache.autosaveInternalTicks && !GameDataSaveLoader.SavingIsTemporarilyDisabled)
                 {
                     LongEventHandler.QueueLongEvent(__instance.DoAutosave, "Autosaving", doAsynchronously: false, null);
-                    FocusCache.autosaveIntervalTicks = 0;
+                    FocusCache.actualSaveTicks = 0;
                 }
 
                 return false;
