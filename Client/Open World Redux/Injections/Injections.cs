@@ -156,13 +156,7 @@ namespace OpenWorldRedux
 			if (!BooleanCache.isConnectedToServer) return true;
 			else
 			{
-                if (TradeSession.trader.Faction != FactionsCache.onlineNeutralFaction &&
-					TradeSession.trader.Faction != FactionsCache.onlineAllyFaction &&
-					TradeSession.trader.Faction != FactionsCache.onlineEnemyFaction)
-                {
-                    return true;
-                }
-
+                if (!FactionsCache.allOnlineFactions.Contains(TradeSession.trader.Faction)) return true;
 				else
 				{
 					TradeItem newTradeItem = new TradeItem();
@@ -209,13 +203,7 @@ namespace OpenWorldRedux
 		[HarmonyPrefix]
 		public static bool ModifyPre(ref List<Tradeable> ___tradeables)
 		{
-            if (TradeSession.trader.Faction != FactionsCache.onlineNeutralFaction &&
-                TradeSession.trader.Faction != FactionsCache.onlineAllyFaction &&
-                TradeSession.trader.Faction != FactionsCache.onlineEnemyFaction)
-            {
-                return true;
-            }
-
+            if (!FactionsCache.allOnlineFactions.Contains(TradeSession.trader.Faction)) return true;
 			else
 			{
                 ___tradeables = new List<Tradeable>();

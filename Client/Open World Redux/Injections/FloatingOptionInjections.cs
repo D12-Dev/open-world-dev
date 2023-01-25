@@ -19,9 +19,7 @@ namespace OpenWorldRedux
 			[HarmonyPostfix]
 			public static void ModifyPost(ref IEnumerable<FloatMenuOption> __result, Caravan caravan, Settlement __instance)
 			{
-                if (__instance.Faction == FactionsCache.onlineNeutralFaction ||
-                    __instance.Faction == FactionsCache.onlineAllyFaction ||
-                    __instance.Faction == FactionsCache.onlineEnemyFaction)
+                if (FactionsCache.allOnlineFactions.Contains(__instance.Faction))
                 {
                     var gizmoList = __result.ToList();
                     gizmoList.Clear();
@@ -46,9 +44,7 @@ namespace OpenWorldRedux
 			[HarmonyPostfix]
 			public static void ModifyPost(Site __instance, ref IEnumerable<FloatMenuOption> __result)
 			{
-                if (__instance.Faction == FactionsCache.onlineNeutralFaction ||
-                    __instance.Faction == FactionsCache.onlineAllyFaction ||
-                    __instance.Faction == FactionsCache.onlineEnemyFaction)
+                if (FactionsCache.allOnlineFactions.Contains(__instance.Faction))
                 {
                     var gizmoList = __result.ToList();
                     gizmoList.Clear();
@@ -66,9 +62,7 @@ namespace OpenWorldRedux
 			[HarmonyPostfix]
 			public static void ModifyPost(ref IEnumerable<FloatMenuOption> __result, Settlement settlement, CompLaunchable representative)
 			{
-                if (settlement.Faction == FactionsCache.onlineNeutralFaction ||
-                    settlement.Faction == FactionsCache.onlineAllyFaction ||
-                    settlement.Faction == FactionsCache.onlineEnemyFaction)
+                if (FactionsCache.allOnlineFactions.Contains(settlement.Faction))
                 {
                     var floatMenuList = __result.ToList();
                     floatMenuList.Clear();
@@ -104,9 +98,7 @@ namespace OpenWorldRedux
 			[HarmonyPostfix]
 			public static void ModifyPost(ref IEnumerable<FloatMenuOption> __result, Settlement settlement)
 			{
-                if (settlement.Faction == FactionsCache.onlineNeutralFaction ||
-                    settlement.Faction == FactionsCache.onlineAllyFaction ||
-                    settlement.Faction == FactionsCache.onlineEnemyFaction)
+                if (FactionsCache.allOnlineFactions.Contains(settlement.Faction))
                 {
                     var floatMenuList = __result.ToList();
                     floatMenuList.Clear();

@@ -41,8 +41,8 @@ namespace OpenWorldRedux
             allOnlineFactions.Add(onlineAllyFaction);
             allOnlineFactions.Add(onlineEnemyFaction);
 
-            allOnlineFactions.Add(onlineNeutralTribe);
-            allOnlineFactions.Add(onlineEnemyTribe);
+            //allOnlineFactions.Add(onlineNeutralTribe);
+            //allOnlineFactions.Add(onlineEnemyTribe);
         }
 
         public static void FindFactionDefsInGame()
