@@ -47,7 +47,6 @@ namespace OpenWorldRedux
             listingStandard.GapLine();
             listingStandard.Label("Mod Details");
             listingStandard.Label("Running version: " + FocusCache.versionCode);
-            listingStandard.Label("Latest Version Available: 1.0.0");
 
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);

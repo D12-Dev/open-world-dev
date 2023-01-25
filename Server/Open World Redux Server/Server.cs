@@ -20,13 +20,15 @@ namespace OpenWorldReduxServer
         public static string whitelistedModsFolderPath;
         public static string blacklistedModsFolderPath;
 
-        public static string configFilePath;
         public static string valuesFilePath;
+        public static string configFilePath;
+        public static string deepConfigsFilePath;
         public static string difficultyFilePath;
         public static string whitelistFilePath;
 
         public static ServerValuesFile serverValues;
         public static ConfigFile serverConfig;
+        public static DeepConfigFile serverDeepConfigs;
         public static DifficultyFile serverDifficulty;
         public static WhitelistFile whitelist;
 
@@ -44,6 +46,7 @@ namespace OpenWorldReduxServer
             ServerHandler.SetPaths();
             ServerHandler.SetCulture();
             ServerHandler.CheckConfigFile(true);
+            ServerHandler.CheckDeepSettingsFile();
             ServerHandler.CheckValuesFile();
             ServerHandler.CheckDifficultyFile();
             ServerHandler.CheckWhitelistFile();

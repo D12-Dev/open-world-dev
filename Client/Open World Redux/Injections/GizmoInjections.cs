@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace OpenWorldRedux
 {
@@ -255,7 +256,7 @@ namespace OpenWorldRedux
 			}
 		}
 
-		//Get All World Map Gizmos For Globe
+		//Get All Faction Gizmos For Globe
 		[HarmonyPatch(typeof(Caravan), "GetGizmos")]
 		public static class SetGlobeGizmos
 		{
@@ -266,6 +267,9 @@ namespace OpenWorldRedux
                 else
                 {
                     List<Site> worldSites = Find.World.worldObjects.Sites;
+
+                    Settlement presentSettlement = Find.World.worldObjects.Settlements.Find(fetch => fetch.Tile == __instance.Tile);
+                    if (presentSettlement != null) return;
 
                     WorldObject objectToFind = worldSites.Find(fetch => fetch.Tile == __instance.Tile);
 
@@ -297,13 +301,7 @@ namespace OpenWorldRedux
 
                     else
                     {
-                        if (objectToFind.Faction != FactionsCache.onlineNeutralFaction &&
-                            objectToFind.Faction != FactionsCache.onlineAllyFaction &&
-                            objectToFind.Faction != FactionsCache.onlineEnemyFaction)
-                        {
-                            return;
-                        }
-
+                        if (!FactionsCache.allOnlineFactions.Contains(objectToFind.Faction)) return;
                         else
                         {
                             Command_Action Command_AttackSite = new Command_Action
@@ -368,5 +366,44 @@ namespace OpenWorldRedux
                 }
             }
 		}
-	}
+
+        //Get Road Gizmos For Globe
+        [HarmonyPatch(typeof(Caravan), "GetGizmos")]
+        public static class SetRoadGizmos
+        {
+            [HarmonyPostfix]
+            public static void ModifyPost(ref IEnumerable<Gizmo> __result, Caravan __instance)
+            {
+                if (!BooleanCache.isConnectedToServer) return;
+                else
+                {
+                    //List<Tile> worldTiles = Find.World.grid.tiles;
+                    //Tile toGet = worldTiles.Find(fetch => fetch.feature.uniqueID == __instance.Tile);
+                    
+                    //if (toGet.Roads != null) return;
+                    //else
+                    //{
+                    //    Command_Action Command_BuildRoad = new Command_Action
+                    //    {
+                    //        defaultLabel = "Road Building Menu",
+                    //        defaultDesc = "Build a road in this tile",
+                    //        icon = ContentFinder<Texture2D>.Get("UI/Commands/CopySettings"),
+                    //        action = delegate
+                    //        {
+                    //            FocusCache.focusedCaravan = __instance;
+
+                    //            Find.WindowStack.Add(new OW_ErrorDialog("This action is not implemented yet"));
+
+                    //            //Find.WindowStack.Add(new OW_MPRoadMenu());
+                    //        }
+                    //    };
+
+                    //    List<Gizmo> gizmoList = __result.ToList();
+                    //    gizmoList.Add(Command_BuildRoad);
+                    //    __result = gizmoList;
+                    //}
+                }
+            }
+        }
+    }
 }

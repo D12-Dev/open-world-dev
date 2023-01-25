@@ -21,11 +21,13 @@ namespace OpenWorldRedux
 
         public static OverallPopulation overallPopulation;
 
-        public static List<FactionDef> factions = new List<FactionDef>() 
+        public static List<FactionDef> factions = new List<FactionDef>()
         {
             FactionsCache.onlineNeutralFactionDef,
             FactionsCache.onlineAllyFactionDef,
             FactionsCache.onlineEnemyFactionDef,
+            FactionsCache.onlineNeutralTribeDef,
+            FactionsCache.onlineEnemyTribeDef,
             FactionDefOf.Mechanoid,
             FactionDefOf.Insect,
             FactionDefOf.Ancients,

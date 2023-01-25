@@ -216,6 +216,7 @@
     <Compile Include="Windows\Gift\OW_MPGiftMenu.cs" />
     <Compile Include="Windows\Gift\OW_MPGiftRequest.cs" />
     <Compile Include="Windows\OW_MPConfirmResetSave.cs" />
+    <Compile Include="Windows\Roads\OW_MPRoadMenu.cs" />
     <Compile Include="Windows\Trade\OW_MPTradeRequest.cs" />
     <Compile Include="Windows\Trade\OW_MPConfirmTrade.cs" />
     <Compile Include="Windows\Trade\OW_MPTradeMenu.cs" />

@@ -16,13 +16,9 @@ namespace OpenWorldRedux
         private static List<WorldGenStepDef> tmpGenSteps = new List<WorldGenStepDef>();
 
         public static IEnumerable<WorldGenStepDef> GenStepsInOrder => from x in DefDatabase<WorldGenStepDef>.AllDefs
+                                                                      where x.defName != "Roads"
                                                                       orderby x.order, x.index
                                                                       select x;
-
-        public static void TriggerWorldGenerationFromPacket()
-        {
-            TriggerWorldGeneration();
-        }
 
         public static void TriggerWorldGeneration()
         {

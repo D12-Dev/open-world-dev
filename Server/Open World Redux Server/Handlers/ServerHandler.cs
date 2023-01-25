@@ -51,6 +51,7 @@ namespace OpenWorldReduxServer
             Server.blacklistedModsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Mods blacklisted";
 
             Server.configFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Config.json";
+            Server.deepConfigsFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Deep Config.json";
             Server.valuesFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Values.json";
             Server.difficultyFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Difficulty.json";
             Server.whitelistFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Whitelist.json";
@@ -109,7 +110,7 @@ namespace OpenWorldReduxServer
             PopulateConfigFile();
         }
 
-        public static void PopulateConfigFile()
+        private static void PopulateConfigFile()
         {
             Server.serverConfig.enforcedMods.Clear();
             Server.serverConfig.whitelistedMods.Clear();
@@ -123,6 +124,25 @@ namespace OpenWorldReduxServer
 
             string[] blacklistedModsDeflate = Directory.GetFiles(Server.blacklistedModsFolderPath);
             foreach (string mod in blacklistedModsDeflate) Server.serverConfig.blacklistedMods.Add(Path.GetFileNameWithoutExtension(mod));
+        }
+
+        public static void CheckDeepSettingsFile()
+        {
+            DeepConfigFile deepSettingsFile = null;
+
+            if (File.Exists(Server.deepConfigsFilePath))
+            {
+                deepSettingsFile = Serializer.DeserializeFromFile<DeepConfigFile>(Server.deepConfigsFilePath);
+            }
+
+            else
+            {
+                deepSettingsFile = new DeepConfigFile();
+
+                Serializer.SerializeToFile(deepSettingsFile, Server.deepConfigsFilePath);
+            }
+
+            Server.serverDeepConfigs = deepSettingsFile;
         }
 
         public static void CheckValuesFile()

@@ -110,7 +110,9 @@ namespace OpenWorldRedux
 			{
                 FactionsCache.FindOnlineFactionsInWorld();
 
-				WorldHandler.CleanWorld();
+				WorldHandler.PrepareWorld();
+
+                WorldHandler.TryPatchOldWorlds();
 
                 RimworldHandler.ToggleDevOptions();
 
@@ -133,7 +135,7 @@ namespace OpenWorldRedux
 			{
                 FactionsCache.FindOnlineFactionsInWorld();
 
-                WorldHandler.CleanWorld();
+                WorldHandler.PrepareWorld();
 
                 RimworldHandler.ToggleDevOptions();
 

@@ -57,7 +57,7 @@ namespace OpenWorldRedux
                 if (BooleanCache.isGeneratingWorldFromPacket)
                 {
                     __instance.next = null;
-                    __instance.nextAct = WorldGeneratorOverride.TriggerWorldGenerationFromPacket;
+                    __instance.nextAct = WorldGeneratorOverride.TriggerWorldGeneration;
 
                     Find.GameInitData.permadeathChosen = true;
                     Find.GameInitData.permadeath = true;

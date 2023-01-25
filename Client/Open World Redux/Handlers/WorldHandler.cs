@@ -119,14 +119,22 @@ namespace OpenWorldRedux
                 WorldCache.onlineStructures.Remove(siteToDestroy);
             }
         }
+        
+        public static void PrepareWorld()
+        {
+            CleanWorld();
+            RebuildWorld();
+        }
 
-        public static void CleanWorld()
+        private static void CleanWorld()
         {
             //Destroy settlements
             Settlement[] settlementsToDestroy = Find.WorldObjects.Settlements.ToArray();
             foreach(Settlement settlement in settlementsToDestroy)
             {
                 if (settlement.Faction == Faction.OfPlayer) continue;
+                else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
+                else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
                 else Find.WorldObjects.Remove(settlement);
             }
 
@@ -143,10 +151,13 @@ namespace OpenWorldRedux
 
                 else continue;
             }
+        }
 
+        private static void RebuildWorld()
+        {
             //Spawn settlements
             WorldCache.onlineSettlements.Clear();
-            foreach(SettlementFile settlement in WorldCache.onlineSettlementsDeflate)
+            foreach (SettlementFile settlement in WorldCache.onlineSettlementsDeflate)
             {
                 Settlement newOnlineSettlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
                 newOnlineSettlement.Tile = settlement.settlementTile;
@@ -158,7 +169,7 @@ namespace OpenWorldRedux
 
                 WorldCache.onlineSettlements.Add(newOnlineSettlement);
             }
-            foreach(Settlement onlineSettlement in WorldCache.onlineSettlements) Find.WorldObjects.Add(onlineSettlement);
+            foreach (Settlement onlineSettlement in WorldCache.onlineSettlements) Find.WorldObjects.Add(onlineSettlement);
 
             //Spawn sites
             WorldCache.onlineStructures.Clear();
@@ -184,7 +195,24 @@ namespace OpenWorldRedux
                     WorldCache.onlineStructures.Add(newOnlineSite);
                 }
             }
-            foreach(Site onlineSite in WorldCache.onlineStructures) Find.WorldObjects.Add(onlineSite);
+            foreach (Site onlineSite in WorldCache.onlineStructures) Find.WorldObjects.Add(onlineSite);
+        }
+
+        public static void TryPatchOldWorlds()
+        {
+            if (!Find.FactionManager.AllFactions.Contains(FactionsCache.onlineNeutralTribe) ||
+                !Find.FactionManager.AllFactions.Contains(FactionsCache.onlineEnemyTribe))
+            {
+                List<FactionDef> toAdd = new List<FactionDef>()
+                {
+                    FactionsCache.onlineNeutralTribeDef,
+                    FactionsCache.onlineEnemyFactionDef
+                };
+
+                Log.Message("[Open World] > Trying to add missing tribes");
+
+                FactionGenerator.GenerateFactionsIntoWorld(toAdd);
+            }
         }
 
         public static void ParseCurrentWorldSettlements(Packet receivedPacket)

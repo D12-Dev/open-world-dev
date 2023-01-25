@@ -66,6 +66,7 @@ namespace OpenWorldRedux
             BooleanCache.isGeneratingNewWorld = false;
             BooleanCache.isGeneratingWorldFromPacket = false;
             DifficultyCache.usingCustomDifficulty = false;
+            FactionCache.hasFaction = false;
 
             if (Current.ProgramState == ProgramState.Playing)
             {

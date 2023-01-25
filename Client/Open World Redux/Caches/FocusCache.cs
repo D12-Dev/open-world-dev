@@ -30,7 +30,7 @@ namespace OpenWorldRedux
 
         public static int actualSaveTicks;
         public static int autosaveDays;
-        public static int autosaveInternalTicks = Mathf.RoundToInt(autosaveDays * 60000f);
+        public static int autosaveInternalTicks;
 
         public static int playerCount;
 
@@ -40,6 +40,6 @@ namespace OpenWorldRedux
         public static string saveFolderPath;
         public static string loginDataFilePath;
         public static string ModFolderPath;
-        public static string versionCode = "1.0.0";
+        public static string versionCode = "1.0.1";
     }
 }
