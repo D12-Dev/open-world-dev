@@ -255,7 +255,7 @@ namespace OpenWorldRedux
 			[HarmonyPostfix]
 			public static void ModifyPost(ref IEnumerable<Gizmo> __result, Caravan __instance)
 			{
-                if (!FactionCache.hasFaction) return;
+                if (!FactionCache.hasFaction || Find.AnyPlayerHomeMap == null) return;
                 else
                 {
                     List<Site> worldSites = Find.World.worldObjects.Sites;

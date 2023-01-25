@@ -213,6 +213,36 @@ namespace OpenWorldRedux
 		}
 	}
 
+    //Prevent Goodwill Change Next To Other Player
+    [HarmonyPatch(typeof(SettlementProximityGoodwillUtility), "AppendProximityGoodwillOffsets")]
+    public static class PrevenGoodwillChangeOnSettle
+    {
+        [HarmonyPrefix]
+        public static bool PreventGoodwillChange(ref int tile, ref List<Pair<Settlement, int>> outOffsets)
+        {
+            int maxDist = SettlementProximityGoodwillUtility.MaxDist;
+            List<Settlement> settlements = Find.WorldObjects.Settlements;
+            for (int i = 0; i < settlements.Count; i++)
+            {
+                Settlement settlement = settlements[i];
+
+                if (FactionsCache.allOnlineFactions.Contains(settlement.Faction)) continue;
+
+                int num = Find.WorldGrid.TraversalDistanceBetween(tile, settlement.Tile, passImpassable: false, maxDist);
+                if (num != int.MaxValue)
+                {
+                    int num2 = Mathf.RoundToInt(DiplomacyTuning.Goodwill_PerQuadrumFromSettlementProximity.Evaluate(num));
+                    if (num2 != 0)
+                    {
+                        outOffsets.Add(new Pair<Settlement, int>(settlement, num2));
+                    }
+                }
+            }
+
+            return false;
+        }
+    }
+
     //Modify autosave
     [HarmonyPatch(typeof(Autosaver), "AutosaverTick")]
     public static class Autosave
