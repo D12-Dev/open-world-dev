@@ -38,6 +38,8 @@ namespace OpenWorldRedux
         public static void CompleteOperation()
         {
             FocusCache.waitWindowInstance.Close();
+
+            Injections.thingsToDoInUpdate.Add(MPGame.ForceSave);
         }
 
         public static void ReceiveBankSilver(Packet receivedPacket)
