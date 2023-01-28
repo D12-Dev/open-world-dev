@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace OpenWorldReduxServer
 {
     public static class ThreadHandler
@@ -33,6 +34,14 @@ namespace OpenWorldReduxServer
                 StructuresThread.IsBackground = true;
                 StructuresThread.Name = "Structures Thread";
                 StructuresThread.Start();
+            }
+
+            else if (threadID == 3)
+            {
+                Thread AuthChannelThread = new Thread(() => AuthNetwork.TryConnectToServer());
+                AuthChannelThread.IsBackground = true;
+                AuthChannelThread.Name = "Auth Channel Thread";
+                AuthChannelThread.Start();
             }
 
             else return;

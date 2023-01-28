@@ -10,6 +10,6 @@ namespace OpenWorldReduxServer
     public class DeepConfigFile
     {
         public int BankCashPerTick = 50;
-        public int MaximumCashInBank = 10000;
+        public int MaximumCashInBankForTick = 10000;
     }
 }

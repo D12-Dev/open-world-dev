@@ -18,7 +18,10 @@ namespace OpenWorldServerVerificator
             {
                 Debug.WriteLine(receivedPacket.header);
 
-                
+                if (receivedPacket.header == "LoginToVerificatorPacket")
+                {
+                    ClientHandler.LoginClient(client, receivedPacket);
+                }
             }
         }
     }

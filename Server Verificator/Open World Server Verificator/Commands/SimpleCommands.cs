@@ -10,7 +10,6 @@ namespace OpenWorldServerVerificator
     {
         public static HelpCommand helpCommand = new HelpCommand();
         public static ReloadCommand reloadCommand = new ReloadCommand();
-        public static AnnounceCommand announceCommand = new AnnounceCommand();
         public static ListCommand listCommand = new ListCommand();
         public static StatusCommand statusCommand = new StatusCommand();
         public static ExitCommand exitCommand = new ExitCommand();
@@ -19,7 +18,6 @@ namespace OpenWorldServerVerificator
         {
             helpCommand,
             reloadCommand,
-            announceCommand,
             listCommand,
             statusCommand,
             exitCommand
@@ -47,36 +45,25 @@ namespace OpenWorldServerVerificator
             ServerHandler.WriteToConsole("Configurations have been reloaded", ServerHandler.LogMode.Title);
         }
 
-        public static void AnnounceCommand()
-        {
-            ServerHandler.WriteToConsole("Type the message to send:", ServerHandler.LogMode.Title);
-            string toSend = Console.ReadLine();
-
-            string[] contents = new string[] { toSend };
-            Packet AnnouncementMessagePacket = new Packet("AnnouncementMessagePacket", contents);
-
-            ServerClient[] connectedClients = Network.connectedClients.ToArray();
-            foreach(ServerClient client in connectedClients)
-            {
-                Network.SendData(client, AnnouncementMessagePacket);
-            }
-
-            ServerHandler.WriteToConsole($"Sent announcement: [{toSend}]", ServerHandler.LogMode.Title);
-        }
-
         public static void StatusCommand()
         {
             ServerHandler.WriteToConsole("Server status", ServerHandler.LogMode.Title);
             ServerHandler.WriteToConsole($"IP: {Network.localAddress}");
             ServerHandler.WriteToConsole($"Port: {Network.serverPort}");
-            ServerHandler.WriteToConsole($"Max Players: {Network.maxPlayers}");
-            ServerHandler.WriteToConsole($"Connected Players: {Network.connectedClients.Count}");
+            ServerHandler.WriteToConsole($"Connected Clients: {Network.connectedClients.Count}");
         }
 
         public static void ListCommand()
         {
-            ServerHandler.WriteToConsole($"List of connected players [{Network.connectedClients.Count}]", ServerHandler.LogMode.Title);
+            string[] clientFiles = Directory.GetFiles(Server.usersFolderPath);
+            ServerHandler.WriteToConsole($"List of registered clients [{clientFiles.Count()}]", ServerHandler.LogMode.Title);
+            foreach(string file in clientFiles)
+            {
+                ServerClient toGet = Serializer.DeserializeFromFile<ServerClient>(file);
+                ServerHandler.WriteToConsole(toGet.Username);
+            }
 
+            ServerHandler.WriteToConsole($"List of connected clients [{Network.connectedClients.Count}]", ServerHandler.LogMode.Title);
             ServerClient[] connectedClients = Network.connectedClients.ToArray();
             foreach(ServerClient sc in connectedClients) ServerHandler.WriteToConsole(sc.Username);
         }

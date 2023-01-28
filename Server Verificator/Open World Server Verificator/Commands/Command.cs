@@ -49,6 +49,39 @@ namespace OpenWorldServerVerificator
         public override Action actionToDo => SimpleCommands.HelpCommandHandle;
     }
 
+    public class RegisterCommand : Command
+    {
+        public override string prefix => "register";
+
+        public override string prefixHelp => "Register new client [1].";
+
+        public override int parameterCount => 1;
+
+        public override Action actionToDo => AdvancedCommands.RegisterClientCommand;
+    }
+
+    public class RenewCommand : Command
+    {
+        public override string prefix => "renew";
+
+        public override string prefixHelp => "Renews client [1].";
+
+        public override int parameterCount => 1;
+
+        public override Action actionToDo => AdvancedCommands.RenewClientCommand;
+    }
+
+    public class UnrenewCommand : Command
+    {
+        public override string prefix => "unrenew";
+
+        public override string prefixHelp => "Cancels client [1] from renewal service.";
+
+        public override int parameterCount => 1;
+
+        public override Action actionToDo => AdvancedCommands.UnrenewClientCommand;
+    }
+
     public class ReloadCommand : Command
     {
         public override string prefix => "reload";
@@ -58,50 +91,6 @@ namespace OpenWorldServerVerificator
         public override int parameterCount => 0;
 
         public override Action actionToDo => SimpleCommands.ReloadCommandHandle;
-    }
-
-    public class BanCommand : Command
-    {
-        public override string prefix => "ban";
-
-        public override string prefixHelp => "Bans player [1].";
-
-        public override int parameterCount => 1;
-
-        public override Action actionToDo => AdvancedCommands.BanCommandHandle;
-    }
-
-    public class PardonCommand : Command
-    {
-        public override string prefix => "pardon";
-
-        public override string prefixHelp => "Pardons player [1].";
-
-        public override int parameterCount => 1;
-
-        public override Action actionToDo => AdvancedCommands.PardonCommandHandle;
-    }
-
-    public class KickCommand : Command
-    {
-        public override string prefix => "kick";
-
-        public override string prefixHelp => "Kicks player [1].";
-
-        public override int parameterCount => 1;
-
-        public override Action actionToDo => AdvancedCommands.KickCommandHandle;
-    }
-
-    public class AnnounceCommand : Command
-    {
-        public override string prefix => "announce";
-
-        public override string prefixHelp => "Sends a message to every connected player.";
-
-        public override int parameterCount => 0;
-
-        public override Action actionToDo => SimpleCommands.AnnounceCommand;
     }
 
     public class StatusCommand : Command
@@ -119,7 +108,7 @@ namespace OpenWorldServerVerificator
     {
         public override string prefix => "list";
 
-        public override string prefixHelp => "Shows a list of the connected players.";
+        public override string prefixHelp => "Shows a list of the connected and registered clients.";
 
         public override int parameterCount => 0;
 

@@ -27,6 +27,14 @@ namespace OpenWorldServerVerificator
                 CheckThread.Start();
             }
 
+            else if (threadID == 2)
+            {
+                Thread RenewalThread = new Thread(() => ClientHandler.CheckClientsRenewal());
+                RenewalThread.IsBackground = true;
+                RenewalThread.Name = "Renewal Thread";
+                RenewalThread.Start();
+            }
+
             else return;
         }
 

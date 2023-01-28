@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
+
 namespace OpenWorldReduxServer
 {
     public static class Network
@@ -18,12 +20,16 @@ namespace OpenWorldReduxServer
         public static int serverPort;
         public static int maxPlayers;
 
+        public static bool hasServerStarted;
+
         public static List<ServerClient> connectedClients = new List<ServerClient>();
 
         public static void ReadyServer()
         {
             server = new TcpListener(localAddress, serverPort);
             server.Start();
+
+            hasServerStarted = true;
 
             ServerHandler.WriteToConsole("Server Launched", ServerHandler.LogMode.Title);
 
@@ -33,6 +39,12 @@ namespace OpenWorldReduxServer
         private static void ListenForIncomingUsers()
         {
             ServerClient newServerClient = new ServerClient(server.AcceptTcpClient());
+
+            if (!AuthNetwork.isLoggedIntoAuthServer)
+            {
+                newServerClient.disconnectFlag = true;
+                return;
+            }
 
             if (connectedClients.Count >= maxPlayers)
             {

@@ -50,6 +50,7 @@ namespace OpenWorldReduxServer
             Server.whitelistedModsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Mods whitelisted";
             Server.blacklistedModsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Mods blacklisted";
 
+            Server.authFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "AuthFile.json";
             Server.configFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Config.json";
             Server.deepConfigsFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Deep Config.json";
             Server.valuesFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Values.json";
@@ -78,6 +79,25 @@ namespace OpenWorldReduxServer
             WriteToConsole($"Logs folder path [{Server.logsFolderPath}]");
         }
 
+        public static void CheckAuthFile()
+        {
+            AuthFile authFile;
+
+            if (File.Exists(Server.authFilePath))
+            {
+                authFile = Serializer.DeserializeFromFile<AuthFile>(Server.authFilePath);
+            }
+
+            else
+            {
+                authFile = new AuthFile();
+
+                Serializer.SerializeToFile(authFile, Server.authFilePath);
+            }
+
+            Server.serverAuth = authFile;
+        }
+
         public static void CheckConfigFile(bool firstTime = false)
         {
             ConfigFile configFile;
@@ -101,8 +121,8 @@ namespace OpenWorldReduxServer
                 Network.localAddress = IPAddress.Parse(configFile.LocalAddress);
                 Network.serverPort = configFile.ServerPort;
 
-                WriteToConsole($"Local Address [{Network.localAddress}]");
-                WriteToConsole($"Server Port [{Network.serverPort}]");
+                WriteToConsole($"Local address [{Network.localAddress}]");
+                WriteToConsole($"Server port [{Network.serverPort}]");
             }
 
             Network.maxPlayers = configFile.MaxPlayers;

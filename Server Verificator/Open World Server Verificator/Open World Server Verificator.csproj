@@ -6,6 +6,7 @@
     <RootNamespace>OpenWorldServerVerificator</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>server</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

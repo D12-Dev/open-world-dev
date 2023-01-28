@@ -8,13 +8,13 @@ namespace OpenWorldServerVerificator
 {
     public static class Server
     {
-        public static string mainFolderPath;
-        public static string logsFolderPath;
-        public static string usersFolderPath;
+        public static string? mainFolderPath;
+        public static string? logsFolderPath;
+        public static string? usersFolderPath;
 
-        public static string configFilePath;
+        public static string? configFilePath;
 
-        public static ConfigFile serverConfig;
+        public static ConfigFile? serverConfig;
 
         public static bool isActive = true;
 

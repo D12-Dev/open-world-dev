@@ -21,12 +21,14 @@ namespace OpenWorldReduxServer
         public static string blacklistedModsFolderPath;
 
         public static string valuesFilePath;
+        public static string authFilePath;
         public static string configFilePath;
         public static string deepConfigsFilePath;
         public static string difficultyFilePath;
         public static string whitelistFilePath;
 
         public static ServerValuesFile serverValues;
+        public static AuthFile serverAuth;
         public static ConfigFile serverConfig;
         public static DeepConfigFile serverDeepConfigs;
         public static DifficultyFile serverDifficulty;
@@ -45,17 +47,14 @@ namespace OpenWorldReduxServer
         {
             ServerHandler.SetPaths();
             ServerHandler.SetCulture();
+            ServerHandler.CheckAuthFile();
             ServerHandler.CheckConfigFile(true);
             ServerHandler.CheckDeepSettingsFile();
             ServerHandler.CheckValuesFile();
             ServerHandler.CheckDifficultyFile();
             ServerHandler.CheckWhitelistFile();
 
-            ThreadHandler.GenerateServerThread(0);
-            ThreadHandler.GenerateServerThread(1);
-            ThreadHandler.GenerateServerThread(2);
-
-            ServerHandler.UpdateTitle();
+            ThreadHandler.GenerateServerThread(3);
         }
 
         private static void ListenForCommands()

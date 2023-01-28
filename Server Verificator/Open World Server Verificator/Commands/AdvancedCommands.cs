@@ -7,30 +7,36 @@ namespace OpenWorldServerVerificator
 {
     public static class AdvancedCommands
     {
-        public static KickCommand kickCommand = new KickCommand();
-        public static BanCommand banCommand = new BanCommand();
-        public static PardonCommand pardonCommand = new PardonCommand();
+        public static RegisterCommand registerCommand = new RegisterCommand();
+        public static RenewCommand renewCommand = new RenewCommand();
+        public static UnrenewCommand unrenewCommand = new UnrenewCommand();
 
         public static Command[] commandArray = new Command[]
         {
-            kickCommand,
-            banCommand,
-            pardonCommand,
+            registerCommand,
+            renewCommand,
+            unrenewCommand
         };
 
-        public static void BanCommandHandle()
+        public static void RegisterClientCommand()
         {
             string username = CommandHandler.parameterHolder[0];
+
+            ClientHandler.RegisterClient(username);
         }
 
-        public static void PardonCommandHandle()
+        public static void RenewClientCommand()
         {
             string username = CommandHandler.parameterHolder[0];
+
+            ClientHandler.RenewClient(username);
         }
 
-        public static void KickCommandHandle()
+        public static void UnrenewClientCommand()
         {
             string username = CommandHandler.parameterHolder[0];
+
+            ClientHandler.UnrenewClient(username);
         }
     }
 }

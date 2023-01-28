@@ -16,7 +16,6 @@ namespace OpenWorldServerVerificator
         private static TcpListener server;
         public static IPAddress localAddress;
         public static int serverPort;
-        public static int maxPlayers;
 
         public static List<ServerClient> connectedClients = new List<ServerClient>();
 
@@ -25,7 +24,7 @@ namespace OpenWorldServerVerificator
             server = new TcpListener(localAddress, serverPort);
             server.Start();
 
-            ServerHandler.WriteToConsole("Server Launched", ServerHandler.LogMode.Title);
+            ServerHandler.WriteToConsole("Verificator Launched", ServerHandler.LogMode.Title);
 
             while (true) ListenForIncomingUsers();
         }

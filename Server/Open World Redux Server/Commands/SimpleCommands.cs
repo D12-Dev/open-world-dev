@@ -10,6 +10,7 @@ namespace OpenWorldReduxServer
     {
         public static HelpCommand helpCommand = new HelpCommand();
         public static ReloadCommand reloadCommand = new ReloadCommand();
+        public static ReconnectCommand reconnectCommand = new ReconnectCommand();
         public static AnnounceCommand announceCommand = new AnnounceCommand();
         public static ListCommand listCommand = new ListCommand();
         public static StatusCommand statusCommand = new StatusCommand();
@@ -20,6 +21,7 @@ namespace OpenWorldReduxServer
         {
             helpCommand,
             reloadCommand,
+            reconnectCommand,
             announceCommand,
             listCommand,
             statusCommand,
@@ -126,6 +128,11 @@ namespace OpenWorldReduxServer
                 string saveFilePath = Server.savesFolderPath + Path.DirectorySeparatorChar + userReference + ".zipx";
                 if (File.Exists(saveFilePath)) File.Delete(saveFilePath);
             }
+        }
+
+        public static void ReconnectCommandHandle()
+        {
+            ThreadHandler.GenerateServerThread(3);
         }
 
         public static void ExitCommand()

@@ -224,7 +224,7 @@ namespace OpenWorldReduxServer
                         {
                             if (structure.structureType == (int)StructureTypes.Bank)
                             {
-                                if (factionFile.bankSilver >= Server.serverDeepConfigs.MaximumCashInBank) continue;
+                                if (factionFile.bankSilver >= Server.serverDeepConfigs.MaximumCashInBankForTick) continue;
                                 else
                                 {
                                     hasBanks = true;
