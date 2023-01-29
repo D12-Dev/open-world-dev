@@ -107,12 +107,12 @@ namespace OpenWorldRedux
                 BlackMarketHandler.GetAcceptedEvent();
             }
 
-            else if (receivedPacket.header == "SendBlackMarketEventBack")
+            else if (receivedPacket.header == "SendBlackMarketEventBackPacket")
             {
                 BlackMarketHandler.GetRejectedEvent();
             }
 
-            else if (receivedPacket.header == "SendBlackMarketEvent")
+            else if (receivedPacket.header == "SendBlackMarketEventPacket")
             {
                 BlackMarketHandler.GetEvent(receivedPacket);
             }

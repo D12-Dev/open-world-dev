@@ -25,15 +25,15 @@ namespace OpenWorldReduxServer
                 ServerClient clientToSendTo = SettlementHandler.GetPlayerFromSettlement(targetTile);
                 if (clientToSendTo == null || clientToSendTo.isEventProtected)
                 {
-                    Packet SendBlackMarketEventBack = new Packet("SendBlackMarketEventBack");
-                    Network.SendData(client, SendBlackMarketEventBack);
+                    Packet SendBlackMarketEventBackPacket = new Packet("SendBlackMarketEventBackPacket");
+                    Network.SendData(client, SendBlackMarketEventBackPacket);
                     return;
                 }
 
                 else
                 {
-                    Packet SendBlackMarketEvent = new Packet("SendBlackMarketEvent", tempContents.ToArray());
-                    Network.SendData(clientToSendTo, SendBlackMarketEvent);
+                    Packet SendBlackMarketEventPacket = new Packet("SendBlackMarketEventPacket", tempContents.ToArray());
+                    Network.SendData(clientToSendTo, SendBlackMarketEventPacket);
 
                     Packet AcceptBlackMarketPacket = new Packet("AcceptBlackMarketPacket");
                     Network.SendData(client, AcceptBlackMarketPacket);

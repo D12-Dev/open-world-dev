@@ -24,5 +24,7 @@ namespace OpenWorldRedux
         public static bool isCustomScenariosAllowed;
 
         public static bool isAdmin;
+
+        public static bool isSaving;
     }
 }

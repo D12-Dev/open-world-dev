@@ -14,6 +14,7 @@ namespace OpenWorldReduxServer
         public static BanCommand banCommand = new BanCommand();
         public static PardonCommand pardonCommand = new PardonCommand();
         public static InspectCommand inspectCommand = new InspectCommand();
+        public static InvokeCommand invokeCommand = new InvokeCommand();
 
         public static Command[] commandArray = new Command[]
         {
@@ -22,7 +23,8 @@ namespace OpenWorldReduxServer
             kickCommand,
             banCommand,
             pardonCommand,
-            inspectCommand
+            inspectCommand,
+            invokeCommand
         };
 
         public static void OpCommandHandle()
@@ -144,6 +146,28 @@ namespace OpenWorldReduxServer
             {
                 toGet.disconnectFlag = true;
                 ServerHandler.WriteToConsole($"Player [{username}] has been kicked", ServerHandler.LogMode.Warning);
+            }
+        }
+
+        public static void InvokeCommand()
+        {
+            string username = CommandHandler.parameterHolder[0];
+            string eventID = CommandHandler.parameterHolder[1];
+
+            ServerClient toGet = ClientHandler.GetClientFromConnected(username);
+
+            if (toGet == null)
+            {
+                ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+            }
+
+            else
+            {
+                string[] contents = new string[] { eventID };
+                Packet SendBlackMarketEventPacket = new Packet("SendBlackMarketEventPacket", contents);
+                Network.SendData(toGet, SendBlackMarketEventPacket);
+
+                ServerHandler.WriteToConsole($"Sent event to player [{username}]", ServerHandler.LogMode.Warning);
             }
         }
     }

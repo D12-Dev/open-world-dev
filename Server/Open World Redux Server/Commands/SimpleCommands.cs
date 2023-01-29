@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace OpenWorldReduxServer
@@ -12,6 +13,7 @@ namespace OpenWorldReduxServer
         public static ReloadCommand reloadCommand = new ReloadCommand();
         public static ReconnectCommand reconnectCommand = new ReconnectCommand();
         public static AnnounceCommand announceCommand = new AnnounceCommand();
+        public static EventsCommand eventsCommand = new EventsCommand();
         public static ListCommand listCommand = new ListCommand();
         public static StatusCommand statusCommand = new StatusCommand();
         public static CleanupCommand cleanupCommand = new CleanupCommand();
@@ -23,6 +25,7 @@ namespace OpenWorldReduxServer
             reloadCommand,
             reconnectCommand,
             announceCommand,
+            eventsCommand,
             listCommand,
             statusCommand,
             cleanupCommand,
@@ -31,14 +34,16 @@ namespace OpenWorldReduxServer
 
         public static void HelpCommandHandle()
         {
-            ServerHandler.WriteToConsole("List of available commands", ServerHandler.LogMode.Title);
+            ServerHandler.WriteToConsole($"List of available commands [{commandArray.Count() + AdvancedCommands.commandArray.Count()}]", ServerHandler.LogMode.Title);
 
-            foreach(Command cmd in commandArray)
+            ServerHandler.WriteToConsole($"Simple Commands [{commandArray.Count()}]", ServerHandler.LogMode.Title);
+            foreach (Command cmd in commandArray)
             {
                 ServerHandler.WriteToConsole($"- {cmd.prefix}", ServerHandler.LogMode.Warning);
                 ServerHandler.WriteToConsole($"+ {cmd.prefixHelp}");
             }
 
+            ServerHandler.WriteToConsole($"Advanced Commands [{AdvancedCommands.commandArray.Count()}]", ServerHandler.LogMode.Title);
             foreach (Command cmd in AdvancedCommands.commandArray)
             {
                 ServerHandler.WriteToConsole($"- {cmd.prefix}", ServerHandler.LogMode.Warning);
@@ -128,6 +133,22 @@ namespace OpenWorldReduxServer
                 string saveFilePath = Server.savesFolderPath + Path.DirectorySeparatorChar + userReference + ".zipx";
                 if (File.Exists(saveFilePath)) File.Delete(saveFilePath);
             }
+        }
+
+        public static void EventsCommand()
+        {
+            ServerHandler.WriteToConsole($"List of available events [{10}]", ServerHandler.LogMode.Title);
+            ServerHandler.WriteToConsole($"To use, reference the event using it's ID number.", ServerHandler.LogMode.Warning);
+            ServerHandler.WriteToConsole($"{0} - Raid");
+            ServerHandler.WriteToConsole($"{1} - Infestation");
+            ServerHandler.WriteToConsole($"{2} - Mechanoid Cluster");
+            ServerHandler.WriteToConsole($"{3} - Toxic Fallout");
+            ServerHandler.WriteToConsole($"{4} - Manhunter Pack");
+            ServerHandler.WriteToConsole($"{5} - Wanderer Pawn");
+            ServerHandler.WriteToConsole($"{6} - Animal Pack");
+            ServerHandler.WriteToConsole($"{7} - Space Chunks");
+            ServerHandler.WriteToConsole($"{8} - Generate Quest");
+            ServerHandler.WriteToConsole($"{9} - Trader Caravan");
         }
 
         public static void ReconnectCommandHandle()

@@ -181,6 +181,28 @@ namespace OpenWorldReduxServer
         public override Action actionToDo => SimpleCommands.CleanupCommand;
     }
 
+    public class InvokeCommand : Command
+    {
+        public override string prefix => "invoke";
+
+        public override string prefixHelp => "Sends a black market event [2] to player [1].";
+
+        public override int parameterCount => 2;
+
+        public override Action actionToDo => AdvancedCommands.InvokeCommand;
+    }
+
+    public class EventsCommand : Command
+    {
+        public override string prefix => "events";
+
+        public override string prefixHelp => "Shows a list of current usable black market events.";
+
+        public override int parameterCount => 0;
+
+        public override Action actionToDo => SimpleCommands.EventsCommand;
+    }
+
     public class ExitCommand : Command
     {
         public override string prefix => "exit";

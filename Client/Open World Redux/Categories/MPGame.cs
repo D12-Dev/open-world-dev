@@ -53,11 +53,19 @@ namespace OpenWorldRedux
 
         public static void ForceSave()
         {
-            Find.WindowStack.Add(new OW_SavingDialog());
-            FieldInfo FticksSinceSave = AccessTools.Field(typeof(Autosaver), "ticksSinceSave");
-            FticksSinceSave.SetValue(Current.Game.autosaver, 0);
-            Current.Game.autosaver.DoAutosave();
-            FocusCache.saveWindowInstance.Close();
+            if (BooleanCache.isSaving) return;
+            else
+            {
+                BooleanCache.isSaving = true;
+
+                Find.WindowStack.Add(new OW_SavingDialog());
+                FieldInfo FticksSinceSave = AccessTools.Field(typeof(Autosaver), "ticksSinceSave");
+                FticksSinceSave.SetValue(Current.Game.autosaver, 0);
+                Current.Game.autosaver.DoAutosave();
+                FocusCache.saveWindowInstance.Close();
+
+                BooleanCache.isSaving = false;
+            }
         }
     }
 }
