@@ -12,7 +12,7 @@ namespace OpenWorldServerVerificator
     {
         public static string GetTokenForNewClient()
         {
-            string dateTimeNow = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt");
+            string dateTimeNow = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
             byte[] byteArray = Encoding.ASCII.GetBytes(dateTimeNow);
 
             using (SHA256 shaAlgorythm = SHA256.Create())

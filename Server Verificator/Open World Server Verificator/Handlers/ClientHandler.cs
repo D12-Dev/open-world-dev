@@ -72,7 +72,7 @@ namespace OpenWorldServerVerificator
 
             if (toRenew == null)
             {
-                ServerHandler.WriteToConsole($"[ERROR] > Client was not found", ServerHandler.LogMode.Warning);
+                ServerHandler.WriteToConsole($"[ERROR] > Client {username} was not found", ServerHandler.LogMode.Warning);
                 return;
             }
 
@@ -97,7 +97,7 @@ namespace OpenWorldServerVerificator
 
             if (toUnrenew == null)
             {
-                ServerHandler.WriteToConsole($"[ERROR] > Client was not found", ServerHandler.LogMode.Warning);
+                ServerHandler.WriteToConsole($"[ERROR] > Client {username} was not found", ServerHandler.LogMode.Warning);
                 return;
             }
 
