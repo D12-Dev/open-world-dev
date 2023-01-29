@@ -162,6 +162,7 @@
     <Compile Include="Handlers\BlackMarketHandler.cs" />
     <Compile Include="Handlers\FactionHandler.cs" />
     <Compile Include="Handlers\RimworldHandler.cs" />
+    <Compile Include="Handlers\RoadHandler.cs" />
     <Compile Include="Handlers\SaveHandler.cs" />
     <Compile Include="Handlers\TradeHandler.cs" />
     <Compile Include="Network\Hash.cs" />

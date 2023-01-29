@@ -54,6 +54,7 @@ namespace OpenWorldReduxServer
             ServerHandler.CheckDifficultyFile();
             ServerHandler.CheckWhitelistFile();
 
+            //AuthPacketHandler.AcceptedPacketHandle();
             ThreadHandler.GenerateServerThread(3);
         }
 

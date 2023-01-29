@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.Profile;
+using Verse.AI;
 
 namespace OpenWorldRedux
 {

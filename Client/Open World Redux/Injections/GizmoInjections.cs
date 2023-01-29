@@ -371,7 +371,7 @@ namespace OpenWorldRedux
                 {
                     //List<Tile> worldTiles = Find.World.grid.tiles;
                     //Tile toGet = worldTiles.Find(fetch => fetch.feature.uniqueID == __instance.Tile);
-                    
+
                     //if (toGet.Roads != null) return;
                     //else
                     //{
@@ -384,9 +384,11 @@ namespace OpenWorldRedux
                     //        {
                     //            FocusCache.focusedCaravan = __instance;
 
-                    //            Find.WindowStack.Add(new OW_ErrorDialog("This action is not implemented yet"));
+                    //            //Find.WindowStack.Add(new OW_ErrorDialog("This action is not implemented yet"));
 
                     //            //Find.WindowStack.Add(new OW_MPRoadMenu());
+
+                    //            RoadHandler.CreateRoad(FocusCache.focusedCaravan.Tile, FocusCache.focusedCaravan.Tile, RoadDefOf.DirtRoad);
                     //        }
                     //    };
 
