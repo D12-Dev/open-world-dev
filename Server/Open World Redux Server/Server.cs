@@ -27,6 +27,8 @@ namespace OpenWorldReduxServer
         public static string difficultyFilePath;
         public static string whitelistFilePath;
 
+        public static string serverVersion = "1.0.0";
+
         public static ServerValuesFile serverValues;
         public static AuthFile serverAuth;
         public static ConfigFile serverConfig;
@@ -54,7 +56,6 @@ namespace OpenWorldReduxServer
             ServerHandler.CheckDifficultyFile();
             ServerHandler.CheckWhitelistFile();
 
-            //AuthPacketHandler.AcceptedPacketHandle();
             ThreadHandler.GenerateServerThread(3);
         }
 

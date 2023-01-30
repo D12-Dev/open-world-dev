@@ -42,6 +42,7 @@ namespace OpenWorldReduxServer
 
             if (!AuthNetwork.isLoggedIntoAuthServer)
             {
+                ServerHandler.WriteToConsole($"[Tried to join but server is not authed] > {newServerClient.SavedIP}", ServerHandler.LogMode.Warning);
                 newServerClient.disconnectFlag = true;
                 return;
             }

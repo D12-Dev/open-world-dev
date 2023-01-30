@@ -39,6 +39,9 @@ namespace OpenWorldServerVerificator
             ServerClient getFromCredentials = GetClientFromCredentials(receivedPacket);
             if (getFromCredentials == null)
             {
+                Packet RejectedCredentialsPacket = new Packet("RejectedCredentialsPacket");
+                Network.SendData(client, RejectedCredentialsPacket);
+
                 client.disconnectFlag = true;
                 ServerHandler.WriteToConsole($"[Wrong auth credentials] > {client.SavedIP}");
                 return;

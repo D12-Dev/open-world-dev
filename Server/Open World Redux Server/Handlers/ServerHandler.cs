@@ -24,7 +24,7 @@ namespace OpenWorldReduxServer
 
         public static void UpdateTitle()
         {
-            Console.Title = $"Open World Server [{Network.connectedClients.Count}/{Network.maxPlayers}]";
+            Console.Title = $"Open World Server v{Server.serverVersion} [{Network.connectedClients.Count}/{Network.maxPlayers}]";
         }
 
         public static void SetCulture()

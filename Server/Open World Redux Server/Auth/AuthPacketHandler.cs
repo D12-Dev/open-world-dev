@@ -18,12 +18,17 @@ namespace OpenWorldReduxServer
 
                 if (receivedPacket.header == "AcceptedCredentialsPacket")
                 {
-                    AcceptedPacketHandle();
+                    AcceptedCredentialsHandle();
+                }
+
+                else if (receivedPacket.header == "RejectedCredentialsPacket")
+                {
+                    RejectedCredentialsHandle();
                 }
             }
         }
 
-        public static void AcceptedPacketHandle()
+        public static void AcceptedCredentialsHandle()
         {
             ServerHandler.WriteToConsole("Logged into auth server", ServerHandler.LogMode.Warning);
 
@@ -37,6 +42,11 @@ namespace OpenWorldReduxServer
                 ThreadHandler.GenerateServerThread(2);
                 ServerHandler.UpdateTitle();
             }
+        }
+
+        public static void RejectedCredentialsHandle()
+        {
+            ServerHandler.WriteToConsole("Auth server rejected login credentials", ServerHandler.LogMode.Warning);
         }
     }
 }

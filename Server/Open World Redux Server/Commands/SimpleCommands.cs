@@ -54,6 +54,7 @@ namespace OpenWorldReduxServer
         public static void ReloadCommandHandle()
         {
             ServerHandler.CheckConfigFile();
+            ServerHandler.CheckAuthFile();
             ServerHandler.CheckDeepSettingsFile();
             ServerHandler.CheckValuesFile();
             ServerHandler.CheckDifficultyFile();
