@@ -120,6 +120,7 @@ namespace OpenWorldRedux
             List<Tuple<string, string, string>> savedServers = new List<Tuple<string, string, string>>()
             {
                 Tuple.Create("Official Vanilla+ Server", "109.123.250.81", "25555"),
+                Tuple.Create("Official Free For All Server", "109.123.250.81", "25556"),
                 Tuple.Create("Local Host", "128.0.0.1", "25555")
             };
 
