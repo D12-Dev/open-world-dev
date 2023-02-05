@@ -47,6 +47,10 @@ namespace OpenWorldRedux
             listingStandard.GapLine();
             listingStandard.Label("Mod Details");
             listingStandard.Label("Running version: " + FocusCache.versionCode);
+            if (listingStandard.ButtonTextLabeled("Special Thanks", "View"))
+            {
+                Find.WindowStack.Add(new OW_MPSpecialThanks());
+            }
 
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);
