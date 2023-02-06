@@ -27,7 +27,7 @@ namespace OpenWorldReduxServer
         public static string difficultyFilePath;
         public static string whitelistFilePath;
 
-        public static string serverVersion = "1.0.0";
+        public static string serverVersion = "1.0.1";
 
         public static ServerValuesFile serverValues;
         public static AuthFile serverAuth;
