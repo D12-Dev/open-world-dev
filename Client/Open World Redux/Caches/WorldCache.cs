@@ -11,6 +11,7 @@ namespace OpenWorldRedux
 {
     public static class WorldCache
     {
+
         public static string seedString;
 
         public static float planetCoverage;
@@ -20,20 +21,52 @@ namespace OpenWorldRedux
         public static OverallTemperature overallTemperature;
 
         public static OverallPopulation overallPopulation;
-
         public static List<FactionDef> factions = new List<FactionDef>()
         {
             FactionsCache.onlineNeutralFactionDef,
             FactionsCache.onlineAllyFactionDef,
             FactionsCache.onlineEnemyFactionDef,
-            FactionsCache.onlineNeutralTribeDef,
-            FactionsCache.onlineEnemyTribeDef,
             FactionDefOf.Mechanoid,
+           //FactionDefOf.Empire,
+            FactionDefOf.TribeCivil,
+            FactionDefOf.TribeRough,
+            //FactionDefOf.PirateWaster,
+           // FactionDefOf.Beggars,
+            FactionDefOf.OutlanderCivil,
+            //FactionDefOf.OutlanderRefugee,
+            FactionDefOf.OutlanderRough,
             FactionDefOf.Insect,
-            FactionDefOf.Ancients,
-            FactionDefOf.AncientsHostile,
-            FactionDefOf.Pilgrims
+           // FactionDefOf.Ancients,
+            //FactionDefOf.AncientsHostile,
+            //FactionDefOf.Pilgrims
+            
         };
+
+        public static void AddFactionDlc()
+        {
+            if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
+            {
+                WorldCache.factions.Add(FactionDefOf.Empire);
+                WorldCache.factions.Add(FactionDefOf.OutlanderRefugee);
+            };
+            if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
+            {
+                WorldCache.factions.Add(FactionDefOf.PirateWaster);
+                //FactionDefOf.PirateWaster,   
+            };
+            if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
+            {
+                WorldCache.factions.Add(FactionDefOf.Beggars);
+                WorldCache.factions.Add(FactionDefOf.Ancients);
+                WorldCache.factions.Add(FactionDefOf.AncientsHostile);
+                WorldCache.factions.Add(FactionDefOf.Pilgrims);
+                // FactionDefOf.Ancients,
+                //FactionDefOf.AncientsHostile,
+                //FactionDefOf.Pilgrims
+                //FactionDefOf.Beggars,   
+            };
+            
+        }
 
         public static float pollution;
 
@@ -43,4 +76,5 @@ namespace OpenWorldRedux
         public static List<StructureFile> onlineStructuresDeflate = new List<StructureFile>();
         public static List<Site> onlineStructures = new List<Site>();
     }
+
 }

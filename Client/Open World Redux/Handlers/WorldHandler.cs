@@ -132,31 +132,31 @@ namespace OpenWorldRedux
             Settlement[] settlementsToDestroy = Find.WorldObjects.Settlements.ToArray();
             foreach(Settlement settlement in settlementsToDestroy)
             {
-                if (settlement.Faction == Faction.OfPlayer) continue;
-                else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
-                else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
-                else Find.WorldObjects.Remove(settlement);
+               // if (settlement.Faction == Faction.OfPlayer) continue;
+              //  else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
+             //   else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
+               // else Find.WorldObjects.Remove(settlement);
             }
 
             //Destroy sites
             Site[] sitesToDestroy = Find.WorldObjects.Sites.ToArray();
             foreach (Site site in sitesToDestroy)
             {
-                if (site.Faction == FactionsCache.onlineNeutralFaction ||
+               /* if (site.Faction == FactionsCache.onlineNeutralFaction ||
                     site.Faction == FactionsCache.onlineAllyFaction ||
                     site.Faction == FactionsCache.onlineEnemyFaction)
                 {
-                    Find.WorldObjects.Remove(site);
+                    //Find.WorldObjects.Remove(site);
                 }
 
-                else continue;
+                else continue;*/
             }
         }
 
         private static void RebuildWorld()
         {
             //Spawn settlements
-            WorldCache.onlineSettlements.Clear();
+            WorldCache.onlineSettlements.Clear(); // This could kill settlement
             foreach (SettlementFile settlement in WorldCache.onlineSettlementsDeflate)
             {
                 Settlement newOnlineSettlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
@@ -200,18 +200,13 @@ namespace OpenWorldRedux
 
         public static void TryPatchOldWorlds()
         {
-            if (!Find.FactionManager.AllFactions.Contains(FactionsCache.onlineNeutralTribe) ||
-                !Find.FactionManager.AllFactions.Contains(FactionsCache.onlineEnemyTribe))
+            if (!Find.FactionManager.AllFactions.Contains(FactionsCache.onlineNeutralFaction))
             {
-                List<FactionDef> toAdd = new List<FactionDef>()
-                {
-                    FactionsCache.onlineNeutralTribeDef,
-                    FactionsCache.onlineEnemyFactionDef
-                };
 
-                Log.Message("[Open World] > Trying to add missing tribes");
 
-                FactionGenerator.GenerateFactionsIntoWorld(toAdd);
+                Log.Message("[Open World] > Trying to add missing factions");
+
+                FactionGenerator.GenerateFactionsIntoWorld(WorldCache.factions);
             }
         }
 

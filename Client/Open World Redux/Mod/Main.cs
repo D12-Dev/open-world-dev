@@ -20,6 +20,8 @@ namespace OpenWorldRedux
                 SetupParameterPaths();
                 LoadAutosaveDetails();
                 FactionsCache.FindFactionDefsInGame();
+                WorldCache.AddFactionDlc();
+
             }
 
             private static void SetupCulture()

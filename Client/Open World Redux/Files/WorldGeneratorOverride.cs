@@ -59,6 +59,14 @@ namespace OpenWorldRedux
 
             try
             {
+                //  List<FactionDef> AllCurfactionDefs = DefDatabase<FactionDef>.AllDefs.ToList();
+                //  AllCurfactionDefs.Add(FactionsCache.onlineNeutralFactionDef);
+                //  WorldCache.factions.RemoveAt(1);
+                // WorldCache.factions.RemoveAt(1);
+                // WorldCache.factions.RemoveAt(1);
+                //AllCurfactionDefs.Add(FactionsCache.onlineEnemyFactionDef);
+                //  AllCurfactionDefs.Add(FactionsCache.onlineAllyFactionDef);
+                // Log.Message(WorldCache.factions[1].defName);
                 Current.CreatingWorld = new World();
                 Current.CreatingWorld.info.seedString = WorldCache.seedString;
                 Current.CreatingWorld.info.planetCoverage = WorldCache.planetCoverage;

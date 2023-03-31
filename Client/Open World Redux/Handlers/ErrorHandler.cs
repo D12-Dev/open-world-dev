@@ -87,8 +87,8 @@ namespace OpenWorldRedux
         {
             string[] errorChain = new string[]
             {
-                "You are using an outdated or invalid mod version",
-                "Please update the mod to latest before joining"
+                "You have a different version of the mod from the server!",
+                "Please update the mod/server to latest before joining..."
             };
 
             Find.WindowStack.Add(new OW_ChainErrorDialog(errorChain));

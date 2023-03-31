@@ -119,9 +119,10 @@ namespace OpenWorldRedux
             List<FloatMenuOption> list = new List<FloatMenuOption>();
             List<Tuple<string, string, string>> savedServers = new List<Tuple<string, string, string>>()
             {
-                Tuple.Create("Official Vanilla+ Server", "109.123.250.81", "25555"),
-                Tuple.Create("Official Free For All Server", "109.123.250.81", "25556"),
-                Tuple.Create("Local Host", "128.0.0.1", "25555")
+                Tuple.Create("Official Vanilla+ Server", "173.212.246.147", "3333"),
+                Tuple.Create("Official Free For All Server", "173.212.246.147", "3334"),
+                Tuple.Create("Local Host", "127.0.0.1", "25555"),
+                Tuple.Create("Local Host2", "128.0.0.1", "25555")
             };
 
             foreach (Tuple<string, string, string> tuple in savedServers)
