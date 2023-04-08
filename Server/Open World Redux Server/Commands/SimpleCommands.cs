@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OpenWorldReduxServer
 {
@@ -11,23 +15,23 @@ namespace OpenWorldReduxServer
     {
         public static HelpCommand helpCommand = new HelpCommand();
         public static ReloadCommand reloadCommand = new ReloadCommand();
-        public static ReconnectCommand reconnectCommand = new ReconnectCommand();
         public static AnnounceCommand announceCommand = new AnnounceCommand();
         public static EventsCommand eventsCommand = new EventsCommand();
         public static ListCommand listCommand = new ListCommand();
+        public static ShutDownCommand ShutdownCommand = new ShutDownCommand();
         public static StatusCommand statusCommand = new StatusCommand();
         public static CleanupCommand cleanupCommand = new CleanupCommand();
         public static ExitCommand exitCommand = new ExitCommand();
-
+        public static List<String> PlayersToSaveList = new List<String>();
         public static Command[] commandArray = new Command[]
         {
             helpCommand,
             reloadCommand,
-            reconnectCommand,
             announceCommand,
             eventsCommand,
             listCommand,
             statusCommand,
+            ShutdownCommand,
             cleanupCommand,
             exitCommand
         };
@@ -62,7 +66,55 @@ namespace OpenWorldReduxServer
 
             ServerHandler.WriteToConsole("Configurations have been reloaded", ServerHandler.LogMode.Title);
         }
+        public static void ShutdownCommandHandle()
+        {
+            ServerHandler.WriteToConsole("Shutting Down server and saving client files. Please Wait...", ServerHandler.LogMode.Title);
+            ServerClient[] connectedClients = Network.connectedClients.ToArray();
+            Packet ForceClientSyncPacket = new Packet("ForceClientSyncPacket");
+            PlayersToSaveList.Clear();
+            foreach (ServerClient client in connectedClients)
+            {
+                PlayersToSaveList.Add(client.Username);
+                ServerHandler.WriteToConsole("Requestting user " + client.Username + " for save...", ServerHandler.LogMode.Title);
+                Network.SendData(client, ForceClientSyncPacket);
+            }
+            WaitForPlayerSavesAndShutdown();
+                
+        }
+        public static async void WaitForPlayerSavesAndShutdown() {
+            int TimeoutCount = 5; // Timeout for how long server will wait for player saves
+            int DefCount = 0;
+            while (true)
+            {
+                
+                System.Threading.Thread.Sleep(1000); // Wait 1 second then update
+                if (PlayersToSaveList.Count == 0) {
+                    break;
+                }
+                else {
 
+                    if (DefCount == TimeoutCount) {
+                        break;
+                    }
+                    DefCount++;
+                    continue;
+                }
+                
+            }
+            //// All Players Have Saved
+            ServerHandler.WriteToConsole("All players save files saved! Shutting down server!!", ServerHandler.LogMode.Title);
+            System.Threading.Thread.Sleep(1500);
+            ExitCommand();
+        }
+        public static void ReturnedForceSync(ServerClient client, Packet packet)
+        {
+            // Save the client and remove from to save client list.
+            ServerHandler.WriteToConsole("Recieved Client save file! Deleting From List...", ServerHandler.LogMode.Title);
+           // ClientSaveHandler.SaveClientSave(client, packet);
+            PlayersToSaveList.Remove(client.Username);
+
+        }
+        
         public static void AnnounceCommand()
         {
             ServerHandler.WriteToConsole("Type the message to send:", ServerHandler.LogMode.Title);
@@ -150,11 +202,6 @@ namespace OpenWorldReduxServer
             ServerHandler.WriteToConsole($"{7} - Space Chunks");
             ServerHandler.WriteToConsole($"{8} - Generate Quest");
             ServerHandler.WriteToConsole($"{9} - Trader Caravan");
-        }
-
-        public static void ReconnectCommandHandle()
-        {
-            ThreadHandler.GenerateServerThread(3);
         }
 
         public static void ExitCommand()

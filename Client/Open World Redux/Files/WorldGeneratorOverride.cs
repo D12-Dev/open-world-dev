@@ -25,8 +25,8 @@ namespace OpenWorldRedux
             LongEventHandler.QueueLongEvent(delegate
             {
                 Find.GameInitData.ResetWorldRelatedMapInitData();
-                Current.Game.World = GenerateWorldFromScratch();
-                LongEventHandler.ExecuteWhenFinished(delegate
+               Current.Game.World = GenerateWorldFromScratch();
+               LongEventHandler.ExecuteWhenFinished(delegate
                 {
                     Page_SelectStartingSite newSelectStartingSite = new Page_SelectStartingSite();
                     Page_ChooseIdeoPreset newChooseIdeoPreset = new Page_ChooseIdeoPreset();
@@ -56,48 +56,58 @@ namespace OpenWorldRedux
         {
             Rand.PushState();
             Rand.Seed = GenText.StableStringHash(WorldCache.seedString);
-
-            try
+/*            if (BooleanCache.isGeneratingWorldFromPacket)
             {
-                //  List<FactionDef> AllCurfactionDefs = DefDatabase<FactionDef>.AllDefs.ToList();
-                //  AllCurfactionDefs.Add(FactionsCache.onlineNeutralFactionDef);
-                //  WorldCache.factions.RemoveAt(1);
-                // WorldCache.factions.RemoveAt(1);
-                // WorldCache.factions.RemoveAt(1);
-                //AllCurfactionDefs.Add(FactionsCache.onlineEnemyFactionDef);
-                //  AllCurfactionDefs.Add(FactionsCache.onlineAllyFactionDef);
-                // Log.Message(WorldCache.factions[1].defName);
+                Log.Message("Generating World From packet!");
+
                 Current.CreatingWorld = new World();
-                Current.CreatingWorld.info.seedString = WorldCache.seedString;
-                Current.CreatingWorld.info.planetCoverage = WorldCache.planetCoverage;
-                Current.CreatingWorld.info.overallRainfall = WorldCache.overallRainfall;
-                Current.CreatingWorld.info.overallTemperature = WorldCache.overallTemperature;
-                Current.CreatingWorld.info.overallPopulation = WorldCache.overallPopulation;
-                Current.CreatingWorld.info.name = NameGenerator.GenerateName(RulePackDefOf.NamerWorld);
-                Current.CreatingWorld.info.factions = WorldCache.factions;
-                Current.CreatingWorld.info.pollution = WorldCache.pollution;
 
-                tmpGenSteps.Clear();
-                tmpGenSteps.AddRange(GenStepsInOrder);
-
-                for (int i = 0; i < tmpGenSteps.Count; i++)
-                {
-                    try { tmpGenSteps[i].worldGenStep.GenerateFresh(WorldCache.seedString); }
-                    catch (Exception ex) { Log.Error("Error in WorldGenStep: " + ex); }
-                }
-
-                Current.CreatingWorld.grid.StandardizeTileData();
-                Current.CreatingWorld.FinalizeInit();
-                Find.Scenario.PostWorldGenerate();
-                if (!ModsConfig.IdeologyActive) Find.Scenario.PostIdeoChosen();
                 return Current.CreatingWorld;
             }
+            else
+            {*/
+                Log.Message("Generating World From Normal Generator!");
+                try
 
-            finally
-            {
-                Rand.PopState();
-                Current.CreatingWorld = null;
-            }
+                {
+
+ 
+
+
+
+
+                    Current.CreatingWorld = new World();
+                    Current.CreatingWorld.info.seedString = WorldCache.seedString;
+                    Current.CreatingWorld.info.planetCoverage = WorldCache.planetCoverage;
+                    Current.CreatingWorld.info.overallRainfall = WorldCache.overallRainfall;
+                    Current.CreatingWorld.info.overallTemperature = WorldCache.overallTemperature;
+                    Current.CreatingWorld.info.overallPopulation = WorldCache.overallPopulation;
+                    Current.CreatingWorld.info.name = NameGenerator.GenerateName(RulePackDefOf.NamerWorld);
+                    Current.CreatingWorld.info.factions = WorldCache.factions;
+                    Current.CreatingWorld.info.pollution = WorldCache.pollution;
+
+                    tmpGenSteps.Clear();
+                    tmpGenSteps.AddRange(GenStepsInOrder);
+
+                    for (int i = 0; i < tmpGenSteps.Count; i++)
+                    {
+                        try { tmpGenSteps[i].worldGenStep.GenerateFresh(WorldCache.seedString); }
+                        catch (Exception ex) { Log.Error("Error in WorldGenStep: " + ex); }
+                    }
+
+                    Current.CreatingWorld.grid.StandardizeTileData();
+                    Current.CreatingWorld.FinalizeInit();
+                    Find.Scenario.PostWorldGenerate();
+                    if (!ModsConfig.IdeologyActive) Find.Scenario.PostIdeoChosen();
+                    return Current.CreatingWorld;
+                }
+
+                finally
+                {
+                    Rand.PopState();
+                    Current.CreatingWorld = null;
+                }
+            //}
         }
     }
 }

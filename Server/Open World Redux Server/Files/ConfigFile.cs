@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +17,7 @@ namespace OpenWorldReduxServer
 
         public int MaxPlayers { get; set; } = 10;
 
-        public string PlayerVersion { get; set; } = "";
+        public string PlayerVersion { get; set; } = "1.13";
 
         public bool EnforceMods { get; set; } = false;
 
@@ -31,4 +33,5 @@ namespace OpenWorldReduxServer
         [NonSerialized] public List<string> whitelistedMods = new List<string>();
         [NonSerialized] public List<string> blacklistedMods = new List<string>();
     }
+
 }

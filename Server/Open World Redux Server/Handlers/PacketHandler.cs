@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenWorldReduxServer.Handlers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -32,6 +33,17 @@ namespace OpenWorldReduxServer
                 {
                     ClientLoginHandler.LoginClient(client, receivedPacket);
                 }
+
+
+                else if (receivedPacket.header == "RecieveBaseSaveFromClient") ///////// Receives base save game from client
+                {
+                    SaveBaseGameHandler.SaveBaseGame(client, receivedPacket);
+                }
+                else if (receivedPacket.header == "ForceClientSyncPacketReturn") ///////// Receives forced sync save from client from shutdown command
+                {
+                    SimpleCommands.ReturnedForceSync(client, receivedPacket);
+                }
+
 
                 else if (receivedPacket.header == "NewServerDataPacket")
                 {

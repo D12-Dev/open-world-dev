@@ -4,6 +4,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -140,17 +141,39 @@ namespace OpenWorldRedux
             }
         }
 
+        
+
         //World factions page UI
-        [HarmonyPatch(typeof(WorldFactionsUIUtility), "DoWindowContents")]
+       [HarmonyPatch(typeof(WorldFactionsUIUtility), "DoWindowContents")]
         public static class ModifyWorldFactionsUI
         {
+            
             [HarmonyPrefix]
             public static bool ModifyPre(Rect rect)
             {
                 if (!BooleanCache.isGeneratingNewWorld) return true;
                 else
                 {
-                    WorldFactionUIOverride.DoWindowContents(rect, WorldCache.factions);
+
+                    //IEnumerable<Faction> allfactionsava = AllFactionsVisible;
+                    //List<FactionDef> AllFac = DefDatabase<FactionDef>.AllDefs.ToList(); /// Gets all faction Defs
+
+
+
+
+                    Log.Message("Factions Being Reset");
+
+                    /*List<FactionDef> VisFac = new List<FactionDef>();
+                    foreach (FactionDef X in AllFac)
+                    {
+                        if (!X.hidden)
+                        {
+                            VisFac.Add(X);
+                        }
+                    }*/
+
+                    // FactionManager.
+                    WorldFactionUIOverride.DoWindowContents(rect, WorldCache.factions); // Parses all current visable factions to the ui override.
                     return false;
                 }
             }

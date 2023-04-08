@@ -132,24 +132,35 @@ namespace OpenWorldRedux
             Settlement[] settlementsToDestroy = Find.WorldObjects.Settlements.ToArray();
             foreach(Settlement settlement in settlementsToDestroy)
             {
-               // if (settlement.Faction == Faction.OfPlayer) continue;
-              //  else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
-             //   else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
-               // else Find.WorldObjects.Remove(settlement);
+                if (settlement.Faction == Faction.OfPlayer) continue;
+                if (settlement.Faction == FactionsCache.onlineNeutralFaction ||
+                    settlement.Faction == FactionsCache.onlineAllyFaction ||
+                    settlement.Faction == FactionsCache.onlineEnemyFaction)
+                {
+                    Find.WorldObjects.Remove(settlement);
+
+
+
+                }
+                Log.Message(settlement.ToString());
+                //if (settlement in WorldCache.onlineSettlementsDeflate) continue;
+                // else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
+                // else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
+                // else Find.WorldObjects.Remove(settlement);
             }
 
             //Destroy sites
             Site[] sitesToDestroy = Find.WorldObjects.Sites.ToArray();
             foreach (Site site in sitesToDestroy)
             {
-               /* if (site.Faction == FactionsCache.onlineNeutralFaction ||
+                if (site.Faction == FactionsCache.onlineNeutralFaction ||
                     site.Faction == FactionsCache.onlineAllyFaction ||
                     site.Faction == FactionsCache.onlineEnemyFaction)
                 {
-                    //Find.WorldObjects.Remove(site);
+                    Find.WorldObjects.Remove(site);
                 }
 
-                else continue;*/
+                else continue;
             }
         }
 

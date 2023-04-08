@@ -26,46 +26,37 @@ namespace OpenWorldRedux
             FactionsCache.onlineNeutralFactionDef,
             FactionsCache.onlineAllyFactionDef,
             FactionsCache.onlineEnemyFactionDef,
-            FactionDefOf.Mechanoid,
-           //FactionDefOf.Empire,
-            FactionDefOf.TribeCivil,
-            FactionDefOf.TribeRough,
-            //FactionDefOf.PirateWaster,
-           // FactionDefOf.Beggars,
-            FactionDefOf.OutlanderCivil,
-            //FactionDefOf.OutlanderRefugee,
-            FactionDefOf.OutlanderRough,
-            FactionDefOf.Insect,
-           // FactionDefOf.Ancients,
-            //FactionDefOf.AncientsHostile,
-            //FactionDefOf.Pilgrims
-            
-        };
 
-        public static void AddFactionDlc()
+        };
+  
+        public static void CreateInitalFactionsForWorldCache()
         {
-            if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
+            List<FactionDef> curfactions;
+
+            List<FactionDef> initiallyFactions;
+
+
+            curfactions = new List<FactionDef>();
+            foreach (FactionDef configurableFaction in FactionGenerator.ConfigurableFactions)
             {
-                WorldCache.factions.Add(FactionDefOf.Empire);
-                WorldCache.factions.Add(FactionDefOf.OutlanderRefugee);
-            };
-            if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
+                if (configurableFaction.startingCountAtWorldCreation > 0)
+                {
+                    for (int i = 0; i < configurableFaction.startingCountAtWorldCreation; i++)
+                    {
+                        curfactions.Add(configurableFaction);
+                    }
+                }
+            }
+            foreach (FactionDef faction in FactionGenerator.ConfigurableFactions)
             {
-                WorldCache.factions.Add(FactionDefOf.PirateWaster);
-                //FactionDefOf.PirateWaster,   
-            };
-            if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
-            {
-                WorldCache.factions.Add(FactionDefOf.Beggars);
-                WorldCache.factions.Add(FactionDefOf.Ancients);
-                WorldCache.factions.Add(FactionDefOf.AncientsHostile);
-                WorldCache.factions.Add(FactionDefOf.Pilgrims);
-                // FactionDefOf.Ancients,
-                //FactionDefOf.AncientsHostile,
-                //FactionDefOf.Pilgrims
-                //FactionDefOf.Beggars,   
-            };
-            
+                if (faction.replacesFaction != null)
+                {
+                    curfactions.RemoveAll((FactionDef x) => x == faction.replacesFaction);
+                }
+            }
+            initiallyFactions = new List<FactionDef>();
+            initiallyFactions.AddRange(curfactions);
+            WorldCache.factions.AddRange(initiallyFactions);
         }
 
         public static float pollution;

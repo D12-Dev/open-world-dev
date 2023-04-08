@@ -45,6 +45,7 @@ namespace OpenWorldReduxServer
             Server.settlementsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Settlements";
             Server.factionsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Factions";
             Server.dataFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Data";
+            Server.WorldGenDataPath = Server.dataFolderPath + Path.DirectorySeparatorChar + "WorldGenData";
             Server.logsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Logs";
             Server.enforcedModsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Mods enforced";
             Server.whitelistedModsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Mods whitelisted";
@@ -65,6 +66,7 @@ namespace OpenWorldReduxServer
             if (!Directory.Exists(Server.settlementsFolderPath)) Directory.CreateDirectory(Server.settlementsFolderPath);
             if (!Directory.Exists(Server.factionsFolderPath)) Directory.CreateDirectory(Server.factionsFolderPath);
             if (!Directory.Exists(Server.dataFolderPath)) Directory.CreateDirectory(Server.dataFolderPath);
+            if (!Directory.Exists(Server.WorldGenDataPath)) Directory.CreateDirectory(Server.WorldGenDataPath);
             if (!Directory.Exists(Server.logsFolderPath)) Directory.CreateDirectory(Server.logsFolderPath);
 
             WriteToConsole($"Main folder path [{Server.mainFolderPath}]");
@@ -76,7 +78,8 @@ namespace OpenWorldReduxServer
             WriteToConsole($"Settlements folder path [{Server.settlementsFolderPath}]");
             WriteToConsole($"Factions folder path [{Server.settlementsFolderPath}]");
             WriteToConsole($"Data folder path [{Server.dataFolderPath}]");
-            WriteToConsole($"Logs folder path [{Server.logsFolderPath}]");
+            WriteToConsole($"World Gen Data folder path [{Server.dataFolderPath}]");
+            WriteToConsole($"Logs folder path [{Server.WorldGenDataPath}]");
         }
 
         public static void CheckAuthFile()

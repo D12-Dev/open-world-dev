@@ -16,6 +16,7 @@ namespace OpenWorldReduxServer
         public static string settlementsFolderPath;
         public static string factionsFolderPath;
         public static string dataFolderPath;
+        public static string WorldGenDataPath;
         public static string enforcedModsFolderPath;
         public static string whitelistedModsFolderPath;
         public static string blacklistedModsFolderPath;

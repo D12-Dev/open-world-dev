@@ -59,17 +59,17 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => SimpleCommands.ReloadCommandHandle;
     }
-
-    public class ReconnectCommand : Command
+    public class ShutDownCommand : Command
     {
-        public override string prefix => "reconnect";
+        public override string prefix => "shutdown";
 
-        public override string prefixHelp => "Attemps to reconnect to the auth server.";
+        public override string prefixHelp => "Safely shutdown the server.";
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.ReconnectCommandHandle;
+        public override Action actionToDo => SimpleCommands.ShutdownCommandHandle;
     }
+
 
     public class OpCommand : Command
     {

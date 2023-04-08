@@ -20,7 +20,7 @@ namespace OpenWorldRedux
                 SetupParameterPaths();
                 LoadAutosaveDetails();
                 FactionsCache.FindFactionDefsInGame();
-                WorldCache.AddFactionDlc();
+                WorldCache.CreateInitalFactionsForWorldCache(); // Adds all available factions to world gen
 
             }
 

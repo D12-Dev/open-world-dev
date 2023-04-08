@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenWorldRedux.Handlers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
@@ -45,7 +46,10 @@ namespace OpenWorldRedux
             {
                 WorldHandler.CreateWorldFromPacketHandle(receivedPacket);
             }
-
+            else if (receivedPacket.header == "ForceClientSyncPacket")
+            {
+                ServerHandlers.SaveAndSendToSever();
+            }
             else if (receivedPacket.header == "ServerSaveFilePacket")
             {
                 SaveHandler.LoadFromServerSave(receivedPacket);
