@@ -119,9 +119,6 @@ namespace OpenWorldReduxServer
 
         public static void KickClient(ServerClient client)
         {
-
-
-            /////// Probably Should add a save request before disconnecting them.
             connectedClients.Remove(client);
 
             client.tcp.Dispose();

@@ -12,6 +12,12 @@ namespace OpenWorldRedux
 
         public static bool isGeneratingWorldFromPacket;
 
+        public static bool worldGenerated;
+        public static bool BottomBarVis;
+        public static bool worldSaved;
+
+        public static bool newPlayer;
+
         public static bool isConnectedToServer;
 
         public static bool isTryingToConnect;
@@ -19,6 +25,7 @@ namespace OpenWorldRedux
         public static bool hasLoadedCorrectly;
 
         public static bool secretFlag;
+
         public static bool hideProductionSiteMessages;
 
         public static bool isCustomScenariosAllowed;

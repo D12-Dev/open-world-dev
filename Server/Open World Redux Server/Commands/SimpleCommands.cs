@@ -15,6 +15,7 @@ namespace OpenWorldReduxServer
     {
         public static HelpCommand helpCommand = new HelpCommand();
         public static ReloadCommand reloadCommand = new ReloadCommand();
+        public static ReconnectCommand reconnectCommand = new ReconnectCommand();
         public static AnnounceCommand announceCommand = new AnnounceCommand();
         public static EventsCommand eventsCommand = new EventsCommand();
         public static ListCommand listCommand = new ListCommand();
@@ -27,6 +28,7 @@ namespace OpenWorldReduxServer
         {
             helpCommand,
             reloadCommand,
+            reconnectCommand,
             announceCommand,
             eventsCommand,
             listCommand,
@@ -202,6 +204,11 @@ namespace OpenWorldReduxServer
             ServerHandler.WriteToConsole($"{7} - Space Chunks");
             ServerHandler.WriteToConsole($"{8} - Generate Quest");
             ServerHandler.WriteToConsole($"{9} - Trader Caravan");
+        }
+
+        public static void ReconnectCommandHandle()
+        {
+            ThreadHandler.GenerateServerThread(3);
         }
 
         public static void ExitCommand()

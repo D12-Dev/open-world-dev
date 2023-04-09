@@ -110,6 +110,7 @@ namespace OpenWorldRedux
                 string[] contents = new string[] { usernameText, Hash.GetHashCode(passwordText) };
                 Packet LoginClientPacket = new Packet("LoginClientPacket", contents);
                 Network.SendData(LoginClientPacket);
+
                 Close();
 
                 Find.WindowStack.Add(new OW_WaitingDialog());

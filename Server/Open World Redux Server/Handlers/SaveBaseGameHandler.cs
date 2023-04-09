@@ -12,7 +12,7 @@ namespace OpenWorldReduxServer.Handlers
             string savePath = Server.WorldGenDataPath + Path.DirectorySeparatorChar + "BaseGame.zipx";
             File.WriteAllBytes(savePath, Convert.FromBase64String(receivedPacket.contents[0]));
 
-            ServerHandler.WriteToConsole($"Saved Base Generated World File!"); 
+            ServerHandler.WriteToConsole($"Saved Base Generated World File!");
 
 
         }

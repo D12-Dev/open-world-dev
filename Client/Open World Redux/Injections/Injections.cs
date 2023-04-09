@@ -8,6 +8,7 @@ using HugsLib;
 using HarmonyLib;
 using UnityEngine;
 using System.IO;
+using Verse.Profile;
 
 namespace OpenWorldRedux
 {
@@ -87,6 +88,8 @@ namespace OpenWorldRedux
 			if (!BooleanCache.isConnectedToServer) return;
 			else
             {
+                
+
                 RimworldHandler.ToggleDevOptions();
 
 				RimworldHandler.EnforceDificultyTweaks();
@@ -123,7 +126,7 @@ namespace OpenWorldRedux
 		}
 	}
 
-	//Spawn All Online Materials Before Starting Site
+	/*//Spawn All Online Materials Before Starting Site
 	[HarmonyPatch(typeof(Page_SelectStartingSite), "PreOpen")]
 	public static class SpawnOnlineMaterials
     {
@@ -132,7 +135,7 @@ namespace OpenWorldRedux
         {
 			if (!BooleanCache.isConnectedToServer) return;
 			else
-			{
+            {
                 FactionsCache.FindOnlineFactionsInWorld();
 
                 WorldHandler.PrepareWorld();
@@ -144,7 +147,7 @@ namespace OpenWorldRedux
                 BooleanCache.hasLoadedCorrectly = true;
             }
 		}
-    }
+    }*/
 
 	//Get items traded
 	[HarmonyPatch(typeof(Tradeable), "ResolveTrade")]

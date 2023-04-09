@@ -6,7 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using RimWorld;
+using RimWorld.Planet;
 using Verse;
+using Verse.Profile;
 
 namespace OpenWorldRedux
 {
@@ -32,6 +35,32 @@ namespace OpenWorldRedux
 
             File.WriteAllBytes(filePath, Unzip(Convert.FromBase64String(receivedPacket.contents[0])));
             GameDataSaveLoader.LoadGame("Open World Server Save");
+        }
+
+
+        public static void LoadFromWorldGen(Packet receivedPacket)
+        {
+            
+
+            // FIND A PLACE TO RUN THIS CODE AAAAAAFTER IT LOADS I THINK ???????? I HATE THIS
+            
+            try
+            {
+                Log.Message("newPlayer = true!");
+                BooleanCache.newPlayer = true;
+                FocusCache.waitWindowInstance.Close();
+                string filePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Saves" + Path.DirectorySeparatorChar + "Open World Server Save.rws";
+                File.WriteAllBytes(filePath, Unzip(Convert.FromBase64String(receivedPacket.contents[0])));
+                GameDataSaveLoader.LoadGame("Open World Server Save");
+
+                // NewStartingSiteOverride.NewStartingSite();
+
+                //((MainButtonWorker_ToggleWorld)MainButtonDefOf.World.Worker).resetViewNextTime = true;
+            }
+            catch (Exception ex)
+            {
+                Log.Message(ex.ToString());
+            }
         }
 
         public static void CopyTo(Stream src, Stream dest)

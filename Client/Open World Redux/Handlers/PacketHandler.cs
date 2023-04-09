@@ -1,5 +1,4 @@
-﻿using OpenWorldRedux.Handlers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
@@ -42,18 +41,26 @@ namespace OpenWorldRedux
                 WorldHandler.CreateNewWorldHandle();
             }
 
-            else if (receivedPacket.header == "CreateWorldFromPacketPacket")
+            else if (receivedPacket.header == "ServerWorldGenPacket")
             {
                 WorldHandler.CreateWorldFromPacketHandle(receivedPacket);
             }
-            else if (receivedPacket.header == "ForceClientSyncPacket")
+
+            else if (receivedPacket.header == "WorldGenExistsReturn")
             {
-                ServerHandlers.SaveAndSendToSever();
+                if (receivedPacket.contents[0] == "true") { BooleanCache.worldSaved = true; }
+                if (receivedPacket.contents[0] == "false") { BooleanCache.worldSaved = false; }
             }
+
             else if (receivedPacket.header == "ServerSaveFilePacket")
             {
                 SaveHandler.LoadFromServerSave(receivedPacket);
             }
+
+/*            else if (receivedPacket.header == "ServerWorldGenPacket")
+            {
+                SaveHandler.LoadFromWorldGen(receivedPacket);
+            }*/
 
             else if (receivedPacket.header == "SpawnNewSettlementPacket")
             {
