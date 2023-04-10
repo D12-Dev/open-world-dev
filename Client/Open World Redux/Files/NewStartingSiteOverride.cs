@@ -91,8 +91,9 @@ namespace OpenWorldRedux
 		public static int OverrideStartingTile = -1;
 
 		private const float GapBetweenBottomButtons = 10f;
+		private static int pawnCount = 1;
 
-		private const float UseTwoRowsIfScreenWidthBelowBase = 540f;
+        private const float UseTwoRowsIfScreenWidthBelowBase = 540f;
 
 		private static List<Vector3> tmpTileVertices = new List<Vector3>();
 
@@ -121,11 +122,11 @@ namespace OpenWorldRedux
                 
 
             }
-           // Current.Game.InitData.startingPawnCount = (scenPart as ScenPart_ConfigPage_ConfigureStartingPawns).pawnCount;
-            Log.Message("END OF SCEN PARTS");
+           //Current.Game.InitData.startingPawnCount = (scenPart as ScenPart_ConfigPage_ConfigureStartingPawns).pawnCount;
+           // Log.Message("END OF SCEN PARTS");
             ScenPart scenPart = Current.Game.Scenario.AllParts.Where((ScenPart p) => p is ScenPart_ConfigPage_ConfigureStartingPawns).FirstOrDefault();
             ScenPart scenPart2 = Current.Game.Scenario.AllParts.Where((ScenPart p) => p is ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs).FirstOrDefault();
-/*			int PawnCount = 0;
+			int PawnCount = 0;
             Log.Message("Pawn Counts:");
 			try
 			{
@@ -167,10 +168,29 @@ namespace OpenWorldRedux
                 Log.Message("No Xeno Pawns");
             }
             Log.Message("END OF Pawn Counts");
-			Log.Message(PawnCount.ToString());*/
+			Log.Message(PawnCount.ToString());
+			pawnCount = PawnCount;
+            //Current.Game.InitData.
+            // GenerateStartingPawns();
+            
         }
 
-		public override void PreOpen()
+        private static void GenerateStartingPawns()
+        {
+            int num = 0;
+            do
+            {
+                StartingPawnUtility.ClearAllStartingPawns();
+                for (int i = 0; i < pawnCount; i++)
+                {
+                    StartingPawnUtility.AddNewPawn();
+                }
+                num++;
+            }
+            while (num <= 20 && !StartingPawnUtility.WorkTypeRequirementsSatisfied());
+        }
+
+        public override void PreOpen()
 		{
 			OverrideStartingTile = -1;
 

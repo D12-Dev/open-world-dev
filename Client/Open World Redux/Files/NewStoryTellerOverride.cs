@@ -74,11 +74,12 @@ namespace OpenWorldRedux
                 
 
              
-                Page_ChooseIdeoPreset newChooseIdeoPreset = new Page_ChooseIdeoPreset();
+               
                 Page_ConfigureStartingPawns newConfigureStartingPawns = new Page_ConfigureStartingPawns();
                 //newSelectStartingSite.next = newConfigureStartingPawns;
                 if (ModsConfig.IdeologyActive)
                 {
+                    Page_ChooseIdeoPreset newChooseIdeoPreset = new Page_ChooseIdeoPreset();
                     newSelectStartingSite.next = newChooseIdeoPreset;
                     newChooseIdeoPreset.prev = newSelectStartingSite;
                     newChooseIdeoPreset.next = newConfigureStartingPawns;
@@ -88,7 +89,7 @@ namespace OpenWorldRedux
                 {
                     newConfigureStartingPawns.prev = newSelectStartingSite;
                     newSelectStartingSite.next = newConfigureStartingPawns;
-
+                    Find.Scenario.PostIdeoChosen();
                 }
                 newConfigureStartingPawns.nextAct = PageUtility.InitGameStart;
 
