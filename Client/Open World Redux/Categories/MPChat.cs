@@ -124,68 +124,115 @@ namespace OpenWorldRedux
     {
         public static string cacheInputText;
 
-        public static List<string> cacheChatText = new List<string> { "<color=yellow>Welcome to the chat!</color>", "<color=yellow>Please, keep anything you post appropriate and respect other users.</color>", "<color=yellow>Type '/help' to see available commands.</color>" };
+        public static List<string> cacheChatText = new List<string> { };
 
         public static void SendMessage()
         {
-            string item = "<b>" + DateTime.Now.ToString("h:mm tt") + " | [<color=#708090>" + FocusCache.userName + "</color>]: </b>" + cacheInputText; // Formats the message that's about to send
             if (cacheInputText.StartsWith("/"))
             {
                 string text = cacheInputText.Remove(0, 1);
                 string text2 = "";
-                switch (text)
+                string item = "";
+
+
+                string command = text.Split(' ')[0];
+
+                switch (command)
                 {
                     case "help":
+                        // Remember to put an if/else here for admin commands, then pull a packet from the server with the CommandArray
                         text2 = "<color=yellow>";
                         text2 += "Available Commands:";
-                        text2 += "\n- help: Shows this screen.";
+                        text2 += "\n- help: Shows a list of available commands.";
                         text2 += "\n- ping: Checks connection with the server.";
+                        text2 += "\n- pm: Sends a private message to a player.";
                         text2 += "</color>";
+                        item = "<color=yellow>[SYSTEM]: </color>" + text2;
+
                         break;
                     case "ping":
-                        if (BooleanCache.isConnectedToServer) text2 = "Pong!";
+                        if (BooleanCache.isConnectedToServer) 
+                        {
+                            text2 = "Pong!";
+                            item= "<color=yellow>[SYSTEM]: </color>" + text2;
+                        }
                         break;
+                    case "pm":
+                        SendMessage(cacheInputText, true);
+                        cacheInputText = "";
+                        return;
                     default:
-                        text2 += "Command not found.";
+                        if (BooleanCache.isAdmin)
+                        {
+                            SendCommand(cacheInputText.Remove(0, 1));
+                            text2 = "Command sent to server: " + cacheInputText;
+                            item = "<color=yellow>[SYSTEM]: " + text2;
+                            cacheInputText = "";
+                            return;
+                        }
+                        else
+                        {
+                            text2 = "Message Denied. Either you are not an admin or this command does not exist.</color>";
+                            item = "<color=red>[ERROR]: " + text2;
+                            break;
+                        }
                         return;
                 }
-                item = "<color=yellow>[SYSTEM]: </color>" + text2;
 
                 cacheChatText.Add(item);
                 cacheInputText = "";
                 mainTabWindowChat.messageScroll = true;
                 return;
             }
-            /*string[] array = profanityFilter;
-            foreach (string text4 in array)
-            {
-                if (MPChat.cacheInputText.Contains(text4) || MPChat.cacheInputText.Contains(text4.ToLowerInvariant()) || MPChat.cacheInputText.Contains(text4.ToUpperInvariant()))
-                {
-                    MPChat.cacheInputText = "";
-                    return;
-                }
-            }*/
-            cacheChatText.Add(item);
-
             
-            //Networking.SendData("ChatMessage│" + Networking.username + "│" + cacheInputText);
 
-
+            SendMessage(cacheInputText, false);
             cacheInputText = "";
 
-            mainTabWindowChat.messageScroll = true;
+        }
 
+        public static void SendMessage(string data, bool isPrivate)
+        {
+            string packetType = "SendMessage";
+            if(isPrivate) { packetType = "SendPrivateMessage"; };
+
+            string[] contents = new string[] { cacheInputText };
+            Packet NewMsgPacket = new Packet(packetType, contents);
+            Network.SendData(NewMsgPacket);
+        }
+
+        public static void SendCommand(string data)
+        {
+            string[] contents = new string[] { cacheInputText };
+            Packet NewCommandPacket = new Packet("SendCommand", contents);
+            Network.SendData(NewCommandPacket);
         }
 
         public static void ReceiveMessage(string data)
         {
-            mainTabWindowChat.messageScroll = true;
             try
             {
-                string text = data.Split('│')[1];
-                string text2 = data.Split('│')[2];
-                string item = DateTime.Now.ToString("h:mm tt") + " | [" + text + "]: " + text2;
-                MPChat.cacheChatText.Insert(0, item);
+                mainTabWindowChat.messageScroll = true;
+                if (cacheChatText.Count >= 100)
+                {
+                    cacheChatText.RemoveAt(0);
+                }
+                cacheChatText.Add(data);
+            }
+            catch
+            {
+            }
+        }
+        public static void ReceiveCache(List<string> data)
+        {
+            try
+            {
+                mainTabWindowChat.messageScroll = true;
+                if (cacheChatText.Count >= 100)
+                {
+                    cacheChatText.RemoveAt(0);
+                }
+                cacheChatText.AddRange(data);
             }
             catch
             {

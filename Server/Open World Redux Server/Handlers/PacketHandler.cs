@@ -19,6 +19,8 @@ namespace OpenWorldReduxServer
             {
                 Debug.WriteLine(receivedPacket.header);
 
+                // Login and Saving
+
                 if (receivedPacket.header == "ClientAuthPacket")
                 {
                     GeneralPacketHandler.ClientAuthHandle(client, receivedPacket);
@@ -34,7 +36,6 @@ namespace OpenWorldReduxServer
                     ClientLoginHandler.LoginClient(client, receivedPacket);
                 }
 
-
                 else if (receivedPacket.header == "RecieveBaseSaveFromClient") ///////// Receives base save game from client
                 {
                     SaveBaseGameHandler.SaveBaseGame(client, receivedPacket);
@@ -43,7 +44,6 @@ namespace OpenWorldReduxServer
                 {
                     SimpleCommands.ReturnedForceSync(client, receivedPacket);
                 }
-
 
                 else if (receivedPacket.header == "NewServerDataPacket")
                 {
@@ -64,6 +64,25 @@ namespace OpenWorldReduxServer
                 {
                     SettlementHandler.RemoveSettlement(client, receivedPacket);
                 }
+
+                // Chat
+
+                else if (receivedPacket.header == "SendMessage")
+                {
+                    ServerChatHandler.AddMsgToChatCache(client, receivedPacket.contents[0]);
+                }
+
+                else if (receivedPacket.header == "SendPrivateMessage")
+                {
+                    ServerChatHandler.SendClientNewMsg(client, receivedPacket.contents[0]);
+                }
+
+                else if (receivedPacket.header == "SendCommand")
+                {
+                    ServerChatHandler.HandleCommandMsg(client, receivedPacket.contents[0]);
+                }
+
+                // Misc
 
                 else if (receivedPacket.header == "SendThingsPacket")
                 {

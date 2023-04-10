@@ -15,7 +15,7 @@ namespace OpenWorldRedux
         {
             Packet receivedPacket = Serializer.Deserialize(data);
 
-            //Log.Message(receivedPacket.header);
+            // Logins and Saves
 
             if (receivedPacket.header == "AcceptedConnectionPacket")
             {
@@ -55,6 +55,8 @@ namespace OpenWorldRedux
                 SaveHandler.LoadFromServerSave(receivedPacket);
             }
 
+            // Settlements
+
             else if (receivedPacket.header == "SpawnNewSettlementPacket")
             {
                 WorldHandler.AddSettlementToWorld(receivedPacket);
@@ -74,6 +76,21 @@ namespace OpenWorldRedux
             {
                 WorldHandler.ParseCurrentWorldStructures(receivedPacket);
             }
+
+            // Chat Packets
+
+            else if (receivedPacket.header == "SendClientNewMsg")
+            {
+                MPChat.ReceiveMessage(receivedPacket.contents[0]);
+            }
+
+            else if (receivedPacket.header == "SendClientMsgCache")
+            {
+                Log.Message("Received Cache!");
+                MPChat.ReceiveCache(receivedPacket.contents.ToList());
+            }
+
+            // Trading
 
             else if (receivedPacket.header == "SendThingsPacket")
             {
@@ -96,6 +113,8 @@ namespace OpenWorldRedux
                 TradeHandler.GetRejectedTrade();
             }
 
+            // Client + Server Values
+
             else if (receivedPacket.header == "ServerValuesPacket")
             {
                 GeneralHandler.ServerValuesHandle(receivedPacket);
@@ -105,6 +124,8 @@ namespace OpenWorldRedux
             {
                 GeneralHandler.ClientValuesHandle(receivedPacket);
             }
+
+            // Black Market
 
             else if (receivedPacket.header == "AcceptBlackMarketPacket")
             {
@@ -120,6 +141,8 @@ namespace OpenWorldRedux
             {
                 BlackMarketHandler.GetEvent(receivedPacket);
             }
+
+            // Factions
 
             else if (receivedPacket.header == "ServerPlayersPacket")
             {

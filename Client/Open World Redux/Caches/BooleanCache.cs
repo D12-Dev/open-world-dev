@@ -19,6 +19,7 @@ namespace OpenWorldRedux
         public static bool hasLoadedCorrectly;
 
         public static bool secretFlag;
+
         public static bool hideProductionSiteMessages;
 
         public static bool isCustomScenariosAllowed;
