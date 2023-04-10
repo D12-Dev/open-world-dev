@@ -23,6 +23,7 @@ namespace OpenWorldReduxServer
         public static CleanupCommand cleanupCommand = new CleanupCommand();
         public static ExitCommand exitCommand = new ExitCommand();
         public static List<String> PlayersToSaveList = new List<String>();
+        public static SaveCommand saveCommand = new SaveCommand();
         public static Command[] commandArray = new Command[]
         {
             helpCommand,
@@ -33,9 +34,24 @@ namespace OpenWorldReduxServer
             statusCommand,
             ShutdownCommand,
             cleanupCommand,
-            exitCommand
+            exitCommand,
+            saveCommand
         };
+        public static void saveCommandhandle()
+        {
+            string username = CommandHandler.parameterHolder[0];
+            ServerClient toGet = ClientHandler.GetClientFromConnected(username);
+            if (toGet == null) {
+                ServerHandler.WriteToConsole($"User not found with username [{username}]", ServerHandler.LogMode.Error);
+                return;
+            }
+            ServerHandler.WriteToConsole("Requestting user " + username + " for save...", ServerHandler.LogMode.Title);
+            Packet ClientSavePacket = new Packet("ForceClientSyncPacket");
+            Network.SendData(toGet, ClientSavePacket);
 
+
+
+        }
         public static void HelpCommandHandle()
         {
             ServerHandler.WriteToConsole($"List of available commands [{commandArray.Count() + AdvancedCommands.commandArray.Count()}]", ServerHandler.LogMode.Title);
@@ -109,6 +125,9 @@ namespace OpenWorldReduxServer
         public static void ReturnedForceSync(ServerClient client, Packet packet)
         {
             // Save the client and remove from to save client list.
+            if (PlayersToSaveList.Contains(client.Username) != true) {
+                return; /// This means they werent in the list to wait for saving. Will be caused by using the save command rather than shutdown command.
+            }
             ServerHandler.WriteToConsole("Recieved Client save file! Deleting From List...", ServerHandler.LogMode.Title);
            // ClientSaveHandler.SaveClientSave(client, packet);
             PlayersToSaveList.Remove(client.Username);

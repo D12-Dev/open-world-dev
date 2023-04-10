@@ -69,8 +69,17 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => SimpleCommands.ShutdownCommandHandle;
     }
+    
+    public class SaveCommand : Command
+    {
+        public override string prefix => "save";
 
+        public override string prefixHelp => "Makes a chosen player save.";
 
+        public override int parameterCount => 1;
+
+        public override Action actionToDo => SimpleCommands.saveCommandhandle;
+    }
     public class OpCommand : Command
     {
         public override string prefix => "op";

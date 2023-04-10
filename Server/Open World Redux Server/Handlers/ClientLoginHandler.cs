@@ -46,7 +46,7 @@ namespace OpenWorldReduxServer
             else ClientSaveHandler.SendSaveFile(client);
 
             ClientHandler.SaveClient(client);
-
+            ServerChatHandler.SendClientMessageCache(client); //////// Send the chat cache to the player.
             ServerHandler.WriteToConsole($"[Logged in] > [{client.Username}] - [{client.SavedID}]");
         }
 

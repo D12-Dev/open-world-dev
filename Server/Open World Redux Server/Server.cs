@@ -66,6 +66,11 @@ namespace OpenWorldReduxServer
             string command = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(command)) return;
+            CmdPostHandler(command);
+
+        }
+
+        public static void CmdPostHandler(string command) {
 
             try
             {
@@ -105,6 +110,7 @@ namespace OpenWorldReduxServer
                 ServerHandler.WriteToConsole($"Command [{command}] is not recognized by the program. " +
                 $"Please try again", ServerHandler.LogMode.Error);
             }
+
         }
     }
 }

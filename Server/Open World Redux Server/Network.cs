@@ -83,15 +83,16 @@ namespace OpenWorldReduxServer
 
                     if (data == null)
                     {
-                        client.disconnectFlag = true;
+                        client.disconnectFlag = true; /// Add a timeout strike then if hit certain number then disconnect
                         return;
                     }
 
                     else PacketHandler.HandlePacket(client, data);
                 }
 
-                catch
+                catch(Exception ex)
                 {
+                    ServerHandler.WriteToConsole($"An error occurred when handling client packet: {ex}", ServerHandler.LogMode.Error);
                     client.disconnectFlag = true;
                     return;
                 }
@@ -116,7 +117,16 @@ namespace OpenWorldReduxServer
             }
             catch { client.disconnectFlag = true; }
         }
+        public static void SendDataToAllConnectedClients(Packet reqPacket) {
 
+            ServerClient[] connectedClients = Network.connectedClients.ToArray();
+            foreach (ServerClient client in connectedClients)
+            {
+                Network.SendData(client, reqPacket);
+            }
+
+
+        }
         public static void KickClient(ServerClient client)
         {
 
