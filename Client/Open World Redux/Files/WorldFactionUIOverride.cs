@@ -164,7 +164,7 @@ namespace OpenWorldRedux
             widgetRow.Gap(4f);
             Text.Anchor = TextAnchor.MiddleCenter;
             widgetRow.Label(factionDef.LabelCap);
-            //Log.Message(factionDef.LabelCap); // Prints labal of Open World
+            Log.Message(factionDef.LabelCap); // Prints labal of Open World
             Text.Anchor = TextAnchor.UpperLeft;
             if (factionDef.LabelCap != "Open World Settlements")
             {

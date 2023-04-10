@@ -28,8 +28,6 @@ namespace OpenWorldReduxServer
                 return;
             }
 
-            WorldGenDataHandler.CheckForExistingWorldGen(client);
-
             ClientHandler.ReloadPlayerCount();
 
             ClientHandler.SendServerValues(client);
@@ -124,8 +122,6 @@ namespace OpenWorldReduxServer
 
             return false;
         }
-
-
 
         private static void ReadClient(ServerClient client, ServerClient clientToCheck)
         {

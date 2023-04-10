@@ -40,6 +40,6 @@ namespace OpenWorldRedux
         public static string saveFolderPath;
         public static string loginDataFilePath;
         public static string ModFolderPath;
-        public static string versionCode = "1.12";
+        public static string versionCode = "1.13";
     }
 }
