@@ -33,6 +33,7 @@ namespace OpenWorldRedux
         public static int autosaveInternalTicks;
 
         public static int playerCount;
+        public static string userName = "primate";
 
         public static List<string> playerList;
 
