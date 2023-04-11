@@ -108,8 +108,9 @@ namespace OpenWorldReduxServer
             else
             {
                 toGet.IsBanned = true;
-                toGet.disconnectFlag = true;
                 ClientHandler.SaveClient(toGet);
+                toGet.disconnectFlag = true;
+                //ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{username}] has been banned", ServerHandler.LogMode.Warning);
             }
         }
@@ -144,7 +145,7 @@ namespace OpenWorldReduxServer
 
             else 
             {
-                toGet.disconnectFlag = true;
+                toGet.disconnectsaveFlag = true;
                 ServerHandler.WriteToConsole($"Player [{username}] has been kicked", ServerHandler.LogMode.Warning);
             }
         }

@@ -109,6 +109,7 @@ namespace OpenWorldReduxServer
             {
                 ServerHandler.WriteToConsole($"Command [{command}] is not recognized by the program. " +
                 $"Please try again", ServerHandler.LogMode.Error);
+                
             }
 
         }

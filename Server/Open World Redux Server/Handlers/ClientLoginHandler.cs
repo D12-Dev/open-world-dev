@@ -85,7 +85,7 @@ namespace OpenWorldReduxServer
 
             List<ServerClient> connectedClients = Network.connectedClients.ToList();
             ServerClient sameClient = connectedClients.Find(fetch => fetch.Username == client.Username && fetch != client);
-            if (sameClient != null) sameClient.disconnectFlag = true;
+            if (sameClient != null) sameClient.disconnectsaveFlag = true;
 
             return true;
         }

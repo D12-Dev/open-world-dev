@@ -19,7 +19,7 @@ namespace OpenWorldReduxServer
         public static IPAddress localAddress;
         public static int serverPort;
         public static int maxPlayers;
-
+        //public static List<String> PlayersToSaveList = SimpleCommands.PlayersToSaveList;
         public static bool hasServerStarted;
 
         public static List<ServerClient> connectedClients = new List<ServerClient>();
@@ -80,19 +80,21 @@ namespace OpenWorldReduxServer
                     if (client.disconnectFlag) return;
 
                     string data = sr.ReadLine();
-
+                  //  ServerHandler.WriteToConsole($"[Debuggging] DATA: {data}", ServerHandler.LogMode.Normal); // For Debuging purposes only
                     if (data == null)
                     {
-                        client.disconnectFlag = true; /// Add a timeout strike then if hit certain number then disconnect
+                        // Normally occurs during alt f4 or normal save and exit
+                        //ServerHandler.WriteToConsole($"An error occurred when handling client data (usually alt + f4). Data given was a null value... Kicking!", ServerHandler.LogMode.Warning); 
+                        client.disconnectFlag = true; 
                         return;
                     }
 
                     else PacketHandler.HandlePacket(client, data);
                 }
 
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    ServerHandler.WriteToConsole($"An error occurred when handling client packet: {ex}", ServerHandler.LogMode.Error);
+                    ServerHandler.WriteToConsole($"An error occurred when handling client packet... Full Stack Trace: \n{ex}", ServerHandler.LogMode.Error); // Client dropped the tcp connection. AKA no more client so no save since client wont respond.
                     client.disconnectFlag = true;
                     return;
                 }
@@ -103,7 +105,12 @@ namespace OpenWorldReduxServer
         {
             try
             {
-                if (client.isBusy) return;
+                if (client.isBusy) {
+
+                    ServerHandler.WriteToConsole($"Failed to send data to {client.Username}. Client was busy", ServerHandler.LogMode.Warning);
+                    return;
+                } 
+
 
                 client.isBusy = true;
 
@@ -115,7 +122,10 @@ namespace OpenWorldReduxServer
 
                 client.isBusy = false;
             }
-            catch { client.disconnectFlag = true; }
+            catch(Exception ex) {
+                ServerHandler.WriteToConsole($"Failed to send data to {client.Username}. Kicking...\nFull stack Trace: \n{ex}", ServerHandler.LogMode.Error);
+                client.disconnectsaveFlag = true; 
+            }
         }
         public static void SendDataToAllConnectedClients(Packet reqPacket) {
 
@@ -127,49 +137,105 @@ namespace OpenWorldReduxServer
 
 
         }
-        public static void KickClient(ServerClient client)
+
+
+        public static void SaveBeforeKick(ServerClient client)
+        {
+            
+            int TimeoutCount = 15; // Timeout for how long server will wait for player saves
+            int DefCount = 0;
+            while (true)
+            {
+
+                Thread.Sleep(1000); // Wait 1 second then update
+              //  ServerHandler.WriteToConsole($"{SimpleCommands.PlayersToSaveList[0]}", ServerHandler.LogMode.Normal);
+                if (!SimpleCommands.PlayersToSaveList.Contains(client.Username))
+                {
+                    break;
+                }
+                else
+                {
+
+                    if (DefCount == TimeoutCount)
+                    {
+                        ServerHandler.WriteToConsole("User " + client.Username + " timedout when waiting for save before kicking...", ServerHandler.LogMode.Warning);
+                        break;
+                    }
+                    DefCount++;
+                    continue;
+                }
+
+            }
+            client.disconnectsaveFlag = false;
+            client.disconnectFlag = true;
+            
+            //// Player Has saved and been given a disconnect flag.
+
+        }
+
+        public static void KickClient(ServerClient client, bool SaveBeforeKickvar)
         {
 
 
             /////// Probably Should add a save request before disconnecting them.
-            connectedClients.Remove(client);
+            if (SaveBeforeKickvar == true)
+            {
+                SimpleCommands.PlayersToSaveList.Add(client.Username);
+                ServerHandler.WriteToConsole("Requestting user " + client.Username + " for save before kicking...", ServerHandler.LogMode.Title);
+                Packet ForceTheClientSyncPacket = new Packet("ForceClientSyncPacket");
+                SendData(client, ForceTheClientSyncPacket);
+                SaveBeforeKick(client);
+            }
+            else {
+                connectedClients.Remove(client);
 
-            client.tcp.Dispose();
+                client.tcp.Dispose();
 
-            ServerHandler.WriteToConsole($"[Disconnected] > {client.SavedIP}", ServerHandler.LogMode.Normal);
+                ServerHandler.WriteToConsole($"[Disconnected] > {client.SavedIP}", ServerHandler.LogMode.Normal);
+
+            }
+
         }
 
         public static void HearbeatClients()
         {
             while (true)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(100); // Every 1/10th of a second run this code.
 
                 try
                 {
                     ServerClient[] actualClients = connectedClients.ToArray();
 
-                    List<ServerClient> clientsToDisconnect = new List<ServerClient>();
-
-                    foreach (ServerClient client in actualClients)
+                    List<ServerClient> clientsToDisconnect = new List<ServerClient>(); // Players to disconnect list without saving.
+                    List<ServerClient> clientsToSaveAndDisconnect = new List<ServerClient>();  // Players to disconnect list with saving.
+                    foreach (ServerClient client in actualClients) ///////// Loop through clients and find which clients to just disconnect.
                     {
-                        if (client.disconnectFlag) clientsToDisconnect.Add(client);
+                        if (client.disconnectFlag) clientsToDisconnect.Add(client); // Add player to list.
+                    }
+
+                    foreach (ServerClient client in actualClients) ///////// Loop through clients and find which clients to save and disconnect.
+                    {
+                        if (client.disconnectsaveFlag) clientsToSaveAndDisconnect.Add(client); // Add player to list.
                     }
 
                     foreach (ServerClient client in clientsToDisconnect)
                     {
-                        KickClient(client);
+                        KickClient(client, false); // Kick the client, false means no saving before kick.
                     }
-
+                    foreach (ServerClient client in clientsToSaveAndDisconnect)
+                    {
+                        KickClient(client, true); // Kick the client, true means it will try to save before kick.
+                    }
                     if (clientsToDisconnect.Count > 0)
                     {
-                        ServerHandler.UpdateTitle();
+                        ServerHandler.UpdateTitle(); // Update Server Console Title to the correct player count.
 
-                        ClientHandler.ReloadPlayerCount();
+                        ClientHandler.ReloadPlayerCount(); /// Update the player count.
                     }
                 }
 
-                catch { ServerHandler.WriteToConsole("Critical error occured in heartbeat thread", ServerHandler.LogMode.Error); }
+                catch(Exception ex) { ServerHandler.WriteToConsole($"Critical error occured in heartbeat thread... Full stack error: \n{ex}", ServerHandler.LogMode.Error); } // MY HEART IS DYINGGGG.
             }
         }
     }

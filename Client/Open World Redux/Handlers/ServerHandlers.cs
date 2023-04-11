@@ -14,20 +14,12 @@ namespace OpenWorldRedux.Handlers
     {
         public static void SaveAndSendToSever()
         {
-            string filename = Current.Game.Info.permadeathModeUniqueName;
-            BooleanCache.isSaving = true;
-            GameDataSaveLoader.SaveGame(filename);
-            Log.Message(filename);
-            BooleanCache.isSaving = false;
-            string filePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Saves" + Path.DirectorySeparatorChar + filename + ".rws";
-            string newFilePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Saves" + Path.DirectorySeparatorChar + filename + ".zipx";
-
-            File.WriteAllBytes(newFilePath, SaveHandler.Zip(File.ReadAllBytes(filePath)));
-
-            string[] contents = new string[] { Convert.ToBase64String(File.ReadAllBytes(newFilePath)) };
-            Packet ClientSaveFilePacket = new Packet("ForceClientSyncPacketReturn", contents);
+            Log.Message("Got Save request");
+            //string filename = Current.Game.Info.permadeathModeUniqueName;
+            MPGame.ForceSave();
+            Packet ClientSaveFilePacket = new Packet("ForceClientSyncPacketReturn");
             Network.SendData(ClientSaveFilePacket);
-
+            Log.Message("Returned save request");
 
 
         }
