@@ -44,10 +44,11 @@ namespace OpenWorldReduxServer
                 toGet.IsAdmin = true;
                 ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{toGet.Username}] has become OP", ServerHandler.LogMode.Warning);
-                if (ClientHandler.GetClientFromConnected(username) != null)
+                ServerClient ConnnectedClient = ClientHandler.GetClientFromConnected(username);
+                if (ConnnectedClient != null)
                 {
                     Packet OpCommandPacket = new Packet("OpCommandPacket");
-                    Network.SendData(toGet, OpCommandPacket);
+                    Network.SendData(ConnnectedClient, OpCommandPacket);
                 }
             }
         }
