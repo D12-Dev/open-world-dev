@@ -14,7 +14,11 @@ namespace OpenWorldReduxServer
         {
             Packet receivedPacket = Serializer.Deserialize(data);
 
-            if (receivedPacket == null) client.disconnectFlag = true;
+            if (receivedPacket == null)
+            {
+                ServerHandler.WriteToConsole($"Client: {client.Username} tried to send a null packet to the server... Kicking!", ServerHandler.LogMode.Warning);
+                client.disconnectsaveFlag = true;
+            }
             else
             {
                 Debug.WriteLine(receivedPacket.header);

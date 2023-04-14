@@ -100,7 +100,7 @@ namespace OpenWorldReduxServer
                     if (CommandHandler.CheckParameterCount(toInvoke))
                     {
                         try { toInvoke.actionToDo.Invoke(); }
-                        catch { ServerHandler.WriteToConsole($"Unexpected error at [{toInvoke.prefix}] command", ServerHandler.LogMode.Error); }
+                        catch(Exception ex) { ServerHandler.WriteToConsole($"Unexpected error at [{toInvoke.prefix}] command, Full stack trace: \n{ex}", ServerHandler.LogMode.Error); }
                     }
                 }
             }
@@ -109,6 +109,7 @@ namespace OpenWorldReduxServer
             {
                 ServerHandler.WriteToConsole($"Command [{command}] is not recognized by the program. " +
                 $"Please try again", ServerHandler.LogMode.Error);
+                
             }
 
         }

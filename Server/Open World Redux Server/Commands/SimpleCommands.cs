@@ -23,7 +23,9 @@ namespace OpenWorldReduxServer
         public static CleanupCommand cleanupCommand = new CleanupCommand();
         public static ExitCommand exitCommand = new ExitCommand();
         public static List<String> PlayersToSaveList = new List<String>();
-        public static SaveCommand saveCommand = new SaveCommand();
+        public static bool HasConfirmedExit;
+        public static SaveCommand saveCommand = new SaveCommand(); 
+        public static ClearConsoleCommand clearconsolecommand = new ClearConsoleCommand();
         public static Command[] commandArray = new Command[]
         {
             helpCommand,
@@ -35,7 +37,8 @@ namespace OpenWorldReduxServer
             ShutdownCommand,
             cleanupCommand,
             exitCommand,
-            saveCommand
+            saveCommand,
+            clearconsolecommand
         };
         public static void saveCommandhandle()
         {
@@ -82,6 +85,10 @@ namespace OpenWorldReduxServer
 
             ServerHandler.WriteToConsole("Configurations have been reloaded", ServerHandler.LogMode.Title);
         }
+        public static void ClearConsoleCommandHandle()
+        {
+            Console.Clear();
+        }
         public static void ShutdownCommandHandle()
         {
             ServerHandler.WriteToConsole("Shutting Down server and saving client files. Please Wait...", ServerHandler.LogMode.Title);
@@ -98,7 +105,14 @@ namespace OpenWorldReduxServer
                 
         }
         public static async void WaitForPlayerSavesAndShutdown() {
-            int TimeoutCount = 5; // Timeout for how long server will wait for player saves
+            int TimeoutCount = 60; // Timeout for how long server will wait for player saves in seconds
+
+            foreach (ServerClient client in Network.connectedClients) {
+                TimeoutCount = TimeoutCount + 10;
+            } /// Dynamic timeout, so the more clients connected the longer the server is willing to wait to save everyone.
+
+
+
             int DefCount = 0;
             while (true)
             {
@@ -120,16 +134,18 @@ namespace OpenWorldReduxServer
             //// All Players Have Saved
             ServerHandler.WriteToConsole("All players save files saved! Shutting down server!!", ServerHandler.LogMode.Title);
             System.Threading.Thread.Sleep(1500);
-            ExitCommand();
+            Server.isActive = false;
         }
         public static void ReturnedForceSync(ServerClient client, Packet packet)
         {
             // Save the client and remove from to save client list.
+           
             if (PlayersToSaveList.Contains(client.Username) != true) {
+
                 return; /// This means they werent in the list to wait for saving. Will be caused by using the save command rather than shutdown command.
             }
             ServerHandler.WriteToConsole("Recieved Client save file! Deleting From List...", ServerHandler.LogMode.Title);
-           // ClientSaveHandler.SaveClientSave(client, packet);
+            //ClientSaveHandler.SaveClientSave(client, packet);
             PlayersToSaveList.Remove(client.Username);
 
         }
@@ -225,7 +241,15 @@ namespace OpenWorldReduxServer
 
         public static void ExitCommand()
         {
-            Server.isActive = false;
+
+            if (HasConfirmedExit)
+            {
+                Server.isActive = false;
+            }
+            else {
+                ServerHandler.WriteToConsole(@"[WARNING] Using the exit command will not save before shutting down, use ""shutdown"" instead to save before quitting. To continue type ""exit"" again.", ServerHandler.LogMode.Warning);
+                HasConfirmedExit = true;
+            }
         }
     }
 }

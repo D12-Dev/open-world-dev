@@ -127,6 +127,7 @@ namespace OpenWorldRedux
                 Packet RegisterClientPacket = new Packet("RegisterClientPacket", contents);
                 Network.SendData(RegisterClientPacket);
                 Close();
+                Find.WindowStack.Add(new OW_WaitingDialog());
             }
         }
 
