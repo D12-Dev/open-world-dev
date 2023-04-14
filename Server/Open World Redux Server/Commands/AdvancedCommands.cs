@@ -148,10 +148,11 @@ namespace OpenWorldReduxServer
                 toGet.IsAdmin = false;
                 ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{toGet.Username}] has lost OP", ServerHandler.LogMode.Warning);
-                if (ClientHandler.GetClientFromConnected(username) != null)
+                ServerClient ConnnectedClient = ClientHandler.GetClientFromConnected(username);
+                if (ConnnectedClient != null)
                 {
                     Packet DeopCommandPacket = new Packet("DeopCommandPacket");
-                    Network.SendData(toGet, DeopCommandPacket);
+                    Network.SendData(ConnnectedClient, DeopCommandPacket);
                 }
             }
         }
