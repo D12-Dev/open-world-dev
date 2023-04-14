@@ -147,7 +147,7 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => AdvancedCommands.PardonCommandHandle;
     }
-
+    
     public class KickCommand : Command
     {
         public override string prefix => "kick";
@@ -158,7 +158,16 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => AdvancedCommands.KickCommandHandle;
     }
+    public class TransferCommand : Command
+    {
+        public override string prefix => "transfer";
 
+        public override string prefixHelp => "Transfers one players settlement and save to another player.";
+
+        public override int parameterCount => 2;
+
+        public override Action actionToDo => AdvancedCommands.TransferCommandHandle;
+    }
     public class AnnounceCommand : Command
     {
         public override string prefix => "announce";

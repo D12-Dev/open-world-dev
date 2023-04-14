@@ -81,7 +81,13 @@ namespace OpenWorldReduxServer
 
             return false;
         }
+        public static void SaveSettlementFile(SettlementFile settlementFile, string UserReference) {
 
+            string savePath1 = Server.settlementsFolderPath + Path.DirectorySeparatorChar + UserReference + ".json";
+            Serializer.SerializeToFile(settlementFile, savePath1);
+
+
+        }
         public static ServerClient GetPlayerFromSettlement(int settlementTile)
         {
             ServerClient[] connectedClients = Network.connectedClients.ToArray();
