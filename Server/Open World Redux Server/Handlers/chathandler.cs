@@ -26,8 +26,6 @@ namespace OpenWorldReduxServer
             string[] contents = new string[] { Msg };
             Packet NewMsgPacket = new Packet("SendClientNewMsg", contents);
             Network.SendDataToAllConnectedClients(NewMsgPacket);
-
-
         }
         public static void SendClientNewMsg(ServerClient client, string Msg)
         {

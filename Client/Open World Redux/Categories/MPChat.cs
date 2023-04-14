@@ -43,6 +43,8 @@ namespace OpenWorldRedux
 
             if (BooleanCache.isConnectedToServer) connectionString = "Status: Connected [" + FocusCache.playerCount + "]";
             else connectionString = "Status: Disconnected";
+
+
             Widgets.Label(new Rect(new Vector2(rect.x, rect.y), new Vector2(Text.CalcSize(connectionString).x, Text.CalcSize(connectionString).y)), connectionString);
 
             userString = FocusCache.userName;
