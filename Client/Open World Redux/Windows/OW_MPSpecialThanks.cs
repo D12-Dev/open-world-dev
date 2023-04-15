@@ -182,7 +182,11 @@ namespace OpenWorldRedux
         private string patreonsListTitle = "";
         private string[] patreons = new string[]
         {
-            "Our precious supporters",
+            "|――――――――――――――|",
+            "",
+            "       Our precious supporters",
+            "",
+            "|――――――――――――――|",
             "",
             "Andrew",
             "Susp3kt",
@@ -195,9 +199,13 @@ namespace OpenWorldRedux
             "",
             "",
             "",
-            "Our developers and contributors",
+            "|――――――――――――――|",
             "",
-            "Saffue - Owner",
+            "   Our developers and contributors",
+            "",
+            "|――――――――――――――|",
+            "",
+            "Saffue - Project Owner",
             "Generic - Github Contributor",
             "D12 - Github Contributor",
             "primate prime - Github Contributor",
@@ -205,10 +213,15 @@ namespace OpenWorldRedux
             "",
             "",
             "",
-            "The Founding Fathers",
+            "|――――――――――――――|",
+            "",
+            "        The Founding Fathers",
+            "",
+            "|――――――――――――――|",
             "",
             "Eragon - Ex Moderator",
             "Lollipop - Ex Owner",
+            "Eragon - Ex Moderator",
             "BoostHungry - Ex Github Contributor",
             "DarkIrata - Ex Github Contributor",
             "ZephyrWarrior - Ex Github Contributor",
@@ -309,7 +322,7 @@ namespace OpenWorldRedux
         {
             Text.Font = GameFont.Small;
             Rect fixedRect = new Rect(new Vector2(rect.x + 10f, rect.y + 5f), new Vector2(rect.width - 36f, rect.height));
-            
+
 
             Widgets.Label(fixedRect, name);
         }

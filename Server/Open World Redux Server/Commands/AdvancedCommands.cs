@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Threading;
 
+
 namespace OpenWorldReduxServer
 {
     public static class AdvancedCommands
@@ -15,7 +16,7 @@ namespace OpenWorldReduxServer
         public static BanCommand banCommand = new BanCommand();
         public static PardonCommand pardonCommand = new PardonCommand();
         public static InspectCommand inspectCommand = new InspectCommand();
-        public static InvokeCommand invokeCommand = new InvokeCommand(); 
+        public static InvokeCommand invokeCommand = new InvokeCommand();
         public static TransferCommand transferCommand = new TransferCommand();
         public static WipeCommand wipeCommand = new WipeCommand();
         public static bool WipeConfirm; 
@@ -149,6 +150,7 @@ namespace OpenWorldReduxServer
                     break; // Neither player is connected
                 }
 
+   
             }
 
 
@@ -173,7 +175,7 @@ namespace OpenWorldReduxServer
 
             ServerHandler.WriteToConsole($"Succesffully transfered save from {ply1username} to {ply2username}", ServerHandler.LogMode.Warning);
         }
-        
+
         public static void DeopCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
@@ -192,7 +194,7 @@ namespace OpenWorldReduxServer
                 ServerClient ConnnectedClient = ClientHandler.GetClientFromConnected(username);
                 if (ConnnectedClient != null)
                 {
-                    Packet DeopCommandPacket = new Packet("DeopCommandPacket");
+                Packet DeopCommandPacket = new Packet("DeopCommandPacket");
                     Network.SendData(ConnnectedClient, DeopCommandPacket);
                 }
             }
@@ -240,7 +242,7 @@ namespace OpenWorldReduxServer
                 ClientHandler.SaveClient(toGet);
                 if (ClientHandler.GetClientFromConnected(username) != null)
                 {
-                    toGet.disconnectFlag = true;
+                toGet.disconnectFlag = true;
                 }
                 //ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{username}] has been banned", ServerHandler.LogMode.Warning);

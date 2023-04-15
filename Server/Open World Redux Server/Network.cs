@@ -85,7 +85,7 @@ namespace OpenWorldReduxServer
                     {
                         // Normally occurs during alt f4 or normal save and exit
                         //ServerHandler.WriteToConsole($"An error occurred when handling client data (usually alt + f4). Data given was a null value... Kicking!", ServerHandler.LogMode.Warning); 
-                        client.disconnectFlag = true; 
+                        client.disconnectFlag = true;
                         return;
                     }
 
@@ -179,7 +179,7 @@ namespace OpenWorldReduxServer
 
             /////// Probably Should add a save request before disconnecting them.
             if (SaveBeforeKickvar == true)
-            {
+        {
                 SimpleCommands.PlayersToSaveList.Add(client.Username);
                 ServerHandler.WriteToConsole("Requestting user " + client.Username + " for save before kicking...", ServerHandler.LogMode.Title);
                 Packet ForceTheClientSyncPacket = new Packet("ForceClientSyncPacket");
@@ -187,11 +187,11 @@ namespace OpenWorldReduxServer
                 SaveBeforeKick(client);
             }
             else {
-                connectedClients.Remove(client);
+            connectedClients.Remove(client);
 
-                client.tcp.Dispose();
+            client.tcp.Dispose();
 
-                ServerHandler.WriteToConsole($"[Disconnected] > {client.SavedIP}", ServerHandler.LogMode.Normal);
+            ServerHandler.WriteToConsole($"[Disconnected] > {client.SavedIP}", ServerHandler.LogMode.Normal);
 
             }
 
@@ -227,6 +227,7 @@ namespace OpenWorldReduxServer
                     {
                         KickClient(client, true); // Kick the client, true means it will try to save before kick.
                     }
+
                     if (clientsToDisconnect.Count > 0)
                     {
                         ServerHandler.UpdateTitle(); // Update Server Console Title to the correct player count.

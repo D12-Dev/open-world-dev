@@ -15,7 +15,7 @@ namespace OpenWorldRedux
         {
             Packet receivedPacket = Serializer.Deserialize(data);
 
-            // Logins and Saves
+            //Log.Message(receivedPacket.header);
 
             if (receivedPacket.header == "AcceptedConnectionPacket")
             {
@@ -42,20 +42,29 @@ namespace OpenWorldRedux
                 WorldHandler.CreateNewWorldHandle();
             }
 
-            else if (receivedPacket.header == "CreateWorldFromPacketPacket")
+            else if (receivedPacket.header == "ServerWorldGenPacket")
             {
                 WorldHandler.CreateWorldFromPacketHandle(receivedPacket);
+            }
+
+            else if (receivedPacket.header == "WorldGenExistsReturn") {
+                if (receivedPacket.contents[0] == "true") { BooleanCache.worldSaved = true; }
+                if (receivedPacket.contents[0] == "false") { BooleanCache.worldSaved = false; }
             }
             else if (receivedPacket.header == "ForceClientSyncPacket")
             {
                 ServerHandlers.SaveAndSendToSever();
             }
+
             else if (receivedPacket.header == "ServerSaveFilePacket")
             {
                 SaveHandler.LoadFromServerSave(receivedPacket);
             }
 
-            // Settlements
+            /*            else if (receivedPacket.header == "ServerWorldGenPacket")
+                        {
+                            SaveHandler.LoadFromWorldGen(receivedPacket);
+                        }*/
 
             else if (receivedPacket.header == "SpawnNewSettlementPacket")
             {

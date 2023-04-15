@@ -243,9 +243,9 @@ namespace OpenWorldReduxServer
         {
 
             if (HasConfirmedExit)
-            {
-                Server.isActive = false;
-            }
+        {
+            Server.isActive = false;
+        }
             else {
                 ServerHandler.WriteToConsole(@"[WARNING] Using the exit command will not save before shutting down, use ""shutdown"" instead to save before quitting. To continue type ""exit"" again.", ServerHandler.LogMode.Warning);
                 HasConfirmedExit = true;

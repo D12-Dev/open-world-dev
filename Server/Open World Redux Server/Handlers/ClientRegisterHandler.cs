@@ -51,7 +51,7 @@ namespace OpenWorldReduxServer
 
             Packet RegisteredClientPacket = new Packet("RegisteredClientPacket");
             Network.SendData(client, RegisteredClientPacket);
-            
+
             ServerHandler.WriteToConsole($"[Registered] > {client.SavedIP}");
             // Log in client
             ClientLoginHandler.LoginClient(client, receivedPacket);

@@ -18,7 +18,7 @@ namespace OpenWorldRedux
 
             BooleanCache.isGeneratingNewWorld = true;
 
-            Find.WindowStack.Add(new SelectScenarioOverride());
+            Find.WindowStack.Add(new Page_CustomSelectScenario());
 
             string[] chainInfo = new string[]
             {
@@ -28,22 +28,27 @@ namespace OpenWorldRedux
                 "Locked variables are automatically handled by the server"
             };
             Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+
         }
 
         public static void CreateWorldFromPacketHandle(Packet receivedPacket)
         {
             FocusCache.waitWindowInstance.Close();
 
-            WorldCache.seedString = receivedPacket.contents[0];
+            /*WorldCache.seedString = receivedPacket.contents[0];
             WorldCache.planetCoverage = float.Parse(receivedPacket.contents[1]);
             WorldCache.overallRainfall = (OverallRainfall)int.Parse(receivedPacket.contents[2]);
             WorldCache.overallTemperature = (OverallTemperature)int.Parse(receivedPacket.contents[3]);
             WorldCache.overallPopulation = (OverallPopulation)int.Parse(receivedPacket.contents[4]);
-            WorldCache.pollution = float.Parse(receivedPacket.contents[5]);
+            WorldCache.pollution = float.Parse(receivedPacket.contents[5]);*/
+
+
+            SaveHandler.LoadFromWorldGen(receivedPacket);
+            System.Threading.Thread.Sleep(5000);
 
             BooleanCache.isGeneratingWorldFromPacket = true;
 
-            Find.WindowStack.Add(new SelectScenarioOverride());
+            Find.WindowStack.Add(new Page_CustomSelectScenario());
 
             string[] chainInfo = new string[]
             {
@@ -52,6 +57,14 @@ namespace OpenWorldRedux
                 "Locked variables are automatically handled by the server"
             };
             Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+        }
+
+        public static void SendWorldDataRequest()
+        {
+            Log.Message("Trying to send data request!");
+
+            Packet GetSaveData = new Packet("ReceiveBaseSaveRequest");
+            Network.SendData(GetSaveData);
         }
 
         public static void AddSettlementToWorld(Packet receivedPacket)

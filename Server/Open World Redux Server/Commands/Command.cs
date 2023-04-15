@@ -37,7 +37,7 @@ namespace OpenWorldReduxServer
 
         public virtual Action actionToDo { get; set; }
     }
-    
+
 
 
         public class WipeCommand : Command
@@ -105,6 +105,7 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => SimpleCommands.saveCommandhandle;
     }
+
     public class OpCommand : Command
     {
         public override string prefix => "op";
@@ -159,7 +160,7 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => AdvancedCommands.PardonCommandHandle;
     }
-    
+
     public class KickCommand : Command
     {
         public override string prefix => "kick";
