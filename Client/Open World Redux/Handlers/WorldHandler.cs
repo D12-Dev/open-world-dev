@@ -18,7 +18,7 @@ namespace OpenWorldRedux
 
             BooleanCache.isGeneratingNewWorld = true;
 
-            Find.WindowStack.Add(new SelectScenarioOverride());
+            Find.WindowStack.Add(new Page_CustomSelectScenario());
 
             string[] chainInfo = new string[]
             {
@@ -28,22 +28,27 @@ namespace OpenWorldRedux
                 "Locked variables are automatically handled by the server"
             };
             Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+
         }
 
         public static void CreateWorldFromPacketHandle(Packet receivedPacket)
         {
             FocusCache.waitWindowInstance.Close();
 
-            WorldCache.seedString = receivedPacket.contents[0];
+            /*WorldCache.seedString = receivedPacket.contents[0];
             WorldCache.planetCoverage = float.Parse(receivedPacket.contents[1]);
             WorldCache.overallRainfall = (OverallRainfall)int.Parse(receivedPacket.contents[2]);
             WorldCache.overallTemperature = (OverallTemperature)int.Parse(receivedPacket.contents[3]);
             WorldCache.overallPopulation = (OverallPopulation)int.Parse(receivedPacket.contents[4]);
-            WorldCache.pollution = float.Parse(receivedPacket.contents[5]);
+            WorldCache.pollution = float.Parse(receivedPacket.contents[5]);*/
+
+
+            SaveHandler.LoadFromWorldGen(receivedPacket);
+            System.Threading.Thread.Sleep(5000);
 
             BooleanCache.isGeneratingWorldFromPacket = true;
 
-            Find.WindowStack.Add(new SelectScenarioOverride());
+            Find.WindowStack.Add(new Page_CustomSelectScenario());
 
             string[] chainInfo = new string[]
             {
@@ -52,6 +57,14 @@ namespace OpenWorldRedux
                 "Locked variables are automatically handled by the server"
             };
             Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+        }
+
+        public static void SendWorldDataRequest()
+        {
+            Log.Message("Trying to send data request!");
+
+            Packet GetSaveData = new Packet("ReceiveBaseSaveRequest");
+            Network.SendData(GetSaveData);
         }
 
         public static void AddSettlementToWorld(Packet receivedPacket)
@@ -128,24 +141,69 @@ namespace OpenWorldRedux
 
         private static void CleanWorld()
         {
+            List<string> BiotechFactions = new List<string>() {
+                "PirateWaster",
+            };
+            List<string> IdeologyFactions = new List<string>() {
+                "Pilgrims",
+                "Beggars",
+                "Ancients",
+                "AncientsHostile"
+            };
+            List<string> RoyaltyFactions = new List<string>() {
+                "Empire",
+                "OutlanderRefugee"
+            };
             //Destroy settlements
             Settlement[] settlementsToDestroy = Find.WorldObjects.Settlements.ToArray();
-            foreach(Settlement settlement in settlementsToDestroy)
+            foreach (Settlement settlement in settlementsToDestroy)
             {
-                if (settlement.Faction == Faction.OfPlayer) continue;
-                if (settlement.Faction == FactionsCache.onlineNeutralFaction ||
-                    settlement.Faction == FactionsCache.onlineAllyFaction ||
-                    settlement.Faction == FactionsCache.onlineEnemyFaction)
+  /*              if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
                 {
-                    Find.WorldObjects.Remove(settlement);
+                    if (BiotechFactions.Contains(settlement.Faction.def.defName)) {
+                        Find.WorldObjects.Remove(settlement);
 
-
-
+                    }
                 }
-                Log.Message(settlement.ToString());
-                //if (settlement in WorldCache.onlineSettlementsDeflate) continue;
-                // else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
-                // else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
+                if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
+                {
+                    if (RoyaltyFactions.Contains(settlement.Faction.def.defName))
+                    {
+                        Find.WorldObjects.Remove(settlement);
+
+                    }
+                }
+
+                if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
+                {
+                    if (IdeologyFactions.Contains(settlement.Faction.def.defName))
+                    {
+                        Find.WorldObjects.Remove(settlement);
+
+                    }
+                }*/
+               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                // if(settlement.Faction == Faction.)
+                // if (settlement.Faction == Faction.OfPlayer) continue;
+                //  else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
+                //   else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
                 // else Find.WorldObjects.Remove(settlement);
             }
 
@@ -153,14 +211,14 @@ namespace OpenWorldRedux
             Site[] sitesToDestroy = Find.WorldObjects.Sites.ToArray();
             foreach (Site site in sitesToDestroy)
             {
-                if (site.Faction == FactionsCache.onlineNeutralFaction ||
+               /* if (site.Faction == FactionsCache.onlineNeutralFaction ||
                     site.Faction == FactionsCache.onlineAllyFaction ||
                     site.Faction == FactionsCache.onlineEnemyFaction)
                 {
-                    Find.WorldObjects.Remove(site);
+                    //Find.WorldObjects.Remove(site);
                 }
 
-                else continue;
+                else continue;*/
             }
         }
 

@@ -14,8 +14,7 @@ namespace OpenWorldReduxServer
         public static BanCommand banCommand = new BanCommand();
         public static PardonCommand pardonCommand = new PardonCommand();
         public static InspectCommand inspectCommand = new InspectCommand();
-        public static InvokeCommand invokeCommand = new InvokeCommand(); 
-        public static TransferCommand transferCommand = new TransferCommand();
+        public static InvokeCommand invokeCommand = new InvokeCommand();
 
         public static Command[] commandArray = new Command[]
         {
@@ -25,14 +24,13 @@ namespace OpenWorldReduxServer
             banCommand,
             pardonCommand,
             inspectCommand,
-            invokeCommand,
-            transferCommand
+            invokeCommand
         };
 
         public static void OpCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
-            ServerClient toGet = ClientHandler.GetClientFromSave(username);
+            ServerClient toGet = ClientHandler.GetClientFromConnected(username);
 
             if (toGet == null)
             {
@@ -44,99 +42,16 @@ namespace OpenWorldReduxServer
                 toGet.IsAdmin = true;
                 ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{toGet.Username}] has become OP", ServerHandler.LogMode.Warning);
-                ServerClient ConnnectedClient = ClientHandler.GetClientFromConnected(username);
-                if (ConnnectedClient != null)
-                {
-                    Packet OpCommandPacket = new Packet("OpCommandPacket");
-                    Network.SendData(ConnnectedClient, OpCommandPacket);
-                }
+
+                Packet OpCommandPacket = new Packet("OpCommandPacket");
+                Network.SendData(toGet, OpCommandPacket);
             }
         }
-        public static void TransferCommandHandle() {
-            string ply1username = CommandHandler.parameterHolder[0];
-            string ply2username = CommandHandler.parameterHolder[1];
-            ServerClient ply1 = ClientHandler.GetClientFromSave(ply1username);
-            ServerClient ply2 = ClientHandler.GetClientFromSave(ply2username);
-            ServerClient Connectedply1 = ClientHandler.GetClientFromConnected(ply1username);
-            ServerClient Connectedply2 = ClientHandler.GetClientFromConnected (ply2username);
-            if (ply1 == null) {
-                ServerHandler.WriteToConsole($"Player [{ply1username}] was not found", ServerHandler.LogMode.Warning);
-                return;
-            }
-            if (ply2 == null)
-            {
-                ServerHandler.WriteToConsole($"Player [{ply2username}] was not found", ServerHandler.LogMode.Warning);
-                return;
-            }
-            if (Connectedply1 != null)
-            {
-                Connectedply1.disconnectsaveFlag = true;
-                ServerHandler.WriteToConsole($"Player [{ply1username}] is being kicked", ServerHandler.LogMode.Warning);
-            }
-            if (Connectedply2 != null)
-            {
-                Connectedply2.disconnectsaveFlag = true;
-                ServerHandler.WriteToConsole($"Player [{ply2username}] is being kicked", ServerHandler.LogMode.Warning);
-            }
-           
-            while (true)
-            {
-                if (Connectedply1 != null && Connectedply2 != null)
-                {
-                    if (Connectedply1.disconnectsaveFlag == false && Connectedply2.disconnectsaveFlag == false) ////// Wait for both players to be disconnected.
-                    {
-                        break;
-                    }
 
-                }
-                else if (Connectedply1 != null && Connectedply2 == null)
-                {
-                    if (Connectedply1.disconnectsaveFlag == false) ////// Wait for both players to be disconnected.
-                    {
-                        break;
-                    }
-                }
-                else if (Connectedply2 != null && Connectedply1 == null)
-                {
-                    if (Connectedply2.disconnectsaveFlag == false) ////// Wait for both players to be disconnected.
-                    {
-                        break;
-                    }
-
-                }
-                else {
-                    break; // Neither player is connected
-                }
-
-            }
-
-
-            SettlementFile SettlementFile1 = ClientHandler.GetClientSettlmentFileFromName(ply1username);
-            SettlementFile SettlementFile2 = ClientHandler.GetClientSettlmentFileFromName(ply2username);
-            SettlementFile1.settlementUsername = ply2username; // Set the settlement username to other persons username
-            SettlementFile2.settlementUsername = ply1username; // Set the settlement username to other persons username
-
-
-            SettlementHandler.SaveSettlementFile(SettlementFile1, ply1.SavedID);
-            SettlementHandler.SaveSettlementFile(SettlementFile2, ply2.SavedID);
-            ClientHandler.SwapNamesOfClientSettlementFile(ply1.SavedID, ply2.SavedID);
-          
-
-
-            string TempSaveid = ply1.SavedID;
-            ply1.SavedID = ply2.SavedID;
-            ply2.SavedID = TempSaveid;
-
-            ClientHandler.SaveClient(ply1);
-            ClientHandler.SaveClient(ply2);
-
-            ServerHandler.WriteToConsole($"Succesffully transfered save from {ply1username} to {ply2username}", ServerHandler.LogMode.Warning);
-        }
-        
         public static void DeopCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
-            ServerClient toGet = ClientHandler.GetClientFromSave(username);
+            ServerClient toGet = ClientHandler.GetClientFromConnected(username);
 
             if (toGet == null)
             {
@@ -148,12 +63,9 @@ namespace OpenWorldReduxServer
                 toGet.IsAdmin = false;
                 ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{toGet.Username}] has lost OP", ServerHandler.LogMode.Warning);
-                ServerClient ConnnectedClient = ClientHandler.GetClientFromConnected(username);
-                if (ConnnectedClient != null)
-                {
-                    Packet DeopCommandPacket = new Packet("DeopCommandPacket");
-                    Network.SendData(ConnnectedClient, DeopCommandPacket);
-                }
+
+                Packet DeopCommandPacket = new Packet("DeopCommandPacket");
+                Network.SendData(toGet, DeopCommandPacket);
             }
         }
 
@@ -186,7 +98,7 @@ namespace OpenWorldReduxServer
         public static void BanCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
-            ServerClient toGet = ClientHandler.GetClientFromSave(username);
+            ServerClient toGet = ClientHandler.GetClientFromConnected(username);
 
             if (toGet == null)
             {
@@ -196,12 +108,8 @@ namespace OpenWorldReduxServer
             else
             {
                 toGet.IsBanned = true;
+                toGet.disconnectFlag = true;
                 ClientHandler.SaveClient(toGet);
-                if (ClientHandler.GetClientFromConnected(username) != null)
-                {
-                    toGet.disconnectFlag = true;
-                }
-                //ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{username}] has been banned", ServerHandler.LogMode.Warning);
             }
         }
@@ -236,7 +144,7 @@ namespace OpenWorldReduxServer
 
             else 
             {
-                toGet.disconnectsaveFlag = true;
+                toGet.disconnectFlag = true;
                 ServerHandler.WriteToConsole($"Player [{username}] has been kicked", ServerHandler.LogMode.Warning);
             }
         }

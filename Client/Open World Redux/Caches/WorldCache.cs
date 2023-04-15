@@ -21,6 +21,12 @@ namespace OpenWorldRedux
         public static OverallTemperature overallTemperature;
 
         public static OverallPopulation overallPopulation;
+
+        public static Scenario scenario;
+        //public static Storyteller StoryTeller;
+
+
+
         public static List<FactionDef> factions = new List<FactionDef>()
         {
             FactionsCache.onlineNeutralFactionDef,

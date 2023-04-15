@@ -14,7 +14,6 @@ namespace OpenWorldRedux
 {
     public class OW_MPLogin : Window
     {
-        
         private string windowTitle = "Multiplayer Menu";
         private string usernameEntryText = "Username";
         private string passwordEntryText = "Password";
@@ -107,11 +106,11 @@ namespace OpenWorldRedux
 
                 newLoginData.Username = usernameText;
                 Serializer.SerializeToFile(FocusCache.loginDataFilePath, newLoginData);
-                MPChat.cacheChatText.Clear();
 
                 string[] contents = new string[] { usernameText, Hash.GetHashCode(passwordText) };
                 Packet LoginClientPacket = new Packet("LoginClientPacket", contents);
                 Network.SendData(LoginClientPacket);
+
                 Close();
 
                 Find.WindowStack.Add(new OW_WaitingDialog());

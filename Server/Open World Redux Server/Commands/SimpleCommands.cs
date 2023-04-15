@@ -15,6 +15,7 @@ namespace OpenWorldReduxServer
     {
         public static HelpCommand helpCommand = new HelpCommand();
         public static ReloadCommand reloadCommand = new ReloadCommand();
+        public static ReconnectCommand reconnectCommand = new ReconnectCommand();
         public static AnnounceCommand announceCommand = new AnnounceCommand();
         public static EventsCommand eventsCommand = new EventsCommand();
         public static ListCommand listCommand = new ListCommand();
@@ -23,38 +24,20 @@ namespace OpenWorldReduxServer
         public static CleanupCommand cleanupCommand = new CleanupCommand();
         public static ExitCommand exitCommand = new ExitCommand();
         public static List<String> PlayersToSaveList = new List<String>();
-        public static bool HasConfirmedExit;
-        public static SaveCommand saveCommand = new SaveCommand(); 
-        public static ClearConsoleCommand clearconsolecommand = new ClearConsoleCommand();
         public static Command[] commandArray = new Command[]
         {
             helpCommand,
             reloadCommand,
+            reconnectCommand,
             announceCommand,
             eventsCommand,
             listCommand,
             statusCommand,
             ShutdownCommand,
             cleanupCommand,
-            exitCommand,
-            saveCommand,
-            clearconsolecommand
+            exitCommand
         };
-        public static void saveCommandhandle()
-        {
-            string username = CommandHandler.parameterHolder[0];
-            ServerClient toGet = ClientHandler.GetClientFromConnected(username);
-            if (toGet == null) {
-                ServerHandler.WriteToConsole($"User not found with username [{username}]", ServerHandler.LogMode.Error);
-                return;
-            }
-            ServerHandler.WriteToConsole("Requestting user " + username + " for save...", ServerHandler.LogMode.Title);
-            Packet ClientSavePacket = new Packet("ForceClientSyncPacket");
-            Network.SendData(toGet, ClientSavePacket);
 
-
-
-        }
         public static void HelpCommandHandle()
         {
             ServerHandler.WriteToConsole($"List of available commands [{commandArray.Count() + AdvancedCommands.commandArray.Count()}]", ServerHandler.LogMode.Title);
@@ -85,10 +68,6 @@ namespace OpenWorldReduxServer
 
             ServerHandler.WriteToConsole("Configurations have been reloaded", ServerHandler.LogMode.Title);
         }
-        public static void ClearConsoleCommandHandle()
-        {
-            Console.Clear();
-        }
         public static void ShutdownCommandHandle()
         {
             ServerHandler.WriteToConsole("Shutting Down server and saving client files. Please Wait...", ServerHandler.LogMode.Title);
@@ -105,14 +84,7 @@ namespace OpenWorldReduxServer
                 
         }
         public static async void WaitForPlayerSavesAndShutdown() {
-            int TimeoutCount = 60; // Timeout for how long server will wait for player saves in seconds
-
-            foreach (ServerClient client in Network.connectedClients) {
-                TimeoutCount = TimeoutCount + 10;
-            } /// Dynamic timeout, so the more clients connected the longer the server is willing to wait to save everyone.
-
-
-
+            int TimeoutCount = 5; // Timeout for how long server will wait for player saves
             int DefCount = 0;
             while (true)
             {
@@ -134,18 +106,13 @@ namespace OpenWorldReduxServer
             //// All Players Have Saved
             ServerHandler.WriteToConsole("All players save files saved! Shutting down server!!", ServerHandler.LogMode.Title);
             System.Threading.Thread.Sleep(1500);
-            Server.isActive = false;
+            ExitCommand();
         }
         public static void ReturnedForceSync(ServerClient client, Packet packet)
         {
             // Save the client and remove from to save client list.
-           
-            if (PlayersToSaveList.Contains(client.Username) != true) {
-
-                return; /// This means they werent in the list to wait for saving. Will be caused by using the save command rather than shutdown command.
-            }
             ServerHandler.WriteToConsole("Recieved Client save file! Deleting From List...", ServerHandler.LogMode.Title);
-            //ClientSaveHandler.SaveClientSave(client, packet);
+           // ClientSaveHandler.SaveClientSave(client, packet);
             PlayersToSaveList.Remove(client.Username);
 
         }
@@ -239,17 +206,14 @@ namespace OpenWorldReduxServer
             ServerHandler.WriteToConsole($"{9} - Trader Caravan");
         }
 
+        public static void ReconnectCommandHandle()
+        {
+            ThreadHandler.GenerateServerThread(3);
+        }
+
         public static void ExitCommand()
         {
-
-            if (HasConfirmedExit)
-            {
-                Server.isActive = false;
-            }
-            else {
-                ServerHandler.WriteToConsole(@"[WARNING] Using the exit command will not save before shutting down, use ""shutdown"" instead to save before quitting. To continue type ""exit"" again.", ServerHandler.LogMode.Warning);
-                HasConfirmedExit = true;
-            }
+            Server.isActive = false;
         }
     }
 }

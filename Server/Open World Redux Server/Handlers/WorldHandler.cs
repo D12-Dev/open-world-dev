@@ -19,21 +19,23 @@ namespace OpenWorldReduxServer
 
             else
             {
-                string loadPath = Server.dataFolderPath + Path.DirectorySeparatorChar + "World.json";
-                WorldFile toLoad = Serializer.DeserializeFromFile<WorldFile>(loadPath);
+                /*                string loadPath = Server.dataFolderPath + Path.DirectorySeparatorChar + "World.json";
+                                WorldFile toLoad = Serializer.DeserializeFromFile<WorldFile>(loadPath);
 
-                string[] contents = new string[]
-                {
-                    toLoad.Seed,
-                    toLoad.PlanetCoverage,
-                    toLoad.OverallRainfall,
-                    toLoad.OverallTemperature,
-                    toLoad.OverallPopulation,
-                    toLoad.Pollution
-                };
+                                string[] contents = new string[]
+                                {
+                                    toLoad.Seed,
+                                    toLoad.PlanetCoverage,
+                                    toLoad.OverallRainfall,
+                                    toLoad.OverallTemperature,
+                                    toLoad.OverallPopulation,
+                                    toLoad.Pollution
+                                };
+                */
 
-                Packet CreateWorldFromPacketPacket = new Packet("CreateWorldFromPacketPacket", contents);
-                Network.SendData(client, CreateWorldFromPacketPacket);
+                ClientSaveHandler.SendWorldGenSave(client);
+               // Packet CreateWorldFromPacketPacket = new Packet("CreateWorldFromPacketPacket", contents);
+               // Network.SendData(client, CreateWorldFromPacketPacket);
             }
         }
 

@@ -19,7 +19,6 @@ namespace OpenWorldRedux
             };
 
             Find.WindowStack.Add(new OW_ChainErrorDialog(errorChain));
-            FocusCache.waitWindowInstance.Close();
         }
 
         public static void IncorrectLoginHandle()
