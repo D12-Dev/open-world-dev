@@ -21,13 +21,13 @@ namespace OpenWorldRedux
 
         public static void RegisteredClientHandle()
         {
-            string[] chainInfo = new string[]
+/*            string[] chainInfo = new string[]
             {
                 "You have successfully registered into the server",
                 "Please login using your new account"
             };
 
-            Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+            Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));*/
         }
 
         public static void ServerValuesHandle(Packet receivedPacket)

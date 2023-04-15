@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenWorldRedux.Handlers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
@@ -14,7 +15,7 @@ namespace OpenWorldRedux
         {
             Packet receivedPacket = Serializer.Deserialize(data);
 
-            //Log.Message(receivedPacket.header);
+            // Logins and Saves
 
             if (receivedPacket.header == "AcceptedConnectionPacket")
             {
@@ -41,26 +42,20 @@ namespace OpenWorldRedux
                 WorldHandler.CreateNewWorldHandle();
             }
 
-            else if (receivedPacket.header == "ServerWorldGenPacket")
+            else if (receivedPacket.header == "CreateWorldFromPacketPacket")
             {
                 WorldHandler.CreateWorldFromPacketHandle(receivedPacket);
             }
-
-            else if (receivedPacket.header == "WorldGenExistsReturn")
+            else if (receivedPacket.header == "ForceClientSyncPacket")
             {
-                if (receivedPacket.contents[0] == "true") { BooleanCache.worldSaved = true; }
-                if (receivedPacket.contents[0] == "false") { BooleanCache.worldSaved = false; }
+                ServerHandlers.SaveAndSendToSever();
             }
-
             else if (receivedPacket.header == "ServerSaveFilePacket")
             {
                 SaveHandler.LoadFromServerSave(receivedPacket);
             }
 
-/*            else if (receivedPacket.header == "ServerWorldGenPacket")
-            {
-                SaveHandler.LoadFromWorldGen(receivedPacket);
-            }*/
+            // Settlements
 
             else if (receivedPacket.header == "SpawnNewSettlementPacket")
             {
@@ -81,6 +76,21 @@ namespace OpenWorldRedux
             {
                 WorldHandler.ParseCurrentWorldStructures(receivedPacket);
             }
+
+            // Chat Packets
+
+            else if (receivedPacket.header == "SendClientNewMsg")
+            {
+                MPChat.ReceiveMessage(receivedPacket.contents[0]);
+            }
+
+            else if (receivedPacket.header == "SendClientMsgCache")
+            {
+                Log.Message("Received Cache!");
+                MPChat.ReceiveCache(receivedPacket.contents.ToList());
+            }
+
+            // Trading
 
             else if (receivedPacket.header == "SendThingsPacket")
             {
@@ -103,6 +113,8 @@ namespace OpenWorldRedux
                 TradeHandler.GetRejectedTrade();
             }
 
+            // Client + Server Values
+
             else if (receivedPacket.header == "ServerValuesPacket")
             {
                 GeneralHandler.ServerValuesHandle(receivedPacket);
@@ -112,6 +124,8 @@ namespace OpenWorldRedux
             {
                 GeneralHandler.ClientValuesHandle(receivedPacket);
             }
+
+            // Black Market
 
             else if (receivedPacket.header == "AcceptBlackMarketPacket")
             {
@@ -127,6 +141,8 @@ namespace OpenWorldRedux
             {
                 BlackMarketHandler.GetEvent(receivedPacket);
             }
+
+            // Factions
 
             else if (receivedPacket.header == "ServerPlayersPacket")
             {

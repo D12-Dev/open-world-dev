@@ -16,7 +16,7 @@ namespace OpenWorldRedux
     public static class CreateWorldInjections
     {
         //Scenario page
-        [HarmonyPatch(typeof(Page_CustomSelectScenario), "DoWindowContents")]
+        [HarmonyPatch(typeof(SelectScenarioOverride), "DoWindowContents")]
         public static class ModifyScenarioPage
         {
             [HarmonyPrefix]
@@ -49,24 +49,23 @@ namespace OpenWorldRedux
         }
 
         //Storyteller page
-       [HarmonyPatch(typeof(Page_SelectStoryteller), "DoWindowContents")]
+        [HarmonyPatch(typeof(Page_SelectStoryteller), "DoWindowContents")]
         public static class ModifyStorytellerPage
         {
             [HarmonyPrefix]
             public static bool ModifyPre(Page_SelectStoryteller __instance)
             {
-/*                if (BooleanCache.isGeneratingWorldFromPacket)
+                if (BooleanCache.isGeneratingWorldFromPacket)
                 {
-                    Log.Message("Storyteller post fix applied");
                     __instance.next = null;
-                    __instance.nextAct = NewStartingSiteOverride.NewStartingSite; // WorldHandler.SendWorldDataRequest; /// Do select site LoadFromWorldGen(Packet receivedPacket)
+                    __instance.nextAct = WorldGeneratorOverride.TriggerWorldGeneration;
+
                     Find.GameInitData.permadeathChosen = true;
                     Find.GameInitData.permadeath = true;
                     return true;
+                }
 
-                }*/
-
-                if (BooleanCache.isGeneratingNewWorld)
+                else if (BooleanCache.isGeneratingNewWorld)
                 {
                     Find.GameInitData.permadeathChosen = true;
                     Find.GameInitData.permadeath = true;
@@ -162,7 +161,7 @@ namespace OpenWorldRedux
 
 
 
-                    /*Log.Message("Factions Being Reset");*/
+                    Log.Message("Factions Being Reset");
 
                     /*List<FactionDef> VisFac = new List<FactionDef>();
                     foreach (FactionDef X in AllFac)
