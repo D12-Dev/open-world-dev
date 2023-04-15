@@ -37,7 +37,19 @@ namespace OpenWorldReduxServer
 
         public virtual Action actionToDo { get; set; }
     }
+    
 
+
+        public class WipeCommand : Command
+        {
+        public override string prefix => "wipe";
+
+        public override string prefixHelp => "Wipes all saved server info.";
+
+        public override int parameterCount => 0;
+
+        public override Action actionToDo => AdvancedCommands.WipeCommandHandle;
+    }
     public class HelpCommand : Command
     {
         public override string prefix => "help";

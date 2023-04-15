@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.IO;
+using System.Threading;
 
 namespace OpenWorldReduxServer
 {
@@ -16,7 +17,8 @@ namespace OpenWorldReduxServer
         public static InspectCommand inspectCommand = new InspectCommand();
         public static InvokeCommand invokeCommand = new InvokeCommand(); 
         public static TransferCommand transferCommand = new TransferCommand();
-
+        public static WipeCommand wipeCommand = new WipeCommand();
+        public static bool WipeConfirm; 
         public static Command[] commandArray = new Command[]
         {
             opCommand,
@@ -26,8 +28,47 @@ namespace OpenWorldReduxServer
             pardonCommand,
             inspectCommand,
             invokeCommand,
-            transferCommand
+            transferCommand,
+            wipeCommand
         };
+
+
+        public static void WipeCommandHandle()
+        {
+            if (WipeConfirm == true)
+            {
+                File.Delete(@Server.dataFolderPath + Path.DirectorySeparatorChar + "World.json"); // Delete world.json
+                ServerHandler.WriteToConsole($"Wiped {Server.dataFolderPath + Path.DirectorySeparatorChar + "World.json"}.", ServerHandler.LogMode.Title);
+                List<string> FoldersToDelete = new List<string>() { // A list of the folder paths to delete
+                    Server.playersFolderPath,
+                    Server.savesFolderPath,
+                    Server.settlementsFolderPath,
+                    Server.factionsFolderPath,
+                    Server.WorldGenDataPath
+                };
+
+
+                foreach (string X in FoldersToDelete) { // Loop through the list and delete folders
+                    Directory.Delete(X, true);
+                    ServerHandler.WriteToConsole($"Wiped {X}.", ServerHandler.LogMode.Title);
+                }
+                ServerHandler.WriteToConsole(@"Wipe completed, Server will now shutdown.", ServerHandler.LogMode.Title);
+                Thread.Sleep(5000); // Wait and let the console be read.
+
+
+
+                Server.isActive = false; // Turn off server
+            }
+            else
+            {
+                ServerHandler.WriteToConsole(@"[WARNING] Using the wipe command will remove all player saves, accounts, factions,settlements and world data. To continue type ""wipe"" again.", ServerHandler.LogMode.Warning);
+                WipeConfirm = true; // Allow wiping.
+
+            }
+
+        }
+
+
 
         public static void OpCommandHandle()
         {
