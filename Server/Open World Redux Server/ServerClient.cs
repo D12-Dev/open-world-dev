@@ -13,8 +13,8 @@ namespace OpenWorldReduxServer
     public class ServerClient
     {
         [NonSerialized] public TcpClient tcp;
-        [NonSerialized] public bool disconnectFlag; // This indicates to just disconnect client
-        [NonSerialized] public bool disconnectsaveFlag;// This indicates to save current client before disconnect
+        [NonSerialized] public bool disconnectFlag;
+
         public string Username { get; set; }
 
         public string Password { get; set; }

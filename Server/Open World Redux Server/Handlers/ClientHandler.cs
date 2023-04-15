@@ -3,7 +3,6 @@ using Open_World_Redux;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -85,34 +84,7 @@ namespace OpenWorldReduxServer
 
             return null;
         }
-        public static SettlementFile GetClientSettlmentFileFromName(string usernameToCheck)
-        {
-            string[] clientFiles = Directory.GetFiles(Server.settlementsFolderPath);
-            foreach (string SettlmentFile in clientFiles)
-            {
-                SettlementFile SettlementToCheck = Serializer.DeserializeFromFile<SettlementFile>(SettlmentFile);
-                if (SettlementToCheck.settlementUsername == usernameToCheck)
-                {
-                    return SettlementToCheck;
-                }
-            }
 
-            return null;
-        }
-        public static void SwapNamesOfClientSettlementFile(string userReference, string NewReference)
-        {
-            string settlementFilePath = Server.settlementsFolderPath + Path.DirectorySeparatorChar + userReference + ".json";
-            string newsettlementFilePath = Server.settlementsFolderPath + Path.DirectorySeparatorChar + NewReference + ".json";
-            string tempsettlementFilePath = Server.settlementsFolderPath + Path.DirectorySeparatorChar + "temp" + ".json";
-            FileInfo fi = new FileInfo(settlementFilePath);
-            FileInfo fi2 = new FileInfo(newsettlementFilePath);
-
-            if (fi.Exists) {
-                fi.MoveTo(tempsettlementFilePath);
-                fi2.MoveTo(settlementFilePath);
-                fi.MoveTo(newsettlementFilePath);
-            }
-        }
         public static ServerClient GetClientFromConnected(string usernameToCheck)
         {
             ServerClient[] connectedClients = Network.connectedClients.ToArray();

@@ -14,16 +14,10 @@ namespace OpenWorldReduxServer
         {
             Packet receivedPacket = Serializer.Deserialize(data);
 
-            if (receivedPacket == null)
-            {
-                ServerHandler.WriteToConsole($"Client: {client.Username} tried to send a null packet to the server... Kicking!", ServerHandler.LogMode.Warning);
-                client.disconnectsaveFlag = true;
-            }
+            if (receivedPacket == null) client.disconnectFlag = true;
             else
             {
                 Debug.WriteLine(receivedPacket.header);
-
-                // Login and Saving
 
                 if (receivedPacket.header == "ClientAuthPacket")
                 {
@@ -40,14 +34,22 @@ namespace OpenWorldReduxServer
                     ClientLoginHandler.LoginClient(client, receivedPacket);
                 }
 
+
                 else if (receivedPacket.header == "RecieveBaseSaveFromClient") ///////// Receives base save game from client
                 {
                     SaveBaseGameHandler.SaveBaseGame(client, receivedPacket);
                 }
+
+                else if (receivedPacket.header == "ReceiveBaseSaveRequest") ///////// Receives base save request from client
+                {
+                    ClientSaveHandler.SendWorldGenSave(client);
+                }
+
                 else if (receivedPacket.header == "ForceClientSyncPacketReturn") ///////// Receives forced sync save from client from shutdown command
                 {
                     SimpleCommands.ReturnedForceSync(client, receivedPacket);
                 }
+
 
                 else if (receivedPacket.header == "NewServerDataPacket")
                 {
@@ -68,25 +70,6 @@ namespace OpenWorldReduxServer
                 {
                     SettlementHandler.RemoveSettlement(client, receivedPacket);
                 }
-
-                // Chat
-
-                else if (receivedPacket.header == "SendMessage")
-                {
-                    ServerChatHandler.AddMsgToChatCache(client, receivedPacket.contents[0]);
-                }
-
-                else if (receivedPacket.header == "SendPrivateMessage")
-                {
-                    ServerChatHandler.SendClientNewMsg(client, receivedPacket.contents[0]);
-                }
-
-                else if (receivedPacket.header == "SendCommand")
-                {
-                    ServerChatHandler.HandleCommandMsg(client, receivedPacket.contents[0]);
-                }
-
-                // Misc
 
                 else if (receivedPacket.header == "SendThingsPacket")
                 {

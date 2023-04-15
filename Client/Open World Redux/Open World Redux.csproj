@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -129,9 +130,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caches\DifficultyCache.cs" />
-    <Compile Include="Categories\MPChat.cs" />
     <Compile Include="Dialogs\OW_SavingDialog.cs" />
     <Compile Include="Files\DifficultyFile.cs" />
+    <Compile Include="Files\NewStoryTellerOverride.cs" />
+    <Compile Include="Files\NewStartingSiteOverride.cs" />
     <Compile Include="Files\SelectScenarioOverride.cs" />
     <Compile Include="Handlers\AidHandler.cs" />
     <Compile Include="Caches\BlackMarketCache.cs" />
@@ -161,12 +163,13 @@
     <Compile Include="Files\WorldFactionUIOverride.cs" />
     <Compile Include="Files\WorldGeneratorOverride.cs" />
     <Compile Include="Handlers\BlackMarketHandler.cs" />
-    <Compile Include="Handlers\ServerHandlers.cs" />
     <Compile Include="Handlers\FactionHandler.cs" />
     <Compile Include="Handlers\RimworldHandler.cs" />
     <Compile Include="Handlers\RoadHandler.cs" />
     <Compile Include="Handlers\SaveHandler.cs" />
     <Compile Include="Handlers\TradeHandler.cs" />
+    <Compile Include="Injections\BottomGuiBarInjection.cs" />
+    <Compile Include="Injections\PreGameStartInjection.cs" />
     <Compile Include="Network\Hash.cs" />
     <Compile Include="Injections\EnforcementInjections.cs" />
     <Compile Include="Injections\FloatingOptionInjections.cs" />

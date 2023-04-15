@@ -51,12 +51,9 @@ namespace OpenWorldReduxServer
 
             Packet RegisteredClientPacket = new Packet("RegisteredClientPacket");
             Network.SendData(client, RegisteredClientPacket);
-            
+            client.disconnectFlag = true;
+
             ServerHandler.WriteToConsole($"[Registered] > {client.SavedIP}");
-            // Log in client
-            ClientLoginHandler.LoginClient(client, receivedPacket);
-            
-            
         }
 
         private static string GetFilePathForNewUsername()

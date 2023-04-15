@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace OpenWorldReduxServer
 {
@@ -24,6 +24,14 @@ namespace OpenWorldReduxServer
             string[] contents = new string[] { Convert.ToBase64String(File.ReadAllBytes(filePath)) };
             Packet ServerSaveFilePacket = new Packet("ServerSaveFilePacket", contents);
             Network.SendData(client, ServerSaveFilePacket);
+        }
+
+        public static void SendWorldGenSave(ServerClient client)
+        {
+            string filePath = Server.WorldGenDataPath + Path.DirectorySeparatorChar + "BaseGame.zipx";
+            string[] contents = new string[] { Convert.ToBase64String(File.ReadAllBytes(filePath)) };
+            Packet SendBaseSave = new Packet("ServerWorldGenPacket", contents);
+            Network.SendData(client, SendBaseSave);
         }
     }
 }

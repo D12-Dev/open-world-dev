@@ -37,19 +37,7 @@ namespace OpenWorldReduxServer
 
         public virtual Action actionToDo { get; set; }
     }
-    
 
-
-        public class WipeCommand : Command
-        {
-        public override string prefix => "wipe";
-
-        public override string prefixHelp => "Wipes all saved server info.";
-
-        public override int parameterCount => 0;
-
-        public override Action actionToDo => AdvancedCommands.WipeCommandHandle;
-    }
     public class HelpCommand : Command
     {
         public override string prefix => "help";
@@ -71,19 +59,6 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => SimpleCommands.ReloadCommandHandle;
     }
- 
-
-
-      public class ClearConsoleCommand : Command
-      {
-        public override string prefix => "clear";
-
-        public override string prefixHelp => "Clears the server console.";
-
-        public override int parameterCount => 0;
-
-        public override Action actionToDo => SimpleCommands.ClearConsoleCommandHandle;
-      }
     public class ShutDownCommand : Command
     {
         public override string prefix => "shutdown";
@@ -94,17 +69,17 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => SimpleCommands.ShutdownCommandHandle;
     }
-    
-    public class SaveCommand : Command
+    public class ReconnectCommand : Command
     {
-        public override string prefix => "save";
+        public override string prefix => "reconnect";
 
-        public override string prefixHelp => "Makes a chosen player save.";
+        public override string prefixHelp => "Attemps to reconnect to the auth server.";
 
-        public override int parameterCount => 1;
+        public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.saveCommandhandle;
+        public override Action actionToDo => SimpleCommands.ReconnectCommandHandle;
     }
+
     public class OpCommand : Command
     {
         public override string prefix => "op";
@@ -159,7 +134,7 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => AdvancedCommands.PardonCommandHandle;
     }
-    
+
     public class KickCommand : Command
     {
         public override string prefix => "kick";
@@ -170,16 +145,7 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => AdvancedCommands.KickCommandHandle;
     }
-    public class TransferCommand : Command
-    {
-        public override string prefix => "transfer";
 
-        public override string prefixHelp => "Transfers one players settlement and save to another player.";
-
-        public override int parameterCount => 2;
-
-        public override Action actionToDo => AdvancedCommands.TransferCommandHandle;
-    }
     public class AnnounceCommand : Command
     {
         public override string prefix => "announce";
