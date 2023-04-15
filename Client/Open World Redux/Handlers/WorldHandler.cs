@@ -128,9 +128,22 @@ namespace OpenWorldRedux
 
         private static void CleanWorld()
         {
+            List<string> BiotechFactions = new List<string>() {
+                "PirateWaster",
+            };
+            List<string> IdeologyFactions = new List<string>() {
+                "Pilgrims",
+                "Beggars",
+                "Ancients",
+                "AncientsHostile"
+            };
+            List<string> RoyaltyFactions = new List<string>() {
+                "Empire",
+                "OutlanderRefugee"
+            };
             //Destroy settlements
             Settlement[] settlementsToDestroy = Find.WorldObjects.Settlements.ToArray();
-            foreach(Settlement settlement in settlementsToDestroy)
+            foreach (Settlement settlement in settlementsToDestroy)
             {
                 if (settlement.Faction == Faction.OfPlayer) continue;
                 if (settlement.Faction == FactionsCache.onlineNeutralFaction ||
@@ -142,10 +155,56 @@ namespace OpenWorldRedux
 
 
                 }
-                Log.Message(settlement.ToString());
+                //Log.Message(settlement.ToString());
                 //if (settlement in WorldCache.onlineSettlementsDeflate) continue;
                 // else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
                 // else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
+  /*              if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
+                {
+                    if (BiotechFactions.Contains(settlement.Faction.def.defName)) {
+                        Find.WorldObjects.Remove(settlement);
+
+                    }
+                }
+                if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
+                {
+                    if (RoyaltyFactions.Contains(settlement.Faction.def.defName))
+                    {
+                        Find.WorldObjects.Remove(settlement);
+
+                    }
+                }
+
+                if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
+                {
+                    if (IdeologyFactions.Contains(settlement.Faction.def.defName))
+                    {
+                        Find.WorldObjects.Remove(settlement);
+
+                    }
+                }*/
+               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                // if(settlement.Faction == Faction.)
+                // if (settlement.Faction == Faction.OfPlayer) continue;
+                //  else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
+                //   else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
                 // else Find.WorldObjects.Remove(settlement);
             }
 
