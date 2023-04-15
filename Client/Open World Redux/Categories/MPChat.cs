@@ -166,11 +166,10 @@ namespace OpenWorldRedux
                     default:
                         if (BooleanCache.isAdmin)
                         {
-                            
                             SendCommand(cacheInputText.Remove(0, 1));
-                            text2 = "Command sent to server: " + cacheInputText.Remove(0, 1);
-                            item = "<color=yellow>[SYSTEM]: </color>" + text2;
-                          //  cacheInputText = "";
+                            text2 = "Command sent to server: " + cacheInputText;
+                            item = "<color=yellow>[SYSTEM]: " + text2;
+                            cacheInputText = "";
                             break;
                         }
                         else

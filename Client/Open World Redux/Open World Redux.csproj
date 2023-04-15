@@ -17,7 +17,7 @@
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\..\Downloads\RimWorld.v1.4.3613\RimWorld.v1.4.3613\Mods\2954574797\1.4\Assemblies\</OutputPath>
+    <OutputPath>F:\SteamLibrary\steamapps\common\RimWorld\Mods\2954574797\1.4\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
