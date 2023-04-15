@@ -28,8 +28,6 @@ namespace OpenWorldReduxServer
                 return;
             }
 
-            WorldGenDataHandler.CheckForExistingWorldGen(client);
-
             ClientHandler.ReloadPlayerCount();
 
             ClientHandler.SendServerValues(client);
@@ -48,7 +46,7 @@ namespace OpenWorldReduxServer
             else ClientSaveHandler.SendSaveFile(client);
 
             ClientHandler.SaveClient(client);
-
+            ServerChatHandler.SendClientMessageCache(client); //////// Send the chat cache to the player.
             ServerHandler.WriteToConsole($"[Logged in] > [{client.Username}] - [{client.SavedID}]");
         }
 
@@ -87,7 +85,7 @@ namespace OpenWorldReduxServer
 
             List<ServerClient> connectedClients = Network.connectedClients.ToList();
             ServerClient sameClient = connectedClients.Find(fetch => fetch.Username == client.Username && fetch != client);
-            if (sameClient != null) sameClient.disconnectFlag = true;
+            if (sameClient != null) sameClient.disconnectsaveFlag = true;
 
             return true;
         }
@@ -124,8 +122,6 @@ namespace OpenWorldReduxServer
 
             return false;
         }
-
-
 
         private static void ReadClient(ServerClient client, ServerClient clientToCheck)
         {

@@ -33,6 +33,7 @@ namespace OpenWorldRedux
         public static int autosaveInternalTicks;
 
         public static int playerCount;
+        public static string userName = "Error";
 
         public static List<string> playerList;
 
@@ -40,6 +41,6 @@ namespace OpenWorldRedux
         public static string saveFolderPath;
         public static string loginDataFilePath;
         public static string ModFolderPath;
-        public static string versionCode = "1.12";
+        public static string versionCode = "1.14";
     }
 }

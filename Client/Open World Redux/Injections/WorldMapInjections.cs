@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.IO.Compression;
 using UnityEngine;
 using Verse;
 using Verse.Profile;
@@ -27,33 +25,6 @@ namespace OpenWorldRedux
                 if (!BooleanCache.isConnectedToServer) return true;
                 else
                 {
-                    if (!BooleanCache.worldSaved)
-                    {
-                        if (!BooleanCache.worldGenerated)
-                        {
-
-                            BooleanCache.isSaving = true;
-                            GameDataSaveLoader.SaveGame("worldTemplate");
-                            BooleanCache.worldGenerated = true;
-                            BooleanCache.isSaving = false;
-                        }
-
-                        if (!BooleanCache.isSaving && BooleanCache.worldGenerated && !BooleanCache.worldSaved)
-                        {
-                            string filename = "worldTemplate";
-                            string filePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Saves" + Path.DirectorySeparatorChar + filename + ".rws";
-                            string newFilePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Saves" + Path.DirectorySeparatorChar + filename + ".zipx";
-                            File.WriteAllBytes(newFilePath, SaveHandler.Zip(File.ReadAllBytes(filePath)));
-                            string[] contents = new string[] { Convert.ToBase64String(File.ReadAllBytes(newFilePath)) };
-                            Packet ClientSaveFilePacket = new Packet("RecieveBaseSaveFromClient", contents);
-                            Network.SendData(ClientSaveFilePacket);
-                            BooleanCache.worldSaved = true;
-                            Log.Message("World Saved!");
-                        }
-                    }
-
-                    
-
                     int num = TutorSystem.TutorialMode ? 4 : 5;
                     int num2 = (num < 4 || !((float)UI.screenWidth < 540f + (float)num * (150f + 10f))) ? 1 : 2;
                     int num3 = Mathf.CeilToInt((float)num / (float)num2);
@@ -90,13 +61,11 @@ namespace OpenWorldRedux
             [HarmonyPrefix]
             public static bool ModifyPre(ref WITab[] ___TileTabs)
             {
-
                 if (___TileTabs.Count() == 4) return true;
                 else
                 {
                     if (BooleanCache.isConnectedToServer)
                     {
-
                         ___TileTabs = new WITab[4]
                         {
                             new MP_WITabOnlinePlayers(),

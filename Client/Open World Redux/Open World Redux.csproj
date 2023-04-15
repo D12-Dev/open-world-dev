@@ -17,11 +17,10 @@
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\RimWorld.v1.4.3613\RimWorld.v1.4.3613\Mods\2954574797\1.4\Assemblies\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Downloads\RimWorld.v1.4.3613\RimWorld.v1.4.3613\Mods\2954574797\1.4\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,15 +32,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\OneDrive\Desktop\DependantModAssemblies\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\DependantModAssemblies\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Downloads\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="HugsLib">
-      <HintPath>..\..\..\..\OneDrive\Desktop\DependantModAssemblies\HugsLib.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\DependantModAssemblies\HugsLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -112,28 +111,27 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Downloads\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\..\..\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Downloads\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>..\..\..\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Downloads\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\..\..\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Downloads\RimWorld.v1.4.3613\RimWorld.v1.4.3613\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caches\DifficultyCache.cs" />
+    <Compile Include="Categories\MPChat.cs" />
     <Compile Include="Dialogs\OW_SavingDialog.cs" />
     <Compile Include="Files\DifficultyFile.cs" />
-    <Compile Include="Files\NewStoryTellerOverride.cs" />
-    <Compile Include="Files\NewStartingSiteOverride.cs" />
     <Compile Include="Files\SelectScenarioOverride.cs" />
     <Compile Include="Handlers\AidHandler.cs" />
     <Compile Include="Caches\BlackMarketCache.cs" />
@@ -163,13 +161,12 @@
     <Compile Include="Files\WorldFactionUIOverride.cs" />
     <Compile Include="Files\WorldGeneratorOverride.cs" />
     <Compile Include="Handlers\BlackMarketHandler.cs" />
+    <Compile Include="Handlers\ServerHandlers.cs" />
     <Compile Include="Handlers\FactionHandler.cs" />
     <Compile Include="Handlers\RimworldHandler.cs" />
     <Compile Include="Handlers\RoadHandler.cs" />
     <Compile Include="Handlers\SaveHandler.cs" />
     <Compile Include="Handlers\TradeHandler.cs" />
-    <Compile Include="Injections\BottomGuiBarInjection.cs" />
-    <Compile Include="Injections\PreGameStartInjection.cs" />
     <Compile Include="Network\Hash.cs" />
     <Compile Include="Injections\EnforcementInjections.cs" />
     <Compile Include="Injections\FloatingOptionInjections.cs" />
