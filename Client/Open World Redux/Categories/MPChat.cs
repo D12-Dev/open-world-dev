@@ -170,7 +170,7 @@ namespace OpenWorldRedux
                             text2 = "Command sent to server: " + cacheInputText;
                             item = "<color=yellow>[SYSTEM]: " + text2;
                             cacheInputText = "";
-                            return;
+                            break;
                         }
                         else
                         {

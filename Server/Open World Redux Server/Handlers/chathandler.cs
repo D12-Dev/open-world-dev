@@ -85,7 +85,7 @@ namespace OpenWorldReduxServer
             if (client.IsAdmin)
             {
                 Server.CmdPostHandler(commandmsg.Remove(0, 1));
-                ServerHandler.WriteToConsole(client.Username + "just ran " + commandmsg);
+                ServerHandler.WriteToConsole(client.Username + " just ran " + commandmsg);
             }
         }
     }
