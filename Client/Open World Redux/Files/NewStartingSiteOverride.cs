@@ -116,21 +116,21 @@ namespace OpenWorldRedux
             //Current.Game.InitData = initData;
             //Current.Game.Scenario.PreConfigure();
            
-			Log.Message("SCEN PARTS:");
-			foreach (ScenPart X in Current.Game.Scenario.AllParts) {
+			//Log.Message("SCEN PARTS:");
+/*			foreach (ScenPart X in Current.Game.Scenario.AllParts) {
 				Log.Message(X.ToString());
                 
 
-            }
+            }*/
            //Current.Game.InitData.startingPawnCount = (scenPart as ScenPart_ConfigPage_ConfigureStartingPawns).pawnCount;
            // Log.Message("END OF SCEN PARTS");
             ScenPart scenPart = Current.Game.Scenario.AllParts.Where((ScenPart p) => p is ScenPart_ConfigPage_ConfigureStartingPawns).FirstOrDefault();
             ScenPart scenPart2 = Current.Game.Scenario.AllParts.Where((ScenPart p) => p is ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs).FirstOrDefault();
 			int PawnCount = 0;
-            Log.Message("Pawn Counts:");
+            //Log.Message("Pawn Counts:");
 			try
 			{
-				Log.Message((scenPart as ScenPart_ConfigPage_ConfigureStartingPawns).pawnCount.ToString());
+			//	Log.Message((scenPart as ScenPart_ConfigPage_ConfigureStartingPawns).pawnCount.ToString());
                 PawnCount = PawnCount + (scenPart as ScenPart_ConfigPage_ConfigureStartingPawns).pawnCount;
             }
 			catch (Exception) {
@@ -139,7 +139,7 @@ namespace OpenWorldRedux
 			try
 			{
 				foreach (PawnKindCount X in (scenPart2 as ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs).kindCounts) {
-					Log.Message("Running Marathon");
+					//Log.Message("Running Marathon");
 					//Log.Message(X.ToString());
 					Log.Message(X.count.ToString());
 					PawnCount = PawnCount + X.count;

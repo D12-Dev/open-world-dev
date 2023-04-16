@@ -12,6 +12,10 @@ namespace OpenWorldRedux
 {
     public static class WorldHandler
     {
+        public static bool HasBioTechFactions;
+        public static bool HasRoyaltyFactions;
+        public static bool HasIdeologyFactions;
+        public static List<FactionDef> ToTryToAddFactions = new List<FactionDef>();
         public static void CreateNewWorldHandle()
         {
             FocusCache.waitWindowInstance.Close();
@@ -141,19 +145,8 @@ namespace OpenWorldRedux
 
         private static void CleanWorld()
         {
-            List<string> BiotechFactions = new List<string>() {
-                "PirateWaster",
-            };
-            List<string> IdeologyFactions = new List<string>() {
-                "Pilgrims",
-                "Beggars",
-                "Ancients",
                 "AncientsHostile"
-            };
-            List<string> RoyaltyFactions = new List<string>() {
-                "Empire",
-                "OutlanderRefugee"
-            };
+
             //Destroy settlements
             Settlement[] settlementsToDestroy = Find.WorldObjects.Settlements.ToArray();
             foreach (Settlement settlement in settlementsToDestroy)
@@ -168,34 +161,12 @@ namespace OpenWorldRedux
 
 
                 }
+                
                 //Log.Message(settlement.ToString());
                 //if (settlement in WorldCache.onlineSettlementsDeflate) continue;
                 // else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
                 // else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
-  /*              if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
-                {
-                    if (BiotechFactions.Contains(settlement.Faction.def.defName)) {
-                        Find.WorldObjects.Remove(settlement);
 
-                    }
-                }
-                if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
-                {
-                    if (RoyaltyFactions.Contains(settlement.Faction.def.defName))
-                    {
-                        Find.WorldObjects.Remove(settlement);
-
-                    }
-                }
-
-                if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
-                {
-                    if (IdeologyFactions.Contains(settlement.Faction.def.defName))
-                    {
-                        Find.WorldObjects.Remove(settlement);
-
-                    }
-                }*/
                
 
 
@@ -234,10 +205,57 @@ namespace OpenWorldRedux
 
                 else continue;
             }
+
         }
 
         private static void RebuildWorld()
         {
+            List<FactionDef> BiotechFactions = new List<FactionDef>() {
+                FactionDefOf.PirateWaster,
+
+
+            };
+            List<FactionDef> IdeologyFactions = new List<FactionDef>() {
+                FactionDefOf.Pilgrims,
+                FactionDefOf.Beggars,
+                FactionDefOf.Ancients,
+                FactionDefOf.AncientsHostile,
+            };
+            List<FactionDef> RoyaltyFactions = new List<FactionDef>() {
+                FactionDefOf.Empire,
+                FactionDefOf.OutlanderRefugee
+            };
+            if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
+            {
+                ToTryToAddFactions.AddRange(BiotechFactions);
+            }
+            if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
+            {
+                ToTryToAddFactions.AddRange(RoyaltyFactions);
+            }
+
+            if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
+            {
+                ToTryToAddFactions.AddRange(IdeologyFactions);
+            }
+            foreach (FactionDef X in ToTryToAddFactions)
+            {
+                Log.Message("Logging Faction Name");
+                Log.Message(X.defName);
+
+
+            }
+            if(ToTryToAddFactions.Count > 0) {
+                FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
+
+                Log.Message("[Open World] > Trying to add missing factions");
+            }
+
+
+
+
+
+
             //Spawn settlements
             WorldCache.onlineSettlements.Clear(); // This could kill settlement
             foreach (SettlementFile settlement in WorldCache.onlineSettlementsDeflate)
