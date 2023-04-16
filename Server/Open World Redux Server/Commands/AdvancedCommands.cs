@@ -18,7 +18,8 @@ namespace OpenWorldReduxServer
         public static InspectCommand inspectCommand = new InspectCommand();
         public static InvokeCommand invokeCommand = new InvokeCommand();
         public static TransferCommand transferCommand = new TransferCommand();
-        public static WipeCommand wipeCommand = new WipeCommand();
+        public static WipeCommand wipeCommand = new WipeCommand(); 
+        public static BackupCommand Backupcommand = new BackupCommand();
         public static bool WipeConfirm; 
         public static Command[] commandArray = new Command[]
         {
@@ -30,7 +31,8 @@ namespace OpenWorldReduxServer
             inspectCommand,
             invokeCommand,
             transferCommand,
-            wipeCommand
+            wipeCommand,
+            Backupcommand
         };
 
 

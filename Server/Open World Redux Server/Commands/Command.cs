@@ -40,8 +40,8 @@ namespace OpenWorldReduxServer
 
 
 
-        public class WipeCommand : Command
-        {
+    public class WipeCommand : Command
+    {
         public override string prefix => "wipe";
 
         public override string prefixHelp => "Wipes all saved server info.";
@@ -49,6 +49,16 @@ namespace OpenWorldReduxServer
         public override int parameterCount => 0;
 
         public override Action actionToDo => AdvancedCommands.WipeCommandHandle;
+    }
+    public class BackupCommand : Command
+    {
+        public override string prefix => "backup";
+
+        public override string prefixHelp => "Backs up server infomation, including player info, saves, world gen data, settlements, logs and factions.";
+
+        public override int parameterCount => 0;
+
+        public override Action actionToDo => BackupHandler.CreateBackup;
     }
     public class HelpCommand : Command
     {
