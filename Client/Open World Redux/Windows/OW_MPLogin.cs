@@ -106,9 +106,9 @@ namespace OpenWorldRedux
                 else newLoginData = new LoginDataFile();
 
                 newLoginData.Username = usernameText;
-                FocusCache.userName = usernameText;
                 Serializer.SerializeToFile(FocusCache.loginDataFilePath, newLoginData);
-                MPChat.cacheChatText.Clear();
+                FocusCache.userName = usernameText; // Set Chat Name
+                MPChat.cacheChatText.Clear(); // Clear Chat
 
                 string[] contents = new string[] { usernameText, Hash.GetHashCode(passwordText) };
                 Packet LoginClientPacket = new Packet("LoginClientPacket", contents);

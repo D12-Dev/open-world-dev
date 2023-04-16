@@ -119,7 +119,8 @@ namespace OpenWorldRedux
                 LoginDataFile newLoginData;
                 if (File.Exists(FocusCache.loginDataFilePath)) newLoginData = Serializer.DeserializeFromFile<LoginDataFile>(FocusCache.loginDataFilePath);
                 else newLoginData = new LoginDataFile();
-
+                FocusCache.userName = usernameText; // Set Chat Name
+                MPChat.cacheChatText.Clear(); // Clear Chat
                 newLoginData.Username = usernameText;
                 Serializer.SerializeToFile(FocusCache.loginDataFilePath, newLoginData);
 

@@ -145,7 +145,6 @@ namespace OpenWorldRedux
 
         private static void CleanWorld()
         {
-                "AncientsHostile"
 
             //Destroy settlements
             Settlement[] settlementsToDestroy = Find.WorldObjects.Settlements.ToArray();
