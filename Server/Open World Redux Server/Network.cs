@@ -17,6 +17,7 @@ namespace OpenWorldReduxServer
     {
         private static TcpListener server;
         public static IPAddress localAddress;
+        public static List<string> PlayersToKickList = new List<string>();
         public static int serverPort;
         public static int maxPlayers;
         //public static List<String> PlayersToSaveList = SimpleCommands.PlayersToSaveList;
@@ -141,7 +142,7 @@ namespace OpenWorldReduxServer
 
         public static void SaveBeforeKick(ServerClient client)
         {
-            
+            //
             int TimeoutCount = 15; // Timeout for how long server will wait for player saves
             int DefCount = 0;
             while (true)
@@ -168,7 +169,7 @@ namespace OpenWorldReduxServer
             }
             client.disconnectsaveFlag = false;
             client.disconnectFlag = true;
-            
+            PlayersToKickList.Remove(client.Username);
             //// Player Has saved and been given a disconnect flag.
 
         }
@@ -179,19 +180,21 @@ namespace OpenWorldReduxServer
 
             /////// Probably Should add a save request before disconnecting them.
             if (SaveBeforeKickvar == true)
-        {
+            {
+                if (PlayersToKickList.Contains(client.Username)) { return; }
                 SimpleCommands.PlayersToSaveList.Add(client.Username);
+                PlayersToKickList.Add(client.Username);
                 ServerHandler.WriteToConsole("Requestting user " + client.Username + " for save before kicking...", ServerHandler.LogMode.Title);
                 Packet ForceTheClientSyncPacket = new Packet("ForceClientSyncPacket");
                 SendData(client, ForceTheClientSyncPacket);
-                SaveBeforeKick(client);
+                ThreadHandler.GenerateServerThread(5, client);
             }
             else {
-            connectedClients.Remove(client);
+                connectedClients.Remove(client);
 
-            client.tcp.Dispose();
+                client.tcp.Dispose();
 
-            ServerHandler.WriteToConsole($"[Disconnected] > {client.SavedIP}", ServerHandler.LogMode.Normal);
+                ServerHandler.WriteToConsole($"[Disconnected] > {client.SavedIP}", ServerHandler.LogMode.Normal);
 
             }
 

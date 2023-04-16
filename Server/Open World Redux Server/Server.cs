@@ -16,11 +16,14 @@ namespace OpenWorldReduxServer
         public static string settlementsFolderPath;
         public static string factionsFolderPath;
         public static string dataFolderPath;
+        public static string BackupFolderPath;
         public static string WorldGenDataPath;
         public static string enforcedModsFolderPath;
         public static string whitelistedModsFolderPath;
         public static string blacklistedModsFolderPath;
 
+
+        public static string CachedVarsPath;
         public static string valuesFilePath;
         public static string authFilePath;
         public static string configFilePath;
@@ -31,6 +34,7 @@ namespace OpenWorldReduxServer
         public static string serverVersion = "1.0.1";
 
         public static ServerValuesFile serverValues;
+        public static CachedVariableFile cachedVariables;
         public static AuthFile serverAuth;
         public static ConfigFile serverConfig;
         public static DeepConfigFile serverDeepConfigs;
@@ -54,10 +58,14 @@ namespace OpenWorldReduxServer
             ServerHandler.CheckConfigFile(true);
             ServerHandler.CheckDeepSettingsFile();
             ServerHandler.CheckValuesFile();
+            ServerHandler.CheckCachedVarsFile();
             ServerHandler.CheckDifficultyFile();
             ServerHandler.CheckWhitelistFile();
 
             AuthPacketHandler.AcceptedCredentialsHandle();
+
+            ThreadHandler.GenerateServerThread(4);
+           
             //ThreadHandler.GenerateServerThread(3);
         }
 

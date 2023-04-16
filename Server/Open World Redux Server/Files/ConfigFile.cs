@@ -17,7 +17,8 @@ namespace OpenWorldReduxServer
 
         public int MaxPlayers { get; set; } = 10;
 
-        public string PlayerVersion { get; set; } = "1.13";
+        public string PlayerVersion { get; set; } = "1.14";
+        public double BackUpIntervalInHours { get; set; } = 6; 
 
         public bool EnforceMods { get; set; } = false;
 

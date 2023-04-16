@@ -80,6 +80,7 @@ namespace OpenWorldReduxServer
             ServerHandler.CheckAuthFile();
             ServerHandler.CheckDeepSettingsFile();
             ServerHandler.CheckValuesFile();
+            ServerHandler.CheckCachedVarsFile();
             ServerHandler.CheckDifficultyFile();
             ServerHandler.CheckWhitelistFile();
 

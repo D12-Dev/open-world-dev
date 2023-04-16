@@ -41,6 +41,7 @@ namespace OpenWorldReduxServer
         {
             Server.mainFolderPath = AppDomain.CurrentDomain.BaseDirectory;
             Server.playersFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Players";
+            Server.BackupFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Backups";
             Server.savesFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Saves";
             Server.settlementsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Settlements";
             Server.factionsFolderPath = Server.mainFolderPath + Path.DirectorySeparatorChar + "Factions";
@@ -57,7 +58,7 @@ namespace OpenWorldReduxServer
             Server.valuesFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Values.json";
             Server.difficultyFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Difficulty.json";
             Server.whitelistFilePath = Server.dataFolderPath + Path.DirectorySeparatorChar + "Whitelist.json";
-
+            Server.CachedVarsPath = Server.dataFolderPath + Path.DirectorySeparatorChar + "CachedValues.json";
             if (!Directory.Exists(Server.enforcedModsFolderPath)) Directory.CreateDirectory(Server.enforcedModsFolderPath);
             if (!Directory.Exists(Server.whitelistedModsFolderPath)) Directory.CreateDirectory(Server.whitelistedModsFolderPath);
             if (!Directory.Exists(Server.blacklistedModsFolderPath)) Directory.CreateDirectory(Server.blacklistedModsFolderPath);
@@ -68,12 +69,15 @@ namespace OpenWorldReduxServer
             if (!Directory.Exists(Server.dataFolderPath)) Directory.CreateDirectory(Server.dataFolderPath);
             if (!Directory.Exists(Server.WorldGenDataPath)) Directory.CreateDirectory(Server.WorldGenDataPath);
             if (!Directory.Exists(Server.logsFolderPath)) Directory.CreateDirectory(Server.logsFolderPath);
+            if (!Directory.Exists(Server.BackupFolderPath)) Directory.CreateDirectory(Server.BackupFolderPath);
+
 
             WriteToConsole($"Main folder path [{Server.mainFolderPath}]");
             WriteToConsole($"Enforced mods folder path [{Server.enforcedModsFolderPath}]");
             WriteToConsole($"Whitelisted mods folder path [{Server.whitelistedModsFolderPath}]");
             WriteToConsole($"Blacklisted Mods folder path [{Server.blacklistedModsFolderPath}]");
             WriteToConsole($"Players folder path [{Server.playersFolderPath}]");
+            WriteToConsole($"Backup folder path [{Server.BackupFolderPath}]");
             WriteToConsole($"Saves folder path [{Server.savesFolderPath}]");
             WriteToConsole($"Settlements folder path [{Server.settlementsFolderPath}]");
             WriteToConsole($"Factions folder path [{Server.settlementsFolderPath}]");
@@ -185,6 +189,22 @@ namespace OpenWorldReduxServer
             }
 
             Server.serverValues = valuesFile;
+        }
+        public static void CheckCachedVarsFile()
+        {
+            CachedVariableFile CachedVars = null;
+            if (File.Exists(Server.CachedVarsPath))
+            {
+                CachedVars = Serializer.DeserializeFromFile<CachedVariableFile>(Server.CachedVarsPath);
+            }
+
+            else
+            {
+                CachedVars = new CachedVariableFile();
+                Serializer.SerializeToFile(CachedVars, Server.CachedVarsPath);
+            }
+
+            Server.cachedVariables = CachedVars;
         }
 
         public static void CheckDifficultyFile()
