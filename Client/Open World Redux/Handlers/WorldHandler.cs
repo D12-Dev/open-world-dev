@@ -209,7 +209,7 @@ namespace OpenWorldRedux
 
         private static void RebuildWorld()
         {
-            List<FactionDef> BiotechFactions = new List<FactionDef>() {
+/*            List<FactionDef> BiotechFactions = new List<FactionDef>() {
                 FactionDefOf.PirateWaster,
 
 
@@ -248,7 +248,7 @@ namespace OpenWorldRedux
                 FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
 
                 Log.Message("[Open World] > Trying to add missing factions");
-            }
+            }*/
 
 
 
