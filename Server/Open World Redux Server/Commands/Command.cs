@@ -202,6 +202,17 @@ namespace OpenWorldReduxServer
         public override Action actionToDo => SimpleCommands.AnnounceCommand;
     }
 
+    public class SayCommand : Command
+    {
+        public override string prefix => "say";
+
+        public override string prefixHelp => "Sends a message in chat.";
+
+        public override int parameterCount => 0;
+
+        public override Action actionToDo => SimpleCommands.SayCommand;
+    }
+
     public class StatusCommand : Command
     {
         public override string prefix => "status";

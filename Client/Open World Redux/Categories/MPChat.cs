@@ -13,6 +13,7 @@ namespace OpenWorldRedux
     public class mainTabWindowChat : MainTabWindow
     {
         public static bool messageScroll;
+        public static bool maxScroll;
 
         public override Vector2 RequestedTabSize => new Vector2(586f, 300f);
 
@@ -41,13 +42,14 @@ namespace OpenWorldRedux
         {
             Text.Font = GameFont.Small;
 
-            if (BooleanCache.isConnectedToServer) connectionString = "Status: Connected [" + FocusCache.playerCount + "]";
+            if (BooleanCache.isConnectedToServer) connectionString = "Status: Connected players: [" + FocusCache.playerCount + "]";
             else connectionString = "Status: Disconnected";
 
+            
 
             Widgets.Label(new Rect(new Vector2(rect.x, rect.y), new Vector2(Text.CalcSize(connectionString).x, Text.CalcSize(connectionString).y)), connectionString);
 
-            userString = FocusCache.userName;
+            userString = "[" + FocusCache.userName + "]";
             Widgets.Label(new Rect(new Vector2(rect.xMax - Text.CalcSize(userString).x, rect.y), new Vector2(Text.CalcSize(userString).x, Text.CalcSize(userString).y)), userString);
 
             try { GenerateList(new Rect(new Vector2(rect.x, rect.y + 25f), new Vector2(rect.width, rect.height - 47f - 25f))); }
@@ -105,6 +107,14 @@ namespace OpenWorldRedux
             {
                 scrollPosition.Set(scrollPosition.x, scrollPosition.y + 22);
                 messageScroll = false;
+            }
+
+            // Fix this later to have scroll go down the second cache is sent
+
+            if (maxScroll)
+            {
+                scrollPosition.Set(scrollPosition.x, scrollPosition.y + 22);
+                maxScroll = false;
             }
 
         }
@@ -230,7 +240,7 @@ namespace OpenWorldRedux
         {
             try
             {
-                mainTabWindowChat.messageScroll = true;
+                mainTabWindowChat.maxScroll = true;
                 if (cacheChatText.Count >= 100)
                 {
                     cacheChatText.RemoveAt(0);

@@ -81,7 +81,8 @@ namespace OpenWorldReduxServer
                     if (client.disconnectFlag) return;
 
                     string data = sr.ReadLine();
-                  //  ServerHandler.WriteToConsole($"[Debuggging] DATA: {data}", ServerHandler.LogMode.Normal); // For Debuging purposes only
+                    //  ServerHandler.WriteToConsole($"[Debuggging] DATA: {data}", ServerHandler.LogMode.Normal); // For Debuging purposes only
+                    
                     if (data == null)
                     {
                         // Normally occurs during alt f4 or normal save and exit
@@ -112,6 +113,8 @@ namespace OpenWorldReduxServer
                     return;
                 } 
 
+                
+                
 
                 client.isBusy = true;
 
@@ -142,7 +145,6 @@ namespace OpenWorldReduxServer
 
         public static void SaveBeforeKick(ServerClient client)
         {
-            //
             int TimeoutCount = 15; // Timeout for how long server will wait for player saves
             int DefCount = 0;
             while (true)
