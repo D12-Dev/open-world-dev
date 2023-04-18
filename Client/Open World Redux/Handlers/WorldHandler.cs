@@ -142,7 +142,7 @@ namespace OpenWorldRedux
 
 
                 }
-                Log.Message(settlement.ToString());
+               // Log.Message(settlement.ToString());
                 //if (settlement in WorldCache.onlineSettlementsDeflate) continue;
                 // else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
                 // else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
