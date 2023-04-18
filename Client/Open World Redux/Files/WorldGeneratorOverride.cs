@@ -56,7 +56,7 @@ namespace OpenWorldRedux
         {
             Rand.PushState();
             Rand.Seed = GenText.StableStringHash(WorldCache.seedString);
-/*            if (BooleanCache.isGeneratingWorldFromPacket)
+            if (BooleanCache.isGeneratingWorldFromPacket)
             {
                 Log.Message("Generating World From packet!");
 
@@ -65,7 +65,7 @@ namespace OpenWorldRedux
                 return Current.CreatingWorld;
             }
             else
-            {*/
+            {
                 Log.Message("Generating World From Normal Generator!");
                 try
 
@@ -107,7 +107,7 @@ namespace OpenWorldRedux
                     Rand.PopState();
                     Current.CreatingWorld = null;
                 }
-            //}
+            }
         }
     }
 }
