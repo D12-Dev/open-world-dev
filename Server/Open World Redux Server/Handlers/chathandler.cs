@@ -22,6 +22,7 @@ namespace OpenWorldReduxServer
         }
         public static void SendAllClientsNewMsg(string Msg) {
 
+
             string[] contents = new string[] { Msg };
             Packet NewMsgPacket = new Packet("SendClientNewMsg", contents);
             Network.SendDataToAllConnectedClients(NewMsgPacket);
@@ -69,39 +70,16 @@ namespace OpenWorldReduxServer
                 if (client.IsAdmin) { userColor = "<color=#FFD700>"; }
 
                 string finishedMessage = "<b>" + DateTime.Now.ToString("h:mm tt") + " | [" + userColor + client.Username + "</color>]: </b>" + Msg;
-                ServerHandler.WriteToConsole("[CHAT] " + DateTime.Now.ToString("h:mm tt") + " | [" + client.Username + "]: " + Msg);
-
-                ChatCache.Add(finishedMessage);
-
-                //SendAllClientsRawMsg(finishedMessage);
-            }
-            catch (Exception ex) {
-                ServerHandler.WriteToConsole($"[CHAT] > Tried to add msg to cache failed --> {ex}", ServerHandler.LogMode.Warning);
-            }
-        }
-
-        public static void SendServerMsg(string Msg)
-        {
-            try
-            {
-                if (ChatCache.Count >= 100)
-                {
-                    ChatCache.RemoveAt(0);
-                }
-
-                string finishedMessage = "<b>" + DateTime.Now.ToString("h:mm tt") + " | [<color=#C33B3B>SYSTEM</color>]: " + Msg;
-                ServerHandler.WriteToConsole("[CHAT] " + DateTime.Now.ToString("h:mm tt") + " | [SYSTEM]: " + Msg);
 
                 ChatCache.Add(finishedMessage);
 
                 SendAllClientsNewMsg(finishedMessage);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 ServerHandler.WriteToConsole($"[CHAT] > Tried to add msg to cache failed --> {ex}", ServerHandler.LogMode.Warning);
             }
-        }
 
+        }
         public static void HandleCommandMsg(ServerClient client, string commandmsg)
         {
             if (client.IsAdmin)
