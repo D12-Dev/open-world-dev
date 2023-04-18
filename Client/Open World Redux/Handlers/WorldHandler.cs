@@ -15,7 +15,7 @@ namespace OpenWorldRedux
         public static bool HasBioTechFactions;
         public static bool HasRoyaltyFactions;
         public static bool HasIdeologyFactions;
-        public static List<FactionDef> ToTryToAddFactions = new List<FactionDef>();
+        
         public static void CreateNewWorldHandle()
         {
             FocusCache.waitWindowInstance.Close();
@@ -48,7 +48,7 @@ namespace OpenWorldRedux
 
 
             SaveHandler.LoadFromWorldGen(receivedPacket);
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(10000);
 
             BooleanCache.isGeneratingWorldFromPacket = true;
 
@@ -207,48 +207,55 @@ namespace OpenWorldRedux
 
         }
 
+
+        public static void PlaceDlcFactionsOnMap() { // Place dlc, use this for future map sync
+
+                List<FactionDef> ToTryToAddFactions = new List<FactionDef>();
+
+                if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
+                {
+                    List<FactionDef> BiotechFactions = new List<FactionDef>() {
+                        FactionDefOf.PirateWaster,
+
+
+                    };
+                    ToTryToAddFactions.AddRange(BiotechFactions);
+                }
+                if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
+                {
+                    List<FactionDef> RoyaltyFactions = new List<FactionDef>() {
+                        FactionDefOf.Empire,
+                        FactionDefOf.OutlanderRefugee
+                    };
+                    ToTryToAddFactions.AddRange(RoyaltyFactions);
+                }
+
+                if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
+                {
+                    List<FactionDef> IdeologyFactions = new List<FactionDef>() {
+                            FactionDefOf.Pilgrims,
+                            FactionDefOf.Beggars,
+                            FactionDefOf.Ancients,
+                            FactionDefOf.AncientsHostile,
+                        };
+                    ToTryToAddFactions.AddRange(IdeologyFactions);
+                }
+                foreach (FactionDef X in ToTryToAddFactions)
+                {
+                    Log.Message("Logging Faction Name");
+                    Log.Message(X.defName);
+
+
+                }
+                if(ToTryToAddFactions.Count > 0) {
+                    FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
+
+                    Log.Message("[Open World] > Trying to add missing dlc factions");
+                }
+        }
+
         private static void RebuildWorld()
         {
-/*            List<FactionDef> BiotechFactions = new List<FactionDef>() {
-                FactionDefOf.PirateWaster,
-
-
-            };
-            List<FactionDef> IdeologyFactions = new List<FactionDef>() {
-                FactionDefOf.Pilgrims,
-                FactionDefOf.Beggars,
-                FactionDefOf.Ancients,
-                FactionDefOf.AncientsHostile,
-            };
-            List<FactionDef> RoyaltyFactions = new List<FactionDef>() {
-                FactionDefOf.Empire,
-                FactionDefOf.OutlanderRefugee
-            };
-            if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
-            {
-                ToTryToAddFactions.AddRange(BiotechFactions);
-            }
-            if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
-            {
-                ToTryToAddFactions.AddRange(RoyaltyFactions);
-            }
-
-            if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
-            {
-                ToTryToAddFactions.AddRange(IdeologyFactions);
-            }
-            foreach (FactionDef X in ToTryToAddFactions)
-            {
-                Log.Message("Logging Faction Name");
-                Log.Message(X.defName);
-
-
-            }
-            if(ToTryToAddFactions.Count > 0) {
-                FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
-
-                Log.Message("[Open World] > Trying to add missing factions");
-            }*/
 
 
 
