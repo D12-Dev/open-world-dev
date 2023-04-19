@@ -58,11 +58,41 @@ namespace OpenWorldRedux
             Rand.Seed = GenText.StableStringHash(WorldCache.seedString);
             if (BooleanCache.isGeneratingWorldFromPacket)
             {
-                Log.Message("Generating World From packet!");
+                try
+                {
+                    Log.Message("Generating World From packet!");
 
-                Current.CreatingWorld = new World();
+                    Current.CreatingWorld = new World();
+                    Current.CreatingWorld = new World();
+                    Current.CreatingWorld.info.seedString = WorldCache.seedString;
+                    Current.CreatingWorld.info.planetCoverage = WorldCache.planetCoverage;
+                    Current.CreatingWorld.info.overallRainfall = WorldCache.overallRainfall;
+                    Current.CreatingWorld.info.overallTemperature = WorldCache.overallTemperature;
+                    Current.CreatingWorld.info.overallPopulation = WorldCache.overallPopulation;
+                    Current.CreatingWorld.info.name = NameGenerator.GenerateName(RulePackDefOf.NamerWorld);
+                    Current.CreatingWorld.info.factions = WorldCache.factions;
+                    Current.CreatingWorld.info.pollution = WorldCache.pollution;
 
-                return Current.CreatingWorld;
+                    tmpGenSteps.Clear();
+                    tmpGenSteps.AddRange(GenStepsInOrder);
+
+                    for (int i = 0; i < tmpGenSteps.Count; i++)
+                    {
+                        try { tmpGenSteps[i].worldGenStep.GenerateFresh(WorldCache.seedString); }
+                        catch (Exception ex) { Log.Error("Error in WorldGenStep: " + ex); }
+                    }
+
+                    Current.CreatingWorld.grid.StandardizeTileData();
+                    Current.CreatingWorld.FinalizeInit();
+                    Find.Scenario.PostWorldGenerate();
+                    if (!ModsConfig.IdeologyActive) Find.Scenario.PostIdeoChosen();
+                    return Current.CreatingWorld;
+                }
+                finally
+                {
+                    Rand.PopState();
+                    Current.CreatingWorld = null;
+                }
             }
             else
             {
