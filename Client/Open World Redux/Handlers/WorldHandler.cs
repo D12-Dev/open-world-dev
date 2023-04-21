@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Verse;
@@ -37,7 +38,7 @@ namespace OpenWorldRedux
 
         public static void CreateWorldFromPacketHandle(Packet receivedPacket)
         {
-            FocusCache.waitWindowInstance.Close();
+
 
             /*WorldCache.seedString = receivedPacket.contents[0];
             WorldCache.planetCoverage = float.Parse(receivedPacket.contents[1]);
@@ -45,22 +46,32 @@ namespace OpenWorldRedux
             WorldCache.overallTemperature = (OverallTemperature)int.Parse(receivedPacket.contents[3]);
             WorldCache.overallPopulation = (OverallPopulation)int.Parse(receivedPacket.contents[4]);
             WorldCache.pollution = float.Parse(receivedPacket.contents[5]);*/
-
-
-            SaveHandler.LoadFromWorldGen(receivedPacket);
-            System.Threading.Thread.Sleep(10000);
-
+            Log.Message("Getting world from packet");
             BooleanCache.isGeneratingWorldFromPacket = true;
-
-            Find.WindowStack.Add(new Page_CustomSelectScenario());
-
-            string[] chainInfo = new string[]
+            SaveHandler.LoadFromWorldGen(receivedPacket);
+            Log.Message("Finished loading world from packet");
+            FocusCache.waitWindowInstance.Close();
+            if (BooleanCache.isGeneratingWorldFromPacket == true)
             {
-                "Welcome to the multiplayer world generation screen",
-                "Configure the settings you will use for this save",
-                "Locked variables are automatically handled by the server"
-            };
-            Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+                Thread.Sleep(10000);
+                Log.Message("Creating this");
+                Find.WindowStack.Add(new Page_CustomSelectScenario());
+
+                string[] chainInfo = new string[]
+                {
+                    "Welcome to the multiplayer world generation screen",
+                    "Configure the settings you will use for this save",
+                    "Locked variables are automatically handled by the server"
+                };
+                Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+                BooleanCache.isGeneratingWorldFromPacket = false;
+
+            }
+
+
+
+
+
         }
 
         public static void SendWorldDataRequest()
