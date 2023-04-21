@@ -326,6 +326,7 @@ namespace OpenWorldRedux
 
 		protected override bool CanDoNext()
 		{
+			Log.Message("Running this can do next");
 			if (!base.CanDoNext())
 			{
 				return false;
@@ -339,7 +340,8 @@ namespace OpenWorldRedux
 			StringBuilder stringBuilder = new StringBuilder();
 			if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
 			{
-				Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput, historical: false);
+                Log.Message("Is Invalid palce");
+                Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput, historical: false);
 				return false;
 			}
 			Tile tile = Find.WorldGrid[selectedTile];
@@ -352,6 +354,8 @@ namespace OpenWorldRedux
 
 		protected override void DoNext()
 		{
+			Log.Message("Do next running");
+			if (!CanDoNext()){ return; };
 			int selTile = Find.WorldInterface.SelectedTile;
 			SettlementProximityGoodwillUtility.CheckConfirmSettle(selTile, delegate
 			{
