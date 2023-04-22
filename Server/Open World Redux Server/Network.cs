@@ -95,9 +95,12 @@ namespace OpenWorldReduxServer
 
                 catch (Exception ex)
                 {
-                    ServerHandler.WriteToConsole($"An error occurred when handling client packet... Full Stack Trace: \n{ex}", ServerHandler.LogMode.Error); // Client dropped the tcp connection. AKA no more client so no save since client wont respond.
-                    client.disconnectFlag = true;
-                    return;
+                    if (Server.serverConfig.DevConsole == true)
+                    {
+                        ServerHandler.WriteToConsole($"An error occurred when handling client packet... Full Stack Trace: \n{ex}", ServerHandler.LogMode.Warning); // Client dropped the tcp connection. AKA no more client so no save since client wont respond.
+                        client.disconnectFlag = true;
+                        return;
+                    }
                 }
             }
         }
@@ -124,7 +127,10 @@ namespace OpenWorldReduxServer
                 client.isBusy = false;
             }
             catch(Exception ex) {
-                ServerHandler.WriteToConsole($"Failed to send data to {client.Username}. Kicking...\nFull stack Trace: \n{ex}", ServerHandler.LogMode.Error);
+                if (Server.serverConfig.DevConsole == true)
+                {
+                    ServerHandler.WriteToConsole($"Failed to send data to {client.Username}. Kicking...\nFull stack Trace: \n{ex}", ServerHandler.LogMode.Warning);
+                }
                 client.disconnectsaveFlag = true; 
             }
         }
@@ -159,7 +165,10 @@ namespace OpenWorldReduxServer
 
                     if (DefCount == TimeoutCount)
                     {
-                        ServerHandler.WriteToConsole("User " + client.Username + " timedout when waiting for save before kicking...", ServerHandler.LogMode.Warning);
+                        if (Server.serverConfig.DevConsole == true)
+                        {
+                            ServerHandler.WriteToConsole("User " + client.Username + " timedout when waiting for save before kicking...", ServerHandler.LogMode.Warning);
+                        }
                         break;
                     }
                     DefCount++;
