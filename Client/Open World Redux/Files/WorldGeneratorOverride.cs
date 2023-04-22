@@ -66,7 +66,7 @@ namespace OpenWorldRedux
             }
             else
             {*/
-                Log.Message("Generating World From Normal Generator!");
+             //   Log.Message("Generating World From Normal Generator!");
             try
 
             {

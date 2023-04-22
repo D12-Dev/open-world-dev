@@ -43,7 +43,7 @@ namespace OpenWorldRedux
 
                // System.Threading.Thread.Sleep(4000);
 
-				Log.Message("Is running starting site!");
+				//Log.Message("Is running starting site!");
 				BooleanCache.newPlayer = false;
 				//Current.Game.Scenario = WorldCache.scenario; // Set the scenario to the current selected one
 				//Log.Message(WorldCache.scenario.ToString());
@@ -76,9 +76,9 @@ namespace OpenWorldRedux
 
                 /*MemoryUtility.UnloadUnusedUnityAssets();
                 Find.World.renderer.RegenerateAllLayersNow();*/
-                Log.Message("Trying to boot up Starting Site...");
+              //  Log.Message("Trying to boot up Starting Site...");
 				Find.WindowStack.Add(newSelectStartingSite);
-				Log.Message("Should have loaded starting site.");
+				//Log.Message("Should have loaded starting site.");
 			}
 		}
 	}
@@ -134,7 +134,7 @@ namespace OpenWorldRedux
                 PawnCount = PawnCount + (scenPart as ScenPart_ConfigPage_ConfigureStartingPawns).pawnCount;
             }
 			catch (Exception) {
-				Log.Message("No Reg Pawns");
+				//Log.Message("No Reg Pawns");
 			}
 			try
 			{
@@ -149,25 +149,25 @@ namespace OpenWorldRedux
 				//Log.Message((scenPart2 as ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs).kindCounts.ToString());
 			}
 			catch (Exception ex) {
-                Log.Message("No Mech Pawns");
+               // Log.Message("No Mech Pawns");
 				//Log.Message(ex.ToString());
             }
             try
             {
                 foreach (XenotypeCount X in (scenPart2 as ScenPart_ConfigPage_ConfigureStartingPawns_Xenotypes).xenotypeCounts)
                 {
-                    Log.Message("Running Marathon");
+               //     Log.Message("Running Marathon");
                     //Log.Message(X.ToString());
-                    Log.Message(X.count.ToString());
+                 //   Log.Message(X.count.ToString());
 
                 }
                  Log.Message((scenPart2 as ScenPart_ConfigPage_ConfigureStartingPawns_Xenotypes).xenotypeCounts.ToString());
             }
             catch (Exception)
             {
-                Log.Message("No Xeno Pawns");
+            //    Log.Message("No Xeno Pawns");
             }
-            Log.Message("END OF Pawn Counts");
+          //  Log.Message("END OF Pawn Counts");
 			Log.Message(PawnCount.ToString());
 			pawnCount = PawnCount;
             //Current.Game.InitData.
@@ -199,7 +199,7 @@ namespace OpenWorldRedux
 		public override void PostOpen()
 		{
 
-			Log.Message("Page ran!");
+		//	Log.Message("Page ran!");
 			base.PostOpen();
 			Find.GameInitData.ChooseRandomStartingTile();
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.WorldCameraMovement, OpportunityType.Important);
@@ -292,7 +292,7 @@ namespace OpenWorldRedux
 			if (Find.WorldInterface.SelectedTile >= 0)
 			{
 				//Log.Message("Trying to set Starting Tile:" + Find.GameInitData.startingTile);
-				Log.Message("to Selected Tile:" + Find.WorldInterface.SelectedTile);
+				//Log.Message("to Selected Tile:" + Find.WorldInterface.SelectedTile);
 				Find.GameInitData.startingTile = Find.WorldInterface.SelectedTile;
 			}
 			else if (Find.WorldSelector.FirstSelectedObject != null)
@@ -326,7 +326,7 @@ namespace OpenWorldRedux
 
 		protected override bool CanDoNext()
 		{
-			Log.Message("Running this can do next");
+			//Log.Message("Running this can do next");
 			if (!base.CanDoNext())
 			{
 				return false;
@@ -340,7 +340,7 @@ namespace OpenWorldRedux
 			StringBuilder stringBuilder = new StringBuilder();
 			if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
 			{
-                Log.Message("Is Invalid palce");
+              //  Log.Message("Is Invalid palce");
                 Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput, historical: false);
 				return false;
 			}
@@ -354,7 +354,7 @@ namespace OpenWorldRedux
 
 		protected override void DoNext()
 		{
-			Log.Message("Do next running");
+			//Log.Message("Do next running");
 			if (!CanDoNext()){ return; };
 			int selTile = Find.WorldInterface.SelectedTile;
 			SettlementProximityGoodwillUtility.CheckConfirmSettle(selTile, delegate

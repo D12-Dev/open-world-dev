@@ -40,34 +40,18 @@ namespace OpenWorldRedux
         {
 
 
-            /*WorldCache.seedString = receivedPacket.contents[0];
-            WorldCache.planetCoverage = float.Parse(receivedPacket.contents[1]);
-            WorldCache.overallRainfall = (OverallRainfall)int.Parse(receivedPacket.contents[2]);
-            WorldCache.overallTemperature = (OverallTemperature)int.Parse(receivedPacket.contents[3]);
-            WorldCache.overallPopulation = (OverallPopulation)int.Parse(receivedPacket.contents[4]);
-            WorldCache.pollution = float.Parse(receivedPacket.contents[5]);*/
-            Log.Message("Getting world from packet");
+ 
+          //  Log.Message("Getting world from packet");
             BooleanCache.isGeneratingWorldFromPacket = true;
             SaveHandler.LoadFromWorldGen(receivedPacket);
-            Log.Message("Finished loading world from packet");
+          //  Log.Message("Finished loading world from packet");
             FocusCache.waitWindowInstance.Close();
-            if (BooleanCache.isGeneratingWorldFromPacket == true)
-            {
-                Thread.Sleep(10000);
-                Log.Message("Creating this");
-                Find.WindowStack.Add(new Page_CustomSelectScenario());
 
-                string[] chainInfo = new string[]
-                {
-                    "Welcome to the multiplayer world generation screen",
-                    "Configure the settings you will use for this save",
-                    "Locked variables are automatically handled by the server"
-                };
-                Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
-                BooleanCache.isGeneratingWorldFromPacket = false;
 
-            }
 
+
+
+    
 
 
 
@@ -152,6 +136,7 @@ namespace OpenWorldRedux
         {
             CleanWorld();
             RebuildWorld();
+            PlaceDlcFactionsOnMap();
         }
 
         private static void CleanWorld()
@@ -259,7 +244,47 @@ namespace OpenWorldRedux
 
                 }
                 if(ToTryToAddFactions.Count > 0) {
-                    FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
+
+
+                    FloatRange SettlementsPer100kTiles = new FloatRange(150f, 190f);
+                    if (ToTryToAddFactions != null)
+                    {
+                        foreach (FactionDef faction2 in ToTryToAddFactions)
+                        {
+                            Find.FactionManager.Add(FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(faction2)));
+                        }
+                    }
+                    else
+                    {
+                        foreach (FactionDef item in DefDatabase<FactionDef>.AllDefs.OrderBy((FactionDef x) => x.hidden))
+                        {
+                            for (int i = 0; i < item.requiredCountAtGameStart; i++)
+                            {
+                                Find.FactionManager.Add(FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(item)));
+                            }
+                        }
+                    }
+
+                    IEnumerable<Faction> source = Find.World.factionManager.AllFactionsListForReading.Where((Faction x) => !x.def.isPlayer && !x.Hidden && !x.temporary);
+                    if (source.Any())
+                    {
+                        int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * SettlementsPer100kTiles.RandomInRange * Find.World.info.overallPopulation.GetScaleFactor());
+                        num -= Find.WorldObjects.Settlements.Count;
+                        for (int j = 0; j < num; j++)
+                        {
+                            Faction faction = source.RandomElementByWeight((Faction x) => x.def.settlementGenerationWeight);
+                            Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+                            settlement.SetFaction(faction);
+                            settlement.Tile = TileFinder.RandomSettlementTileFor(faction);
+                            settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement);
+                            Find.WorldObjects.Add(settlement);
+                        }
+                    }
+
+                    Find.IdeoManager.SortIdeos();
+
+
+               //FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
 
                     Log.Message("[Open World] > Trying to add missing dlc factions");
                 }

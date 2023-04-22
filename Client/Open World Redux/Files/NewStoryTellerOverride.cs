@@ -22,7 +22,7 @@ namespace OpenWorldRedux
 
         public static void NewStoryTellerPage()
 		{
-            Log.Message("ran new storyteller page");
+         //   Log.Message("ran new storyteller page");
 
 
 			if (BooleanCache.newPlayer == true)
@@ -43,7 +43,7 @@ namespace OpenWorldRedux
 
                 //System.Threading.Thread.Sleep(4000);
 
-				Log.Message("Is running!");
+				//Log.Message("Is running!");
 				BooleanCache.newPlayer = false;
 				//Current.Game.Scenario = WorldCache.scenario; // Set the scenario to the current selected one
 				//Log.Message(WorldCache.scenario.ToString());
@@ -53,7 +53,7 @@ namespace OpenWorldRedux
 
                // newSelectStoryTeller.nextAct = NewStartingSiteOverride.NewStartingSite;
                 //newSelectStoryTeller.next = null;
-                Log.Message("Set Next Act to new starting site!");
+              //  Log.Message("Set Next Act to new starting site!");
 
 
 
@@ -116,9 +116,9 @@ namespace OpenWorldRedux
 
                 // MemoryUtility.UnloadUnusedUnityAssets();
                 //Find.World.renderer.RegenerateAllLayersNow();
-                Log.Message("Trying to boot up StoryTeller Page...");
+             //   Log.Message("Trying to boot up StoryTeller Page...");
 				Find.WindowStack.Add(newSelectStoryTeller);
-				Log.Message("Should have loaded StoryTeller Page.");
+			//	Log.Message("Should have loaded StoryTeller Page.");
 			}
 		}
 	}

@@ -171,6 +171,7 @@
     <Compile Include="Handlers\SaveHandler.cs" />
     <Compile Include="Handlers\TradeHandler.cs" />
     <Compile Include="Injections\BottomGuiBarInjection.cs" />
+    <Compile Include="Injections\CameraJumperInjection.cs" />
     <Compile Include="Injections\PreGameStartInjection.cs" />
     <Compile Include="Network\Hash.cs" />
     <Compile Include="Injections\EnforcementInjections.cs" />

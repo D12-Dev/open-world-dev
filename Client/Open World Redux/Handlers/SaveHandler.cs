@@ -46,7 +46,7 @@ namespace OpenWorldRedux
             
             try
             {
-                Log.Message("newPlayer = true!");
+              //  Log.Message("newPlayer = true!");
                 BooleanCache.newPlayer = true;
                 FocusCache.waitWindowInstance.Close();
                 string filePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Saves" + Path.DirectorySeparatorChar + "Open World Server Save.rws";

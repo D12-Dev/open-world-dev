@@ -21,6 +21,7 @@ namespace OpenWorldRedux
             public static bool ModifyPre()
             {
                 if (Current.ProgramState != ProgramState.Playing) return true;
+                if(BooleanCache.isGeneratingWorldFromPacket)return true;
                 if (!BooleanCache.isConnectedToServer) return true;
                 else
                 {

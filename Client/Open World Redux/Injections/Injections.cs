@@ -121,6 +121,22 @@ namespace OpenWorldRedux
 
                 RimworldHandler.EnforceDificultyTweaks();
 
+
+                if (WorldRendererUtility.WorldRenderedNow == true) {
+                    Find.WindowStack.Add(new Page_CustomSelectScenario());
+
+                    string[] chainInfo = new string[]
+                    {
+                    "Welcome to the multiplayer world generation screen",
+                    "Configure the settings you will use for this save",
+                    "Locked variables are automatically handled by the server"
+                    };
+                    Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+                    BooleanCache.isGeneratingWorldFromPacket = false;
+
+
+                }
+
                 BooleanCache.hasLoadedCorrectly = true;
             }
 		}
