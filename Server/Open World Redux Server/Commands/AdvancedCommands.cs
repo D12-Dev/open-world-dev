@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading;
-
+using System.Security.Cryptography;
+using System.Runtime.Serialization;
 
 namespace OpenWorldReduxServer
 {
@@ -20,6 +21,7 @@ namespace OpenWorldReduxServer
         public static TransferCommand transferCommand = new TransferCommand();
         public static WipeCommand wipeCommand = new WipeCommand(); 
         public static BackupCommand Backupcommand = new BackupCommand();
+        public static ChangePasswordCommand ResetPasswordcommand = new ChangePasswordCommand();
         public static bool WipeConfirm; 
         public static Command[] commandArray = new Command[]
         {
@@ -32,7 +34,8 @@ namespace OpenWorldReduxServer
             invokeCommand,
             transferCommand,
             wipeCommand,
-            Backupcommand
+            Backupcommand,
+            ResetPasswordcommand
         };
 
 
@@ -71,8 +74,31 @@ namespace OpenWorldReduxServer
 
         }
 
+        public static void ChangePasswordCommandHandle()
+        {
+            string username = CommandHandler.parameterHolder[0];
+            string password = CommandHandler.parameterHolder[1]; 
+            ServerClient toGet = ClientHandler.GetClientFromSave(username);
 
+            if (toGet == null)
+            {
+                ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+            }
 
+            else
+            {
+                string passwordtoset;
+                passwordtoset = Hash.GetHashCode(password);
+                //passwordtoset = Serializer.Serialize(passwordtoset);
+
+                toGet.Password = passwordtoset;
+
+                ClientHandler.SaveClient(toGet);
+                ServerHandler.WriteToConsole($"Player [{toGet.Username}] has had their password changed to {password}", ServerHandler.LogMode.Warning);
+                
+            }
+        }
+        
         public static void OpCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
