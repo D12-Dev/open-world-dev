@@ -44,8 +44,9 @@ namespace OpenWorldRedux
                 ListenToServer();
             }
 
-            catch
+            catch(Exception ex)
             {
+                Log.Message(ex.ToString());
                 DisconnectFromServer();
                 FocusCache.waitWindowInstance.Close();
             }
@@ -63,6 +64,7 @@ namespace OpenWorldRedux
 
                 if (data == null)
                 {
+                    Log.Message("Received null data packet, disconnecting from server!");
                     DisconnectFromServer();
                     return;
                 }
@@ -84,6 +86,7 @@ namespace OpenWorldRedux
 
         public static void DisconnectFromServer()
         {
+            Log.Message("Client disposed server connection!");
             if (connection != null) connection.Dispose();
 
             ErrorHandler.ForceDisconnectCountermeasures();

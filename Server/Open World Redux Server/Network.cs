@@ -155,7 +155,7 @@ namespace OpenWorldReduxServer
             {
 
                 Thread.Sleep(1000); // Wait 1 second then update
-              //  ServerHandler.WriteToConsole($"{SimpleCommands.PlayersToSaveList[0]}", ServerHandler.LogMode.Normal);
+              
                 if (!SimpleCommands.PlayersToSaveList.Contains(client.Username))
                 {
                     break;
