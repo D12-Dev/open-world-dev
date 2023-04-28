@@ -46,12 +46,27 @@ namespace OpenWorldRedux
 
             catch(Exception ex)
             {
-                Log.Message(ex.ToString());
+                Log.Message($"Failed to connect to server. Full Stack Error:\n{ex.ToString()}");
                 DisconnectFromServer();
                 FocusCache.waitWindowInstance.Close();
             }
         }
+        public static void ServerConnectionHeartbeat()
+        {
 
+
+            try
+            {
+
+            }
+
+            catch (Exception ex)
+            {
+                Log.Message($"Failed to connect to server. Full Stack Error:\n{ex.ToString()}");
+                DisconnectFromServer();
+                FocusCache.waitWindowInstance.Close();
+            }
+        }
         public static void ListenToServer()
         {
             GeneralHandler.SendAuthFile();
@@ -90,6 +105,13 @@ namespace OpenWorldRedux
             if (connection != null) connection.Dispose();
 
             ErrorHandler.ForceDisconnectCountermeasures();
+        }
+        public static void HeartBeatPacket() { 
+              
+        
+        
+        
+        
         }
     }
 }
