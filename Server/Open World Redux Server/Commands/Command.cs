@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OpenWorldReduxServer
 {
@@ -35,7 +36,7 @@ namespace OpenWorldReduxServer
 
         public virtual int parameterCount { get; set; }
 
-        public virtual Action actionToDo { get; set; }
+        public virtual string actionToDo { get; set; }
     }
 
 
@@ -48,7 +49,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => AdvancedCommands.WipeCommandHandle;
+        public override string actionToDo => AdvancedCommands.WipeCommandHandle();
     }
     public class BackupCommand : Command
     {
@@ -58,7 +59,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => BackupHandler.CreateBackup;
+        public override string actionToDo => BackupHandler.CreateBackup();
     }
     public class HelpCommand : Command
     {
@@ -68,7 +69,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.HelpCommandHandle;
+        public override string actionToDo => SimpleCommands.HelpCommandHandle();
     }
 
     public class ReloadCommand : Command
@@ -79,7 +80,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.ReloadCommandHandle;
+        public override string actionToDo => SimpleCommands.ReloadCommandHandle();
     }
     public class ChangePasswordCommand : Command
     {
@@ -89,7 +90,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 2;
 
-        public override Action actionToDo => AdvancedCommands.ChangePasswordCommandHandle;
+        public override string actionToDo => AdvancedCommands.ChangePasswordCommandHandle();
     }
 
 
@@ -101,7 +102,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.ClearConsoleCommandHandle;
+        public override string actionToDo => SimpleCommands.ClearConsoleCommandHandle();
       }
     public class ShutDownCommand : Command
     {
@@ -111,7 +112,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.ShutdownCommandHandle;
+        public override string actionToDo => SimpleCommands.ShutdownCommandHandle();
     }
     
     public class SaveCommand : Command
@@ -122,7 +123,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 1;
 
-        public override Action actionToDo => SimpleCommands.saveCommandhandle;
+        public override string actionToDo => SimpleCommands.saveCommandhandle();
     }
 
     public class OpCommand : Command
@@ -133,7 +134,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 1;
 
-        public override Action actionToDo => AdvancedCommands.OpCommandHandle;
+        public override string actionToDo => AdvancedCommands.OpCommandHandle();
     }
 
     public class DeopCommand : Command
@@ -144,7 +145,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 1;
 
-        public override Action actionToDo => AdvancedCommands.DeopCommandHandle;
+        public override string actionToDo => AdvancedCommands.DeopCommandHandle();
     }
 
     public class InspectCommand : Command
@@ -155,7 +156,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 1;
 
-        public override Action actionToDo => AdvancedCommands.InspectCommandHandle;
+        public override string actionToDo => AdvancedCommands.InspectCommandHandle();
     }
 
     public class BanCommand : Command
@@ -166,7 +167,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 1;
 
-        public override Action actionToDo => AdvancedCommands.BanCommandHandle;
+        public override string actionToDo => AdvancedCommands.BanCommandHandle();
     }
 
     public class PardonCommand : Command
@@ -177,7 +178,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 1;
 
-        public override Action actionToDo => AdvancedCommands.PardonCommandHandle;
+        public override string actionToDo => AdvancedCommands.PardonCommandHandle();
     }
 
     public class KickCommand : Command
@@ -188,7 +189,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 1;
 
-        public override Action actionToDo => AdvancedCommands.KickCommandHandle;
+        public override string actionToDo => AdvancedCommands.KickCommandHandle();
     }
     public class TransferCommand : Command
     {
@@ -198,7 +199,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 2;
 
-        public override Action actionToDo => AdvancedCommands.TransferCommandHandle;
+        public override string actionToDo => AdvancedCommands.TransferCommandHandle();
     }
     public class AnnounceCommand : Command
     {
@@ -208,7 +209,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.AnnounceCommand;
+        public override string actionToDo => SimpleCommands.AnnounceCommand();
     }
 
     public class StatusCommand : Command
@@ -219,7 +220,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.StatusCommand;
+        public override string actionToDo => SimpleCommands.StatusCommand();
     }
 
     public class ListCommand : Command
@@ -230,7 +231,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.ListCommand;
+        public override string actionToDo => SimpleCommands.ListCommand();
     }
 
     public class CleanupCommand : Command
@@ -241,7 +242,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.CleanupCommand;
+        public override string actionToDo => SimpleCommands.CleanupCommand();
     }
 
     public class InvokeCommand : Command
@@ -252,7 +253,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 2;
 
-        public override Action actionToDo => AdvancedCommands.InvokeCommand;
+        public override string actionToDo => AdvancedCommands.InvokeCommand();
     }
 
     public class EventsCommand : Command
@@ -263,7 +264,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.EventsCommand;
+        public override string actionToDo => SimpleCommands.EventsCommand();
     }
 
     public class ExitCommand : Command
@@ -274,6 +275,6 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.ExitCommand;
+        public override string actionToDo => SimpleCommands.ExitCommand();
     }
 }

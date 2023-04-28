@@ -39,7 +39,7 @@ namespace OpenWorldReduxServer
         };
 
 
-        public static void WipeCommandHandle()
+        public static string WipeCommandHandle()
         {
             if (WipeConfirm == true)
             {
@@ -71,10 +71,10 @@ namespace OpenWorldReduxServer
                 WipeConfirm = true; // Allow wiping.
 
             }
-
+            return "hi";
         }
 
-        public static void ChangePasswordCommandHandle()
+        public static string ChangePasswordCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
             string password = CommandHandler.parameterHolder[1]; 
@@ -83,6 +83,7 @@ namespace OpenWorldReduxServer
             if (toGet == null)
             {
                 ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] was not found";
             }
 
             else
@@ -95,11 +96,11 @@ namespace OpenWorldReduxServer
 
                 ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{toGet.Username}] has had their password changed to {password}", ServerHandler.LogMode.Warning);
-                
+                return $"Player [{toGet.Username}] has had their password changed to {password}";
             }
         }
         
-        public static void OpCommandHandle()
+        public static string OpCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
             ServerClient toGet = ClientHandler.GetClientFromSave(username);
@@ -107,6 +108,7 @@ namespace OpenWorldReduxServer
             if (toGet == null)
             {
                 ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] was not found";
             }
 
             else
@@ -120,9 +122,10 @@ namespace OpenWorldReduxServer
                     Packet OpCommandPacket = new Packet("OpCommandPacket");
                     Network.SendData(ConnnectedClient, OpCommandPacket);
                 }
+                return $"Player [{toGet.Username}] has become OP";
             }
         }
-        public static void TransferCommandHandle() {
+        public static string TransferCommandHandle() {
             string ply1username = CommandHandler.parameterHolder[0];
             string ply2username = CommandHandler.parameterHolder[1];
             ServerClient ply1 = ClientHandler.GetClientFromSave(ply1username);
@@ -131,12 +134,12 @@ namespace OpenWorldReduxServer
             ServerClient Connectedply2 = ClientHandler.GetClientFromConnected (ply2username);
             if (ply1 == null) {
                 ServerHandler.WriteToConsole($"Player [{ply1username}] was not found", ServerHandler.LogMode.Warning);
-                return;
+                return $"Player [{ply1username}] was not found";
             }
             if (ply2 == null)
             {
                 ServerHandler.WriteToConsole($"Player [{ply2username}] was not found", ServerHandler.LogMode.Warning);
-                return;
+                return $"Player [{ply2username}] was not found";
             }
             if (Connectedply1 != null)
             {
@@ -202,9 +205,10 @@ namespace OpenWorldReduxServer
             ClientHandler.SaveClient(ply2);
 
             ServerHandler.WriteToConsole($"Succesffully transfered save from {ply1username} to {ply2username}", ServerHandler.LogMode.Warning);
+            return $"Succesffully transfered save from {ply1username} to {ply2username}";
         }
 
-        public static void DeopCommandHandle()
+        public static string DeopCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
             ServerClient toGet = ClientHandler.GetClientFromSave(username);
@@ -212,6 +216,7 @@ namespace OpenWorldReduxServer
             if (toGet == null)
             {
                 ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] was not found";
             }
 
             else
@@ -225,10 +230,11 @@ namespace OpenWorldReduxServer
                 Packet DeopCommandPacket = new Packet("DeopCommandPacket");
                     Network.SendData(ConnnectedClient, DeopCommandPacket);
                 }
+                return $"Player [{toGet.Username}] has lost OP";
             }
         }
 
-        public static void InspectCommandHandle()
+        public static string InspectCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
             ServerClient toGet = ClientHandler.GetClientFromConnected(username);
@@ -238,6 +244,7 @@ namespace OpenWorldReduxServer
             if (toGet == null)
             {
                 ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] was not found";
             }
 
             else
@@ -251,10 +258,11 @@ namespace OpenWorldReduxServer
                 ServerHandler.WriteToConsole($"Event Protected: [{toGet.isEventProtected}]");
                 ServerHandler.WriteToConsole($"Admin: [{toGet.IsAdmin}]");
                 ServerHandler.WriteToConsole($"Banned: [{toGet.IsBanned}]");
+                return "Placeholder command response for inspect";
             }
         }
 
-        public static void BanCommandHandle()
+        public static string BanCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
             ServerClient toGet = ClientHandler.GetClientFromSave(username);
@@ -262,6 +270,7 @@ namespace OpenWorldReduxServer
             if (toGet == null)
             {
                 ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] was not found";
             }
 
             else
@@ -274,10 +283,11 @@ namespace OpenWorldReduxServer
                 }
                 //ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{username}] has been banned", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] has been banned";
             }
         }
 
-        public static void PardonCommandHandle()
+        public static string PardonCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
             ServerClient toGet = ClientHandler.GetClientFromSave(username);
@@ -285,6 +295,7 @@ namespace OpenWorldReduxServer
             if (toGet == null)
             {
                 ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] was not found";
             }
 
             else
@@ -292,10 +303,11 @@ namespace OpenWorldReduxServer
                 toGet.IsBanned = false;
                 ClientHandler.SaveClient(toGet);
                 ServerHandler.WriteToConsole($"Player [{username}] has been pardoned", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] has been pardoned";
             }
         }
 
-        public static void KickCommandHandle()
+        public static string KickCommandHandle()
         {
             string username = CommandHandler.parameterHolder[0];
             ServerClient toGet = ClientHandler.GetClientFromConnected(username);
@@ -303,16 +315,18 @@ namespace OpenWorldReduxServer
             if (toGet == null)
             {
                 ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] was not found";
             }
 
             else 
             {
                 toGet.disconnectsaveFlag = true;
                 ServerHandler.WriteToConsole($"Player [{username}] has been kicked", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] has been kicked";
             }
         }
 
-        public static void InvokeCommand()
+        public static string InvokeCommand()
         {
             string username = CommandHandler.parameterHolder[0];
             string eventID = CommandHandler.parameterHolder[1];
@@ -322,6 +336,7 @@ namespace OpenWorldReduxServer
             if (toGet == null)
             {
                 ServerHandler.WriteToConsole($"Player [{username}] was not found", ServerHandler.LogMode.Warning);
+                return $"Player [{username}] was not found";
             }
 
             else
@@ -331,6 +346,7 @@ namespace OpenWorldReduxServer
                 Network.SendData(toGet, SendBlackMarketEventPacket);
 
                 ServerHandler.WriteToConsole($"Sent event to player [{username}]", ServerHandler.LogMode.Warning);
+                return $"Sent event to player [{username}]";
             }
         }
     }

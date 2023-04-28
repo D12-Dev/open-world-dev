@@ -84,7 +84,7 @@ namespace OpenWorldReduxServer
         {
             if (client.IsAdmin)
             {
-                Server.CmdPostHandler(commandmsg.Remove(0, 1));
+                string CommandRes = Server.CmdPostHandler(commandmsg.Remove(0, 1)); // Do something with CommandRes 
                 ServerHandler.WriteToConsole(client.Username + " just ran " + commandmsg);
             }
         }

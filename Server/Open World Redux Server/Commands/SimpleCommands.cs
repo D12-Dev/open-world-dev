@@ -40,22 +40,22 @@ namespace OpenWorldReduxServer
             saveCommand,
             clearconsolecommand
         };
-        public static void saveCommandhandle()
+        public static string saveCommandhandle()
         {
             string username = CommandHandler.parameterHolder[0];
             ServerClient toGet = ClientHandler.GetClientFromConnected(username);
             if (toGet == null) {
                 ServerHandler.WriteToConsole($"User not found with username [{username}]", ServerHandler.LogMode.Error);
-                return;
+                return $"User not found with username [{username}]";
             }
             ServerHandler.WriteToConsole("Requestting user " + username + " for save...", ServerHandler.LogMode.Title);
             Packet ClientSavePacket = new Packet("ForceClientSyncPacket");
             Network.SendData(toGet, ClientSavePacket);
-
+            return "Requestting user " + username + " for save...";
 
 
         }
-        public static void HelpCommandHandle()
+        public static string HelpCommandHandle()
         {
             ServerHandler.WriteToConsole($"List of available commands [{commandArray.Count() + AdvancedCommands.commandArray.Count()}]", ServerHandler.LogMode.Title);
 
@@ -72,9 +72,10 @@ namespace OpenWorldReduxServer
                 ServerHandler.WriteToConsole($"- {cmd.prefix}", ServerHandler.LogMode.Warning);
                 ServerHandler.WriteToConsole($"+ {cmd.prefixHelp}");
             }
+            return $"Help placeholder";
         }
 
-        public static void ReloadCommandHandle()
+        public static string ReloadCommandHandle()
         {
             ServerHandler.CheckConfigFile();
             ServerHandler.CheckAuthFile();
@@ -85,12 +86,14 @@ namespace OpenWorldReduxServer
             ServerHandler.CheckWhitelistFile();
 
             ServerHandler.WriteToConsole("Configurations have been reloaded", ServerHandler.LogMode.Title);
+            return "Configurations have been reloaded";
         }
-        public static void ClearConsoleCommandHandle()
+        public static string ClearConsoleCommandHandle()
         {
             Console.Clear();
+            return "Console Cleared";
         }
-        public static void ShutdownCommandHandle()
+        public static string ShutdownCommandHandle()
         {
             ServerHandler.WriteToConsole("Shutting Down server and saving client files. Please Wait...", ServerHandler.LogMode.Title);
             ServerClient[] connectedClients = Network.connectedClients.ToArray();
@@ -103,7 +106,7 @@ namespace OpenWorldReduxServer
                 Network.SendData(client, ForceClientSyncPacket);
             }
             WaitForPlayerSavesAndShutdown();
-                
+            return "Shutting Down server and saving client files. Please Wait...";
         }
         public static async void WaitForPlayerSavesAndShutdown() {
             int TimeoutCount = 60; // Timeout for how long server will wait for player saves in seconds
@@ -151,7 +154,7 @@ namespace OpenWorldReduxServer
 
         }
         
-        public static void AnnounceCommand()
+        public static string AnnounceCommand()
         {
             ServerHandler.WriteToConsole("Type the message to send:", ServerHandler.LogMode.Title);
             string toSend = Console.ReadLine();
@@ -166,26 +169,29 @@ namespace OpenWorldReduxServer
             }
 
             ServerHandler.WriteToConsole($"Sent announcement: [{toSend}]", ServerHandler.LogMode.Title);
+            return $"Sent announcement: [{toSend}]";
         }
 
-        public static void StatusCommand()
+        public static string StatusCommand()
         {
             ServerHandler.WriteToConsole("Server status", ServerHandler.LogMode.Title);
             ServerHandler.WriteToConsole($"IP: {Network.localAddress}");
             ServerHandler.WriteToConsole($"Port: {Network.serverPort}");
             ServerHandler.WriteToConsole($"Max Players: {Network.maxPlayers}");
             ServerHandler.WriteToConsole($"Connected Players: {Network.connectedClients.Count}");
+            return "Placeholder Status Command response";
         }
 
-        public static void ListCommand()
+        public static string ListCommand()
         {
             ServerHandler.WriteToConsole($"List of connected players [{Network.connectedClients.Count}]", ServerHandler.LogMode.Title);
 
             ServerClient[] connectedClients = Network.connectedClients.ToArray();
             foreach(ServerClient sc in connectedClients) ServerHandler.WriteToConsole(sc.Username);
+            return "Placeholder List Command response";
         }
 
-        public static void CleanupCommand()
+        public static string CleanupCommand()
         {
             string[] playerFiles = Directory.GetFiles(Server.playersFolderPath);
             foreach (string file in playerFiles)
@@ -210,7 +216,7 @@ namespace OpenWorldReduxServer
             }
 
             ServerHandler.WriteToConsole("Cleanup has been executed", ServerHandler.LogMode.Title);
-
+            return "Cleanup has been executed";
             void DeleteSettlementData(string userReference)
             {
                 string settlementFilePath = Server.settlementsFolderPath + Path.DirectorySeparatorChar + userReference + ".json";
@@ -224,7 +230,7 @@ namespace OpenWorldReduxServer
             }
         }
 
-        public static void EventsCommand()
+        public static string EventsCommand()
         {
             ServerHandler.WriteToConsole($"List of available events [{10}]", ServerHandler.LogMode.Title);
             ServerHandler.WriteToConsole($"To use, reference the event using it's ID number.", ServerHandler.LogMode.Warning);
@@ -238,18 +244,21 @@ namespace OpenWorldReduxServer
             ServerHandler.WriteToConsole($"{7} - Space Chunks");
             ServerHandler.WriteToConsole($"{8} - Generate Quest");
             ServerHandler.WriteToConsole($"{9} - Trader Caravan");
+            return "Placeholder list of events";
         }
 
-        public static void ExitCommand()
+        public static string ExitCommand()
         {
 
             if (HasConfirmedExit)
         {
             Server.isActive = false;
+            return "Server Exitted";
         }
             else {
                 ServerHandler.WriteToConsole(@"[WARNING] Using the exit command will not save before shutting down, use ""shutdown"" instead to save before quitting. To continue type ""exit"" again.", ServerHandler.LogMode.Warning);
                 HasConfirmedExit = true;
+                return @"[WARNING] Using the exit command will not save before shutting down, use ""shutdown"" instead to save before quitting. To continue type ""exit"" again.";
             }
         }
     }
