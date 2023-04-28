@@ -16,6 +16,7 @@ namespace OpenWorldReduxServer
         public static HelpCommand helpCommand = new HelpCommand();
         public static ReloadCommand reloadCommand = new ReloadCommand();
         public static AnnounceCommand announceCommand = new AnnounceCommand();
+        public static SayCommand sayCommand = new SayCommand();
         public static EventsCommand eventsCommand = new EventsCommand();
         public static ListCommand listCommand = new ListCommand();
         public static ShutDownCommand ShutdownCommand = new ShutDownCommand();
@@ -31,6 +32,7 @@ namespace OpenWorldReduxServer
             helpCommand,
             reloadCommand,
             announceCommand,
+            sayCommand,
             eventsCommand,
             listCommand,
             statusCommand,
@@ -166,6 +168,12 @@ namespace OpenWorldReduxServer
             }
 
             ServerHandler.WriteToConsole($"Sent announcement: [{toSend}]", ServerHandler.LogMode.Title);
+        }
+        public static void SayCommand()
+        {
+            ServerHandler.WriteToConsole("Type the message to send:", ServerHandler.LogMode.Title);
+            string toSend = Console.ReadLine();
+            ServerChatHandler.SendRawMessage(toSend);
         }
 
         public static void StatusCommand()
