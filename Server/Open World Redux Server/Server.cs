@@ -75,8 +75,8 @@ namespace OpenWorldReduxServer
             string command = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(command)) return;
-            string CMDRes = CmdPostHandler(command);
-            Console.WriteLine(CMDRes);
+            CmdPostHandler(command);
+           // Console.WriteLine(CMDRes);
         }
 
         public static string CmdPostHandler(string command)
