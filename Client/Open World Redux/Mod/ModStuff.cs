@@ -58,7 +58,7 @@ namespace OpenWorldRedux
 
         public override string SettingsCategory() { return "Open World"; }
 
-        private void ResetServerProgress()
+        public static void ResetServerProgress()
         {
             if (!BooleanCache.isConnectedToServer) return;
             else Find.WindowStack.Add(new OW_MPConfirmResetSave());
