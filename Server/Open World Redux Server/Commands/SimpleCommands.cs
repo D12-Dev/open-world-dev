@@ -173,11 +173,12 @@ namespace OpenWorldReduxServer
             ServerHandler.WriteToConsole($"Sent announcement: [{toSend}]", ServerHandler.LogMode.Title);
             return $"Sent announcement: [{toSend}]";
         }
-        public static void SayCommand()
+        public static string SayCommand()
         {
             ServerHandler.WriteToConsole("Type the message to send:", ServerHandler.LogMode.Title);
             string toSend = Console.ReadLine();
             ServerChatHandler.SendRawMessage(toSend);
+            return "placeholder say command res text";
         }
 
         public static string StatusCommand()

@@ -220,7 +220,7 @@ namespace OpenWorldReduxServer
 
         public override int parameterCount => 0;
 
-        public override Action actionToDo => SimpleCommands.SayCommand;
+        public override string actionToDo => SimpleCommands.SayCommand();
     }
 
     public class StatusCommand : Command

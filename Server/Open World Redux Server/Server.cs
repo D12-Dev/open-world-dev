@@ -75,8 +75,8 @@ namespace OpenWorldReduxServer
             string command = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(command)) return;
-            CmdPostHandler(command);
-
+            string CMDRes = CmdPostHandler(command);
+            Console.WriteLine(CMDRes);
         }
 
         public static string CmdPostHandler(string command)
@@ -113,11 +113,7 @@ namespace OpenWorldReduxServer
                     {
                         try
                         {
-
-                            // toInvoke.actionToDo actualcmd = new toInvoke.actionToDo();
-                            Type type = toInvoke.GetType();
-                            MethodInfo method = type.GetMethod(toInvoke.actionToDo);
-                            string ReturnString = (string)method.Invoke(null, null);
+                            string ReturnString = (string)toInvoke.actionToDo;
                             return ReturnString;
                         }
                         catch (Exception ex)
