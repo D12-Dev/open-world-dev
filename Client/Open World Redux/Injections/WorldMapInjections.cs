@@ -48,7 +48,7 @@ namespace OpenWorldRedux
                             Packet ClientSaveFilePacket = new Packet("RecieveBaseSaveFromClient", contents);
                             Network.SendData(ClientSaveFilePacket);
                             BooleanCache.worldSaved = true;
-                            Log.Message("World Saved!");
+                            Log.Message("[Openworld] Default World Saved!");
                         }
                     }
 

@@ -59,7 +59,7 @@ namespace OpenWorldRedux
             }
             catch (Exception ex)
             {
-                Log.Message(ex.ToString());
+                Log.Message($"[Openworld] Failed to load the default world gen from server. Full stack trace:\n {ex.ToString()}");
             }
         }
 

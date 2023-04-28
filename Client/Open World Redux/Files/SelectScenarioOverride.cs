@@ -239,7 +239,7 @@ namespace OpenWorldRedux
                 PageUtility.InitGameStart();
                 return;
             }
-            Log.Message(firstConfigPage.ToString()); /// StoryTeller
+           // Log.Message(firstConfigPage.ToString()); /// StoryTeller
 
 
             if (BooleanCache.isGeneratingNewWorld == true)
@@ -262,7 +262,8 @@ namespace OpenWorldRedux
                 }
                 catch (Exception err)
                 {
-                    Log.Message(err.ToString());
+                    Log.Message($"[Openworld] Error loading storyteller. Full stack error:\n {err.ToString()}");
+                    
                 }
             }
 

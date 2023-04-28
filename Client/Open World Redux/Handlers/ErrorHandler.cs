@@ -61,7 +61,7 @@ namespace OpenWorldRedux
 
         public static void ForceDisconnectCountermeasures()
         {
-            Log.Message("Forcing counter measures on disconnect.");
+            Log.Message("[Openworld] Forcing counter measures on disconnect.");
             BooleanCache.isConnectedToServer = false;
             BooleanCache.isTryingToConnect = false;
             BooleanCache.hasLoadedCorrectly = false;

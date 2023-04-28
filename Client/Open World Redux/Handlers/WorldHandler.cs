@@ -60,7 +60,7 @@ namespace OpenWorldRedux
 
         public static void SendWorldDataRequest()
         {
-            Log.Message("Trying to send data request!");
+            //Log.Message("Trying to send data request!");
 
             Packet GetSaveData = new Packet("ReceiveBaseSaveRequest");
             Network.SendData(GetSaveData);
@@ -236,13 +236,13 @@ namespace OpenWorldRedux
                         };
                     ToTryToAddFactions.AddRange(IdeologyFactions);
                 }
-                foreach (FactionDef X in ToTryToAddFactions)
+               /* foreach (FactionDef X in ToTryToAddFactions)
                 {
                     Log.Message("Logging Faction Name");
                     Log.Message(X.defName);
 
 
-                }
+                }*/
                 if(ToTryToAddFactions.Count > 0) {
 
 
