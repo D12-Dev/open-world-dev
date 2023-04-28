@@ -219,32 +219,32 @@ namespace OpenWorldRedux
 
                 
 
-
+               
 
 
 
             }
-            Log.Message("Begin Scen Config");
+          //  Log.Message("Begin Scen Config");
 
             Current.Game.Scenario = scen;
             WorldCache.scenario = scen;
             Current.Game.Scenario.PreConfigure();
             Find.GameInitData.startedFromEntry = true;
-            Log.Message("mid through Scen Config");
+          //  Log.Message("mid through Scen Config");
             Page firstConfigPage = Current.Game.Scenario.GetFirstConfigPage();
           //  Log.Message("Running this code");
             if (firstConfigPage == null)
             {
-                Log.Message("Starting Game from scen?");
+              //  Log.Message("Starting Game from scen?");
                 PageUtility.InitGameStart();
                 return;
             }
-            Log.Message(firstConfigPage.ToString()); /// StoryTeller
+           // Log.Message(firstConfigPage.ToString()); /// StoryTeller
 
 
             if (BooleanCache.isGeneratingNewWorld == true)
             {
-                Log.Message("Is genning new world");
+            //    Log.Message("Is genning new world");
                 originPage.next = firstConfigPage;
                 firstConfigPage.prev = originPage;
             }
@@ -253,7 +253,7 @@ namespace OpenWorldRedux
                 try
                 {
                     //originPage.next = originPage;
-                    Log.Message("Not genning new world");
+                //    Log.Message("Not genning new world");
                     originPage.next = null;
                     originPage.nextAct = NewSelectStoryTellerOverride.NewStoryTellerPage; //NewSelectStoryTellerOverride.NewStoryTellerPage;
                     //originPage.Close();
@@ -262,7 +262,8 @@ namespace OpenWorldRedux
                 }
                 catch (Exception err)
                 {
-                    Log.Message(err.ToString());
+                    Log.Message($"[Openworld] Error loading storyteller. Full stack error:\n {err.ToString()}");
+                    
                 }
             }
 

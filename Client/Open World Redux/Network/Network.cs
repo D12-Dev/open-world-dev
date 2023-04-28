@@ -44,13 +44,13 @@ namespace OpenWorldRedux
                 ListenToServer();
             }
 
-            catch
+            catch(Exception ex)
             {
+                Log.Message($"[Openworld] Failed to connect to server. Full Stack Error:\n{ex.ToString()}");
                 DisconnectFromServer();
                 FocusCache.waitWindowInstance.Close();
             }
         }
-
         public static void ListenToServer()
         {
             GeneralHandler.SendAuthFile();
@@ -63,6 +63,7 @@ namespace OpenWorldRedux
 
                 if (data == null)
                 {
+                    Log.Message("[Openworld] Received null data packet, disconnecting from server!");
                     DisconnectFromServer();
                     return;
                 }
@@ -79,11 +80,17 @@ namespace OpenWorldRedux
                 sw.Flush();
             }
 
-            catch { DisconnectFromServer(); }
+            catch(Exception ex) {
+
+                Log.Message($"[Openworld] Client couldnt send data to server. Full stack error:\n{ex}");
+                DisconnectFromServer(); 
+            
+            }
         }
 
         public static void DisconnectFromServer()
         {
+            Log.Message("[Openworld] Client disposed server connection!");
             if (connection != null) connection.Dispose();
 
             ErrorHandler.ForceDisconnectCountermeasures();

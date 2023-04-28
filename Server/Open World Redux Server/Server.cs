@@ -46,7 +46,7 @@ namespace OpenWorldReduxServer
         static void Main()
         {
             StartProgram();
-
+            
             while (isActive) { ListenForCommands(); }
         }
 

@@ -46,7 +46,7 @@ namespace OpenWorldRedux
             
             try
             {
-                Log.Message("newPlayer = true!");
+              //  Log.Message("newPlayer = true!");
                 BooleanCache.newPlayer = true;
                 FocusCache.waitWindowInstance.Close();
                 string filePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Saves" + Path.DirectorySeparatorChar + "Open World Server Save.rws";
@@ -59,7 +59,7 @@ namespace OpenWorldRedux
             }
             catch (Exception ex)
             {
-                Log.Message(ex.ToString());
+                Log.Message($"[Openworld] Failed to load the default world gen from server. Full stack trace:\n {ex.ToString()}");
             }
         }
 

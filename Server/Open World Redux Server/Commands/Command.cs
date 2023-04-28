@@ -81,10 +81,19 @@ namespace OpenWorldReduxServer
 
         public override Action actionToDo => SimpleCommands.ReloadCommandHandle;
     }
- 
+    public class ChangePasswordCommand : Command
+    {
+        public override string prefix => "changepass";
+
+        public override string prefixHelp => "Changes a user's password to the given password.";
+
+        public override int parameterCount => 2;
+
+        public override Action actionToDo => AdvancedCommands.ChangePasswordCommandHandle;
+    }
 
 
-      public class ClearConsoleCommand : Command
+    public class ClearConsoleCommand : Command
       {
         public override string prefix => "clear";
 

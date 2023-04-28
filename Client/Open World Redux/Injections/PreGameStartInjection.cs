@@ -7,6 +7,7 @@ using HarmonyLib;
 using OpenWorldRedux;
 using RimWorld;
 using UnityEngine;
+using Verse;
 
 namespace OpenWorldRedux
 {
@@ -17,6 +18,7 @@ namespace OpenWorldRedux
         public static void PostGameStart() {
 
             BooleanCache.BottomBarVis = true;
+
         }
     }
 

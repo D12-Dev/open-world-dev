@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Verse;
@@ -37,35 +38,29 @@ namespace OpenWorldRedux
 
         public static void CreateWorldFromPacketHandle(Packet receivedPacket)
         {
+
+
+ 
+          //  Log.Message("Getting world from packet");
+            BooleanCache.isGeneratingWorldFromPacket = true;
+            SaveHandler.LoadFromWorldGen(receivedPacket);
+          //  Log.Message("Finished loading world from packet");
             FocusCache.waitWindowInstance.Close();
 
-            /*WorldCache.seedString = receivedPacket.contents[0];
-            WorldCache.planetCoverage = float.Parse(receivedPacket.contents[1]);
-            WorldCache.overallRainfall = (OverallRainfall)int.Parse(receivedPacket.contents[2]);
-            WorldCache.overallTemperature = (OverallTemperature)int.Parse(receivedPacket.contents[3]);
-            WorldCache.overallPopulation = (OverallPopulation)int.Parse(receivedPacket.contents[4]);
-            WorldCache.pollution = float.Parse(receivedPacket.contents[5]);*/
 
 
-            SaveHandler.LoadFromWorldGen(receivedPacket);
-            System.Threading.Thread.Sleep(10000);
 
-            BooleanCache.isGeneratingWorldFromPacket = true;
 
-            Find.WindowStack.Add(new Page_CustomSelectScenario());
+    
 
-            string[] chainInfo = new string[]
-            {
-                "Welcome to the multiplayer world generation screen",
-                "Configure the settings you will use for this save",
-                "Locked variables are automatically handled by the server"
-            };
-            Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+
+
+
         }
 
         public static void SendWorldDataRequest()
         {
-            Log.Message("Trying to send data request!");
+            //Log.Message("Trying to send data request!");
 
             Packet GetSaveData = new Packet("ReceiveBaseSaveRequest");
             Network.SendData(GetSaveData);
@@ -141,6 +136,7 @@ namespace OpenWorldRedux
         {
             CleanWorld();
             RebuildWorld();
+            PlaceDlcFactionsOnMap();
         }
 
         private static void CleanWorld()
@@ -240,15 +236,55 @@ namespace OpenWorldRedux
                         };
                     ToTryToAddFactions.AddRange(IdeologyFactions);
                 }
-                foreach (FactionDef X in ToTryToAddFactions)
+               /* foreach (FactionDef X in ToTryToAddFactions)
                 {
                     Log.Message("Logging Faction Name");
                     Log.Message(X.defName);
 
 
-                }
+                }*/
                 if(ToTryToAddFactions.Count > 0) {
-                    FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
+
+
+                    FloatRange SettlementsPer100kTiles = new FloatRange(150f, 190f);
+                    if (ToTryToAddFactions != null)
+                    {
+                        foreach (FactionDef faction2 in ToTryToAddFactions)
+                        {
+                            Find.FactionManager.Add(FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(faction2)));
+                        }
+                    }
+                    else
+                    {
+                        foreach (FactionDef item in DefDatabase<FactionDef>.AllDefs.OrderBy((FactionDef x) => x.hidden))
+                        {
+                            for (int i = 0; i < item.requiredCountAtGameStart; i++)
+                            {
+                                Find.FactionManager.Add(FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(item)));
+                            }
+                        }
+                    }
+
+                    IEnumerable<Faction> source = Find.World.factionManager.AllFactionsListForReading.Where((Faction x) => !x.def.isPlayer && !x.Hidden && !x.temporary);
+                    if (source.Any())
+                    {
+                        int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * SettlementsPer100kTiles.RandomInRange * Find.World.info.overallPopulation.GetScaleFactor());
+                        num -= Find.WorldObjects.Settlements.Count;
+                        for (int j = 0; j < num; j++)
+                        {
+                            Faction faction = source.RandomElementByWeight((Faction x) => x.def.settlementGenerationWeight);
+                            Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+                            settlement.SetFaction(faction);
+                            settlement.Tile = TileFinder.RandomSettlementTileFor(faction);
+                            settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement);
+                            Find.WorldObjects.Add(settlement);
+                        }
+                    }
+
+                    Find.IdeoManager.SortIdeos();
+
+
+               //FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
 
                     Log.Message("[Open World] > Trying to add missing dlc factions");
                 }
