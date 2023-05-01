@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using RimWorld;
 using UnityEngine;
 using OpenWorldRedux;
+using HarmonyLib;
 using Verse;
+using Verse.Sound;
 
 namespace OpenWorldRedux
 {
+    [StaticConstructorOnStartup]
     public class mainTabWindowChat : MainTabWindow
     {
         public static bool messageScroll;
@@ -30,6 +33,19 @@ namespace OpenWorldRedux
         private string connectionString = "";
         private string userString = "";
 
+        public static Texture2D icon;
+        public static Texture2D icon2;
+
+        [StaticConstructorOnStartup]
+        static class iconHelper
+        {
+            static iconHelper()
+            {
+                icon = ContentFinder<Texture2D>.Get("Icons/chatHighlight");
+                icon2 = ContentFinder<Texture2D>.Get("Icons/chat");
+            }
+        }
+
         public mainTabWindowChat()
         {
             layer = WindowLayer.GameUI;
@@ -37,8 +53,18 @@ namespace OpenWorldRedux
             closeOnCancel = true;
         }
 
+
+        MainButtonDef chatDef = DefDatabase<MainButtonDef>.GetNamed("Chat");
+
+
         public override void DoWindowContents(Rect rect)
         {
+            if(chatDef.Icon == icon)
+            {
+                AccessTools.Field(typeof(MainButtonDef), "icon").SetValue(chatDef, icon2);
+            }
+
+
             Text.Font = GameFont.Small;
 
             if (BooleanCache.isConnectedToServer) connectionString = "Status: Connected [" + FocusCache.playerCount + "]";
@@ -121,12 +147,27 @@ namespace OpenWorldRedux
 
 
 
-
+    [StaticConstructorOnStartup]
     public static class MPChat
     {
         public static string cacheInputText;
 
         public static List<string> cacheChatText = new List<string> { };
+
+        public static Texture2D icon;
+        public static Texture2D icon2;
+
+        [StaticConstructorOnStartup]
+        static class fileHelper
+        {
+            static fileHelper()
+            {
+                icon = ContentFinder<Texture2D>.Get("Icons/chatHighlight");
+                icon2 = ContentFinder<Texture2D>.Get("Icons/chat");
+
+
+            }
+        }
 
         public static void SendMessage()
         {
@@ -142,7 +183,9 @@ namespace OpenWorldRedux
                 switch (command)
                 {
                     case "help":
+
                         // Remember to put an if/else here for admin commands, then pull a packet from the server with the CommandArray
+
                         text2 = "<color=yellow>";
                         text2 += "Available Commands:";
                         text2 += "\n- help: Shows a list of available commands.";
@@ -211,6 +254,11 @@ namespace OpenWorldRedux
             Network.SendData(NewCommandPacket);
         }
 
+
+
+        // public static SoundDef chatSound = SoundDef.Named("OW_chatSound");
+
+
         public static void ReceiveMessage(string data)
         {
             try
@@ -221,11 +269,21 @@ namespace OpenWorldRedux
                     cacheChatText.RemoveAt(0);
                 }
                 cacheChatText.Add(data);
+
+                //Log.Message(chatSound.defName + " is trying to play! maxSimultaneous is " + chatSound.maxSimultaneous);
+                //chatSound.PlayOneShot(SoundInfo.OnCamera());
+
+
+                MainButtonDef chatDef = DefDatabase<MainButtonDef>.GetNamed("Chat");
+                AccessTools.Field(typeof(MainButtonDef), "icon").SetValue(chatDef, icon);
+
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Message(ex.ToString());
             }
         }
+
         public static void ReceiveCache(List<string> data)
         {
             try
