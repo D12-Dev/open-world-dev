@@ -31,8 +31,6 @@ namespace OpenWorldReduxServer
         {
             try
             {
-                // Add a try/catch so that it doesnt crash your fucking game
-
                 string raw = Msg.Split(' ')[0];
                 string playerName = Msg.Split(' ')[1];
                 string msgBuffer = Msg.Remove(1, (raw.Length + playerName.Length + 1));
@@ -109,6 +107,11 @@ namespace OpenWorldReduxServer
             {
                 List<string> adminCommands = new List<string>();
 
+                foreach (Command cmd in SimpleCommands.commandArray)
+                {
+                    adminCommands.Add(cmd.prefix + ": " + cmd.prefixHelp);
+                }
+
                 foreach (Command cmd in AdvancedCommands.commandArray)
                 {
                     adminCommands.Add(cmd.prefix + ": " + cmd.prefixHelp);
@@ -124,6 +127,15 @@ namespace OpenWorldReduxServer
             if (client.IsAdmin)
             {
                 string CommandRes = Server.CmdPostHandler(commandmsg.Remove(0, 1)); // Do something with CommandRes 
+
+                string finishedMessage = "<color=#FF5900><b>[SERVER]: </b>" + CommandRes + "</color>";
+
+
+                string[] contents = new string[] { finishedMessage };
+
+                Packet NewMsgPacket = new Packet("SendClientNewMsg", contents);
+                Network.SendData(client, NewMsgPacket);
+
                 ServerHandler.WriteToConsole(client.Username + " just ran " + commandmsg);
             }
         }

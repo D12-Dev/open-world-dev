@@ -95,7 +95,6 @@ namespace OpenWorldRedux
 
             else if (receivedPacket.header == "SendClientMsgCache")
             {
-               // Log.Message("Received Cache!");
                 MPChat.ReceiveCache(receivedPacket.contents.ToList());
             }
 

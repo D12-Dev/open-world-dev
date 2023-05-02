@@ -187,14 +187,21 @@ namespace OpenWorldRedux
                         {
                             List<string> cmdList = new List<string>();
                             cmdList.Add("<color=yellow>[SYSTEM]: Local Commands:</color>");
-                            cmdList.Add("<color=yellow>\n- help: Shows a list of available commands.</color>");
-                            cmdList.Add("<color=yellow>\n - ping: Checks connection with the server.</color>");
-                            cmdList.Add("<color=yellow>\n- pm: Sends a private message to player [1].</color>");
+                            cmdList.Add("<color=yellow><b>- help</b>: Shows a list of available commands.</color>");
+                            cmdList.Add("<color=yellow><b>- ping</b>: Checks connection with the server.</color>");
+                            cmdList.Add("<color=yellow><b>- pm</b>: Sends a private message to player [1].</color>");
+                            foreach (string cmd in cmdList)
+                            {
+                                cacheChatText.Add(cmd);
+                                cacheInputText = "";
+                                mainTabWindowChat.messageScroll = true;
+                            }
                         }
                         else
                         {
                             Packet RequestHelp = new Packet("RequestAdminHelp");
                             Network.SendData(RequestHelp);
+                            cacheInputText = "";
                         }
                         break;
                     case "ping":
@@ -211,24 +218,24 @@ namespace OpenWorldRedux
                     default:
                         if (BooleanCache.isAdmin)
                         {
-                            
                             SendCommand(cacheInputText.Remove(0, 1));
-                            text2 = "Command sent to server: " + cacheInputText.Remove(0, 1);
-                            item = "<color=yellow>[SYSTEM]: </color>" + text2;
-                          //  cacheInputText = "";
+                            cacheInputText = "";
                             break;
                         }
                         else
                         {
-                            text2 = "Message Denied. Either you are not an admin or this command does not exist.</color>";
+                            text2 = "Permission Denied. Either you are not an admin or this command does not exist.</color>";
                             item = "<color=red>[ERROR]: " + text2;
                             break;
                         }
                 }
 
-                cacheChatText.Add(item);
-                cacheInputText = "";
-                mainTabWindowChat.messageScroll = true;
+                if (item != "")
+                {
+                    cacheChatText.Add(item);
+                    cacheInputText = "";
+                    mainTabWindowChat.messageScroll = true;
+                }
                 return;
             }
             
@@ -246,6 +253,7 @@ namespace OpenWorldRedux
             string[] contents = new string[] { cacheInputText };
             Packet NewMsgPacket = new Packet(packetType, contents);
             Network.SendData(NewMsgPacket);
+
         }
 
         public static void SendCommand(string data)
@@ -305,12 +313,12 @@ namespace OpenWorldRedux
         {
 
             List<string> cmdList = new List<string>();
-            cmdList.Add("<color=yellow>[SYSTEM]: Local Commands:</color>");
-            cmdList.Add("<color=yellow>- help: Shows a list of available commands.</color>");
-            cmdList.Add("<color=yellow>- ping: Checks connection with the server.</color>");
-            cmdList.Add("<color=yellow>- pm: Sends a private message to a player.</color>");
+            cmdList.Add("<color=yellow><b>[SYSTEM]</b>: Local Commands:</color>");
+            cmdList.Add("<color=yellow><b>- help</b>: Shows a list of available commands.</color>");
+            cmdList.Add("<color=yellow><b>- ping</b>: Checks connection with the server.</color>");
+            cmdList.Add("<color=yellow><b>- pm</b>: Sends a private message to a player.</color>");
 
-            cmdList.Add("\n<color=yellow>[SYSTEM]: Local Commands:</color>");
+            cmdList.Add("\n<color=yellow><b>[SYSTEM]</b>: Serverside Commands:</color>");
             foreach (string cmd in data)
             {
                 cmdList.Add("<color=yellow>- " + cmd + "</color>");
