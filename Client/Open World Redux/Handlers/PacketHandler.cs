@@ -99,6 +99,11 @@ namespace OpenWorldRedux
                 MPChat.ReceiveCache(receivedPacket.contents.ToList());
             }
 
+            else if (receivedPacket.header == "SendAdminHelp")
+            {
+                MPChat.ReceiveAdminHelp(receivedPacket.contents.ToList());
+            }
+
             // Trading
 
             else if (receivedPacket.header == "SendThingsPacket")

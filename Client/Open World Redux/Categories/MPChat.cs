@@ -183,17 +183,19 @@ namespace OpenWorldRedux
                 switch (command)
                 {
                     case "help":
-
-                        // Remember to put an if/else here for admin commands, then pull a packet from the server with the CommandArray
-
-                        text2 = "<color=yellow>";
-                        text2 += "Available Commands:";
-                        text2 += "\n- help: Shows a list of available commands.";
-                        text2 += "\n- ping: Checks connection with the server.";
-                        text2 += "\n- pm: Sends a private message to a player.";
-                        text2 += "</color>";
-                        item = "<color=yellow>[SYSTEM]: </color>" + text2;
-
+                        if(!BooleanCache.isAdmin)
+                        {
+                            List<string> cmdList = new List<string>();
+                            cmdList.Add("<color=yellow>[SYSTEM]: Local Commands:</color>");
+                            cmdList.Add("<color=yellow>\n- help: Shows a list of available commands.</color>");
+                            cmdList.Add("<color=yellow>\n - ping: Checks connection with the server.</color>");
+                            cmdList.Add("<color=yellow>\n- pm: Sends a private message to player [1].</color>");
+                        }
+                        else
+                        {
+                            Packet RequestHelp = new Packet("RequestAdminHelp");
+                            Network.SendData(RequestHelp);
+                        }
                         break;
                     case "ping":
                         if (BooleanCache.isConnectedToServer) 
@@ -222,7 +224,6 @@ namespace OpenWorldRedux
                             item = "<color=red>[ERROR]: " + text2;
                             break;
                         }
-                        return;
                 }
 
                 cacheChatText.Add(item);
@@ -297,6 +298,29 @@ namespace OpenWorldRedux
             }
             catch
             {
+            }
+        }
+
+        public static void ReceiveAdminHelp(List<string> data)
+        {
+
+            List<string> cmdList = new List<string>();
+            cmdList.Add("<color=yellow>[SYSTEM]: Local Commands:</color>");
+            cmdList.Add("<color=yellow>- help: Shows a list of available commands.</color>");
+            cmdList.Add("<color=yellow>- ping: Checks connection with the server.</color>");
+            cmdList.Add("<color=yellow>- pm: Sends a private message to a player.</color>");
+
+            cmdList.Add("\n<color=yellow>[SYSTEM]: Local Commands:</color>");
+            foreach (string cmd in data)
+            {
+                cmdList.Add("<color=yellow>- " + cmd + "</color>");
+            }
+            
+            foreach(string item in cmdList) 
+            {
+                cacheChatText.Add(item);
+                cacheInputText = "";
+                mainTabWindowChat.messageScroll = true;
             }
         }
     }

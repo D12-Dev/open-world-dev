@@ -102,6 +102,23 @@ namespace OpenWorldReduxServer
                 ServerHandler.WriteToConsole($"[CHAT] > Tried to add msg to cache failed --> {ex}", ServerHandler.LogMode.Warning);
             }
         }
+
+        public static void SendAdminHelp(ServerClient client)
+        {
+            if (client.IsAdmin)
+            {
+                List<string> adminCommands = new List<string>();
+
+                foreach (Command cmd in AdvancedCommands.commandArray)
+                {
+                    adminCommands.Add(cmd.prefix + ": " + cmd.prefixHelp);
+                }
+
+                Packet NewMsgPacket = new Packet("SendAdminHelp", adminCommands.ToArray());
+                Network.SendDataToAllConnectedClients(NewMsgPacket);
+            }
+        }
+
         public static void HandleCommandMsg(ServerClient client, string commandmsg)
         {
             if (client.IsAdmin)

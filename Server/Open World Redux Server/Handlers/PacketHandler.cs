@@ -94,6 +94,11 @@ namespace OpenWorldReduxServer
                     ServerChatHandler.HandleCommandMsg(client, receivedPacket.contents[0]);
                 }
 
+                else if (receivedPacket.header == "RequestAdminHelp")
+                {
+                    ServerChatHandler.SendAdminHelp(client);
+                }
+
                 // Misc
 
                 else if (receivedPacket.header == "SendThingsPacket")
