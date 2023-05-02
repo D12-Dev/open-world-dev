@@ -34,7 +34,7 @@ namespace OpenWorldReduxServer
 
 
 
-        public static void CreateBackup() {
+        public static string CreateBackup() {
             try
             {
                 string CurDate = DateTime.Now.ToString("yyyy-MM-dd");
@@ -79,6 +79,7 @@ namespace OpenWorldReduxServer
             }
             catch (Exception Ex) { ServerHandler.WriteToConsole($"Failed to backup save!\nFull stack trace: {Ex}", ServerHandler.LogMode.Error); }
             ServerHandler.WriteToConsole("Backed up save!", ServerHandler.LogMode.Title);
+            return "Backed up save!";
         }
         
         

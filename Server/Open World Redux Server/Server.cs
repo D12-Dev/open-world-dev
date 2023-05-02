@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,7 +47,7 @@ namespace OpenWorldReduxServer
         static void Main()
         {
             StartProgram();
-            
+
             while (isActive) { ListenForCommands(); }
         }
 
@@ -65,7 +66,7 @@ namespace OpenWorldReduxServer
             AuthPacketHandler.AcceptedCredentialsHandle();
 
             ThreadHandler.GenerateServerThread(4);
-           
+
             //ThreadHandler.GenerateServerThread(3);
         }
 
@@ -75,10 +76,11 @@ namespace OpenWorldReduxServer
 
             if (string.IsNullOrWhiteSpace(command)) return;
             CmdPostHandler(command);
-
+           // Console.WriteLine(CMDRes);
         }
 
-        public static void CmdPostHandler(string command) {
+        public static string CmdPostHandler(string command)
+        {
 
             try
             {
@@ -94,7 +96,9 @@ namespace OpenWorldReduxServer
                 foreach (Command cmd in SimpleCommands.commandArray) if (cmd.prefix == commandBase) toInvoke = cmd;
                 foreach (Command cmd in AdvancedCommands.commandArray) if (cmd.prefix == commandBase) toInvoke = cmd;
 
-                if (toInvoke == null) throw new Exception();
+                if (toInvoke == null) { 
+                    throw new Exception(); 
+                }
                 else
                 {
                     CommandHandler.parameterHolder = commandArgumentsArray;
@@ -102,24 +106,37 @@ namespace OpenWorldReduxServer
                     if (!CommandHandler.CheckForRequirements(toInvoke))
                     {
                         ServerHandler.WriteToConsole($"Missing requirements for [{toInvoke.prefix}] command", ServerHandler.LogMode.Error);
-                        return;
+                        return $"Missing requirements for [{toInvoke.prefix}] command";
                     }
 
                     if (CommandHandler.CheckParameterCount(toInvoke))
                     {
-                        try { toInvoke.actionToDo.Invoke(); }
-                        catch(Exception ex) { ServerHandler.WriteToConsole($"Unexpected error at [{toInvoke.prefix}] command, Full stack trace: \n{ex}", ServerHandler.LogMode.Error); }
+                        try
+                        {
+                            string ReturnString = (string)toInvoke.actionToDo;
+                            return ReturnString;
+                        }
+                        catch (Exception ex)
+                        {
+                            ServerHandler.WriteToConsole($"Unexpected error at [{toInvoke.prefix}] command, Full stack trace: \n{ex}", ServerHandler.LogMode.Error);
+                            return $"Unexpected error at [{toInvoke.prefix}] command, Full stack trace: \n{ex}";
+                        }
+                    }
+                    else {
+                        return $"Command [{command}] was not provided with correct amount of parameteres...";
+
                     }
                 }
             }
 
             catch
             {
-                ServerHandler.WriteToConsole($"Command [{command}] is not recognized by the program. " +
-                $"Please try again", ServerHandler.LogMode.Error);
-                
+                ServerHandler.WriteToConsole($"Command [{command}] is not recognized by the program. Please try again", ServerHandler.LogMode.Error);
+                return $"Command [{command}] is not recognized by the program. Please try again";
             }
 
         }
     }
 }
+
+

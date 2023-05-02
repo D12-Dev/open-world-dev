@@ -141,7 +141,7 @@ namespace OpenWorldRedux
 
 /*        public Page_CustomStoryteller()
         {
-            Log.Message("I also ran this page storyteller");
+            /Log.Message("I also ran this page storyteller");
             absorbInputAroundWindow = false;
             shadowAlpha = 0f;
             preventCameraMotion = false;

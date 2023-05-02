@@ -143,7 +143,7 @@ namespace OpenWorldReduxServer
                 Network.SendData(client, WrongVersionPacket);
                 client.disconnectFlag = true;
 
-                ServerHandler.WriteToConsole($"[Wrong version at join] > {client.SavedIP}");
+                ServerHandler.WriteToConsole($"[Wrong version at join] > {client.SavedIP}\nPlayer Tried to join with version {authFile.clientVersion} of the mod when server is on player version {Server.serverConfig.PlayerVersion} of the mod...");
                 return;
             }
 

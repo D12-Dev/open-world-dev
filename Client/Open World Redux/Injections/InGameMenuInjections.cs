@@ -31,7 +31,11 @@ namespace OpenWorldRedux
                         GameDataSaveLoader.SaveGame(Find.GameInfo.permadeathModeUniqueName);
                         Network.DisconnectFromServer();
                     }
-
+                    Vector2 buttonSize2 = new Vector2(170f, 45f);
+                    if (Widgets.ButtonText(new Rect(0, (buttonSize2.y + 58) * 2, buttonSize2.x, buttonSize2.y), "Reset Progress"))
+                    {
+                        ModStuff.ResetServerProgress();
+                    }
                     return true;
                 }
             }

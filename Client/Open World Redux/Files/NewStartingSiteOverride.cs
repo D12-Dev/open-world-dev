@@ -141,7 +141,7 @@ namespace OpenWorldRedux
 				foreach (PawnKindCount X in (scenPart2 as ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs).kindCounts) {
 					//Log.Message("Running Marathon");
 					//Log.Message(X.ToString());
-					Log.Message(X.count.ToString());
+					//Log.Message(X.count.ToString());
 					PawnCount = PawnCount + X.count;
 
 
@@ -161,14 +161,14 @@ namespace OpenWorldRedux
                  //   Log.Message(X.count.ToString());
 
                 }
-                 Log.Message((scenPart2 as ScenPart_ConfigPage_ConfigureStartingPawns_Xenotypes).xenotypeCounts.ToString());
+                 //Log.Message((scenPart2 as ScenPart_ConfigPage_ConfigureStartingPawns_Xenotypes).xenotypeCounts.ToString());
             }
             catch (Exception)
             {
             //    Log.Message("No Xeno Pawns");
             }
           //  Log.Message("END OF Pawn Counts");
-			Log.Message(PawnCount.ToString());
+			//Log.Message(PawnCount.ToString());
 			pawnCount = PawnCount;
             //Current.Game.InitData.
             // GenerateStartingPawns();

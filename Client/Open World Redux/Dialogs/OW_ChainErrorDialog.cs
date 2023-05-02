@@ -29,7 +29,7 @@ namespace OpenWorldRedux
             forcePause = true;
             closeOnAccept = false;
             closeOnCancel = false;
-
+            
             windowDescription = description;
         }
 
