@@ -15,7 +15,7 @@ namespace OpenWorldReduxServer
 
         public int ServerPort { get; set; } = 25555;
 
-        public string ServerPassword { get; set; } = "123";
+        public string ServerPassword { get; set; } = "";
 
         public int MaxPlayers { get; set; } = 10;
 
