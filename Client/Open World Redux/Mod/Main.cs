@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace OpenWorldRedux
         {
             static OpenWorld()
             {
+                Log.Message($"[Openworld] Client running version {FocusCache.versionCode} of the mod!");
                 SetupCulture();
                 SetupParameterPaths();
                 LoadAutosaveDetails();
