@@ -66,6 +66,8 @@ namespace OpenWorldRedux
             BooleanCache.isTryingToConnect = false;
             BooleanCache.hasLoadedCorrectly = false;
             BooleanCache.isGeneratingNewWorld = false;
+            BooleanCache.worldGenerated = false;
+            BooleanCache.worldSaved = false;
             BooleanCache.isGeneratingWorldFromPacket = false;
             DifficultyCache.usingCustomDifficulty = false;
             FactionCache.hasFaction = false;
