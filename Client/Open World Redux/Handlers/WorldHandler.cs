@@ -19,8 +19,15 @@ namespace OpenWorldRedux
         
         public static void CreateNewWorldHandle()
         {
-            FocusCache.waitWindowInstance.Close();
+            
 
+            FocusCache.waitWindowInstance.Close();
+            if (ModsConfig.RoyaltyActive || ModsConfig.BiotechActive || ModsConfig.IdeologyActive)
+            {
+                Network.DisconnectFromServer();
+                Find.WindowStack.Add(new OW_ErrorDialog("You must generate the world without DLC first!"));
+                return;
+            }
             BooleanCache.isGeneratingNewWorld = true;
 
             Find.WindowStack.Add(new Page_CustomSelectScenario());
@@ -225,7 +232,7 @@ namespace OpenWorldRedux
                     };
                     ToTryToAddFactions.AddRange(RoyaltyFactions);
                 }
-
+                
                 if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
                 {
                     List<FactionDef> IdeologyFactions = new List<FactionDef>() {

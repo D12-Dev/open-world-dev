@@ -78,7 +78,11 @@ namespace OpenWorldRedux
                 }, "Entry", "", doAsynchronously: false, null, showExtraUIInfo: false);
             }
         }
+        public static void UnsuccessfulPassword() {
+            Find.WindowStack.Add(new OW_ErrorDialog("The inputted server password was incorrect!"));
+            FocusCache.waitWindowInstance.Close();
 
+        }
         public static void BannedPlayerHandler()
         {
             Find.WindowStack.Add(new OW_ErrorDialog("You are banned from this server"));

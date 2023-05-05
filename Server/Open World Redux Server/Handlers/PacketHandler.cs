@@ -39,7 +39,9 @@ namespace OpenWorldReduxServer
                 {
                     ClientLoginHandler.LoginClient(client, receivedPacket);
                 }
-
+                else if (receivedPacket.header == "PasswordCheckToServer") { // Recieve a password check from the client
+                    ClientHandler.RecievePasswordCheck(client, receivedPacket);
+                }
 
                 else if (receivedPacket.header == "RecieveBaseSaveFromClient") ///////// Receives base save game from client
                 {

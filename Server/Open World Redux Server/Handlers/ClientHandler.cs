@@ -38,7 +38,46 @@ namespace OpenWorldReduxServer
             Packet ServerValuesPacket = new Packet("ServerPlayersPacket", contents.ToArray());
             Network.SendData(client, ServerValuesPacket);
         }
+        public static void RecievePasswordCheck(ServerClient client, Packet packet ) {
+            Packet ServerValuesPacket;
 
+            /// Restructure packet
+            /// 
+            
+
+
+            string ClientUserName = client.Username;
+            string ClientPassword = client.Password;   
+            string serverPassword = packet.contents[0];
+            //packet.contents.SetValue(client.Password, 1);
+            //packet.contents[1] = client.Password;
+            //  packet.contents[2] = packet.contents[1];
+/*            Console.WriteLine("This ran wa");
+            foreach (string x in packet.contents) {
+                Console.WriteLine(x);
+            
+            }*/
+            //Console.WriteLine(packet.contents[2]);
+            //Console.WriteLine(Server.serverConfig.ServerPassword);
+            if (serverPassword == Server.serverConfig.ServerPassword)
+            {
+                string[] contents = new string[] {
+                    ClientUserName,
+                    ClientPassword
+                };
+                ServerValuesPacket = new Packet("UnsuccessfulPassword", contents);
+                // Successful Password
+                Server.ClientsWithVerifiedPass.Add(client.SavedIP);
+
+                ClientLoginHandler.LoginClient(client, ServerValuesPacket);
+            }
+            else
+            {
+                // Unsuccessful password
+                ServerValuesPacket = new Packet("UnsuccessfulPassword");
+                Network.SendData(client, ServerValuesPacket);
+            }
+        }
         public static void SendServerValues(ServerClient client)
         {
             string[] contents = new string[] { Serializer.SoftSerialize(Server.serverValues) };

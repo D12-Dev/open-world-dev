@@ -131,7 +131,7 @@ namespace OpenWorldRedux
             Text.Font = GameFont.Medium;
           //  Widgets.Label(new Rect(centeredX - Text.CalcSize(windowTitle).x / 2, rect.y, Text.CalcSize(windowTitle).x, Text.CalcSize(windowTitle).y), windowTitle);
             Text.Font = GameFont.Small;
-            Log.Message(PageSelected);
+           // Log.Message(PageSelected);
             CreateNavBar(rect);
             CreateCurrentTab(rect);
 
@@ -169,7 +169,7 @@ namespace OpenWorldRedux
             float IncreY = rect.yMax / 7;
             float ButtonWidth = (float)(rect.width * 0.975);
             float ButtonHeight = rect.height / 10;
-            Log.Message(ButtonWidth.ToString() + "   " +  ButtonHeight.ToString());
+          //  Log.Message(ButtonWidth.ToString() + "   " +  ButtonHeight.ToString());
             List<Tuple<string, string, string, string >> ServerList = GetServersFromMasterServer();
 
             foreach (Tuple<string, string, string, string > Server in ServerList) {

@@ -21,16 +21,23 @@ namespace OpenWorldRedux
             {
                 GeneralHandler.AcceptedConnectionHandle();
             }
-
             else if (receivedPacket.header == "AlreadyRegisteredPacket")
             {
                 ErrorHandler.AlreadyRegisteredHandle();
             }
-
+            else if (receivedPacket.header == "SendPasswordCheckToClient") // Ask for password
+            {
+                GeneralHandler.AskForPassword();
+            }
             else if (receivedPacket.header == "IncorrectLoginPacket")
             {
                 ErrorHandler.IncorrectLoginHandle();
             }
+            else if (receivedPacket.header == "UnsuccessfulPassword")
+            {
+                ErrorHandler.UnsuccessfulPassword();
+            }
+            
 
             else if (receivedPacket.header == "RegisteredClientPacket")
             {

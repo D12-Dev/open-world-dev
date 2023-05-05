@@ -22,6 +22,11 @@ namespace OpenWorldReduxServer
                 return;
             }
 
+            if (Server.serverConfig.ServerPassword != "" && !Server.ClientsWithVerifiedPass.Contains(client.SavedIP)) {
+
+                SendPasswordCheckToClient(client);
+                return;
+            }
             if (!CheckIfClientShouldConnect(client))
             {
                 client.disconnectFlag = true;
@@ -49,7 +54,13 @@ namespace OpenWorldReduxServer
             ServerChatHandler.SendClientMessageCache(client); //////// Send the chat cache to the player.
             ServerHandler.WriteToConsole($"[Logged in] > [{client.Username}] - [{client.SavedID}]");
         }
+        private static void SendPasswordCheckToClient(ServerClient client) {
 
+
+
+            Packet PasswordCheckPacket = new Packet("SendPasswordCheckToClient");
+            Network.SendData(client, PasswordCheckPacket);
+        } 
         private static bool CheckIfClientShouldConnect(ServerClient client)
         {
             if (client.IsBanned)

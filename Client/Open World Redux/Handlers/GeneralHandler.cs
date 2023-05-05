@@ -95,7 +95,11 @@ namespace OpenWorldRedux
                 Injections.thingsToDoInUpdate.Add(LetterCache.GenerateLetter);
             }
         }
+        public static void AskForPassword() {
+            Find.WindowStack.Add(new OW_MPPasswordCheck());
 
+
+        }
         public static void SendAuthFile()
         {
             ClientAuthFile authFile = new ClientAuthFile();

@@ -33,7 +33,6 @@ namespace OpenWorldReduxServer
         public static string whitelistFilePath;
 
         public static string serverVersion = "1.0.5";
-
         public static ServerValuesFile serverValues;
         public static CachedVariableFile cachedVariables;
         public static AuthFile serverAuth;
@@ -41,7 +40,7 @@ namespace OpenWorldReduxServer
         public static DeepConfigFile serverDeepConfigs;
         public static DifficultyFile serverDifficulty;
         public static WhitelistFile whitelist;
-
+        public static List<string> ClientsWithVerifiedPass = new List<string>();
         public static bool isActive = true;
 
         static void Main()
