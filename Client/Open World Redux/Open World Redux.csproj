@@ -135,6 +135,7 @@
     <Compile Include="Files\DifficultyFile.cs" />
     <Compile Include="Files\NewStoryTellerOverride.cs" />
     <Compile Include="Files\NewStartingSiteOverride.cs" />
+    <Compile Include="Files\ScenarioEditorOverride.cs" />
     <Compile Include="Files\SelectScenarioOverride.cs" />
     <Compile Include="Handlers\AidHandler.cs" />
     <Compile Include="Caches\BlackMarketCache.cs" />

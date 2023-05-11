@@ -8,6 +8,7 @@ using UnityEngine;
 using Verse.Sound;
 using Verse;
 using HarmonyLib;
+using OpenWorldRedux.Files.RimWorld;
 
 namespace OpenWorldRedux
 {
@@ -29,11 +30,7 @@ namespace OpenWorldRedux
         public override string PageTitle => "ChooseScenario".Translate();
 
 
-        ////////////// Remove Buttom Menu Buttons /////////////////
 
-
-
-        /////////////////////////
         public override void PreOpen()
         {
             BooleanCache.BottomBarVis = false;
@@ -79,7 +76,8 @@ namespace OpenWorldRedux
         {
             if (BooleanCache.isCustomScenariosAllowed)
             {
-                Page_ScenarioEditor page_ScenarioEditor = new Page_ScenarioEditor(CanEditScenario(curScen) ? curScen : curScen.CopyForEditing());
+                Log.Message("opening scen editor");
+                Page_CustomScenarioEditor page_ScenarioEditor = new Page_CustomScenarioEditor(CanEditScenario(curScen) ? curScen : curScen.CopyForEditing());
                 page_ScenarioEditor.prev = this;
                 Find.WindowStack.Add(page_ScenarioEditor);
                 Close();
@@ -224,7 +222,7 @@ namespace OpenWorldRedux
 
 
             }
-          //  Log.Message("Begin Scen Config");
+            Log.Message("Begin Scen Config");
 
             Current.Game.Scenario = scen;
             WorldCache.scenario = scen;
