@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<FactionDef ParentName="FactionBase" Name="OnlineNeutralTribe">
+		<defName>OnlineNeutralTribe</defName>
+		<description>A group composed of existing tribes in the planet</description>
+		<basicMemberKind>Colonist</basicMemberKind>
+		<pawnSingular>tribespeople</pawnSingular>
+		<pawnsPlural>tribespeople</pawnsPlural>
+		<leaderTitle>chief</leaderTitle>
+		<requiredCountAtGameStart>1</requiredCountAtGameStart>
+    	<maxCountAtGameStart>1</maxCountAtGameStart>
+		<settlementGenerationWeight>1</settlementGenerationWeight>
+		<label>Gaia World Tribe</label>
+		<fixedName>Gaia World Tribe</fixedName>
+		<factionIconPath>World/WorldObjects/Expanding/Village</factionIconPath>
+		<settlementTexturePath>World/WorldObjects/TribalSettlement</settlementTexturePath>
+		<techLevel>Neolithic</techLevel>
+		<factionNameMaker>NamerFactionTribal</factionNameMaker>
+    	<settlementNameMaker>NamerSettlementTribal</settlementNameMaker>
+		<canSiege>false</canSiege>
+		<canStageAttacks>false</canStageAttacks>
+		<permanentEnemy>false</permanentEnemy>
+		<naturalEnemy>false</naturalEnemy>
+		<disallowedMemes>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Structure_Ideological</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Transhumanist</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Blindsight</li>
+			</disallowedMemes>
+		<disallowedPrecepts>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Male_CoveringAnythingButGroinDisapproved</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Female_CoveringAnythingButGroinDisapproved</li>
+		</disallowedPrecepts>
+		<structureMemeWeights>
+			<Structure_Animist MayRequire="Ludeon.RimWorld.Ideology">4</Structure_Animist>
+			<Structure_TheistEmbodied MayRequire="Ludeon.RimWorld.Ideology">1</Structure_TheistEmbodied>
+			<Structure_TheistAbstract MayRequire="Ludeon.RimWorld.Ideology">1</Structure_TheistAbstract>
+			<Structure_Archist MayRequire="Ludeon.RimWorld.Ideology">1</Structure_Archist>
+			<Structure_OriginChristian MayRequire="Ludeon.RimWorld.Ideology">1</Structure_OriginChristian>
+			<Structure_OriginIslamic MayRequire="Ludeon.RimWorld.Ideology">1</Structure_OriginIslamic>
+			<Structure_OriginHindu MayRequire="Ludeon.RimWorld.Ideology">1</Structure_OriginHindu>
+			<Structure_OriginBuddhist MayRequire="Ludeon.RimWorld.Ideology">1</Structure_OriginBuddhist>
+		</structureMemeWeights>
+		<colorSpectrum>
+			<li>(0, 1, 0)</li>
+		</colorSpectrum>
+		<backstoryFilters>
+			<li>
+				<categories>
+					<li>Tribal</li>
+				</categories>
+			</li>
+		</backstoryFilters>
+		<allowedArrivalTemperatureRange>0~45</allowedArrivalTemperatureRange>
+		<humanlikeFaction>true</humanlikeFaction>
+		<hidden>false</hidden>
+		<rescueesCanJoin>false</rescueesCanJoin>
+		<caravanTraderKinds>
+			<li>Caravan_Neolithic_BulkGoods</li>
+			<li>Caravan_Neolithic_WarMerchant</li>
+			<li>Caravan_Neolithic_Slaver</li>
+			<li>Caravan_Neolithic_ShamanMerchant</li>
+    	</caravanTraderKinds>
+    	<visitorTraderKinds>
+      		<li>Visitor_Neolithic_Standard</li>
+    	</visitorTraderKinds>
+    	<baseTraderKinds>
+      		<li>Base_Neolithic_Standard</li>
+    	</baseTraderKinds>
+		<maxPawnCostPerTotalPointsCurve>
+			<points>
+				<li>(0,35)</li>
+				<li>(70, 50)</li>
+				<li>(800, 100)</li>
+				<li>(1300, 150)</li>
+				<li>(100000, 10000)</li>
+			</points>
+		</maxPawnCostPerTotalPointsCurve>
+		<pawnGroupMakers>
+			<li>
+				<kindDef>Settlement</kindDef>
+				<options>
+					<Villager>5</Villager>
+					<Town_Guard>10</Town_Guard>
+					<Grenadier_Destructive>1.5</Grenadier_Destructive>
+					<Mercenary_Slasher>7</Mercenary_Slasher>
+					<Mercenary_Gunner>10</Mercenary_Gunner>
+					<Mercenary_Elite>10</Mercenary_Elite>
+					<Town_Councilman>10</Town_Councilman>
+				</options>
+			</li>
+			<li>
+        		<kindDef>Trader</kindDef>
+				<traders>
+					<Tribal_Trader>1</Tribal_Trader>
+				</traders>
+				<carriers>
+					<Muffalo>6</Muffalo>
+					<Dromedary>5</Dromedary>
+					<Alpaca>2.5</Alpaca>
+					<Elephant>2</Elephant>
+				</carriers>
+				<guards>
+					<Tribal_Warrior>7</Tribal_Warrior>
+					<Tribal_Archer>10</Tribal_Archer>
+					<Tribal_Hunter>10</Tribal_Hunter>
+					<Tribal_HeavyArcher>10</Tribal_HeavyArcher>
+					<Tribal_Berserker>7</Tribal_Berserker>
+				</guards>
+      		</li>
+			<li>
+				<kindDef>Combat</kindDef>
+				<commonality>100</commonality>
+				<options>
+					<Tribal_Penitent>5</Tribal_Penitent>
+					<Tribal_Warrior>5</Tribal_Warrior>
+					<Tribal_Archer>10</Tribal_Archer>
+					<Tribal_Hunter>10</Tribal_Hunter>
+					<Tribal_HeavyArcher>10</Tribal_HeavyArcher>
+					<Tribal_Berserker>5</Tribal_Berserker>
+					<Tribal_ChiefRanged>3</Tribal_ChiefRanged>
+					<Tribal_ChiefMelee>1.5</Tribal_ChiefMelee>
+				</options>
+			</li>
+			<li>
+				<kindDef>Combat</kindDef>
+				<commonality>60</commonality>
+				<options>
+					<Tribal_Archer>10</Tribal_Archer>
+					<Tribal_Hunter>10</Tribal_Hunter>
+					<Tribal_HeavyArcher>10</Tribal_HeavyArcher>
+					<Tribal_ChiefRanged>5</Tribal_ChiefRanged>
+				</options>
+			</li>
+			<li>
+				<kindDef>Combat</kindDef>
+				<commonality>60</commonality>
+				<options>
+					<Tribal_Penitent>10</Tribal_Penitent>
+					<Tribal_Warrior>10</Tribal_Warrior>
+					<Tribal_Berserker>10</Tribal_Berserker>
+					<Tribal_ChiefMelee>5</Tribal_ChiefMelee>
+				</options>
+			</li>
+			<li>
+				<kindDef>Combat</kindDef>
+				<commonality>5</commonality>
+				<options>
+					<Tribal_Breacher>5</Tribal_Breacher>
+					<Tribal_Penitent>5</Tribal_Penitent>
+					<Tribal_Warrior>5</Tribal_Warrior>
+					<Tribal_Archer>10</Tribal_Archer>
+					<Tribal_Hunter>10</Tribal_Hunter>
+					<Tribal_HeavyArcher>10</Tribal_HeavyArcher>
+					<Tribal_Berserker>5</Tribal_Berserker>
+					<Tribal_ChiefRanged>3</Tribal_ChiefRanged>
+					<Tribal_ChiefMelee>1.5</Tribal_ChiefMelee>
+				</options>
+			</li>
+			<li>
+				<kindDef>Settlement</kindDef>
+				<options>
+					<Tribal_Warrior>7</Tribal_Warrior>
+					<Tribal_Archer>10</Tribal_Archer>
+					<Tribal_Hunter>10</Tribal_Hunter>
+					<Tribal_HeavyArcher>10</Tribal_HeavyArcher>
+					<Tribal_Berserker>7</Tribal_Berserker>
+					<Tribal_ChiefRanged>10</Tribal_ChiefRanged>
+				</options>
+			</li>
+			<li>
+				<kindDef>Settlement_RangedOnly</kindDef>
+				<options>
+					<Tribal_Archer>10</Tribal_Archer>
+					<Tribal_Hunter>10</Tribal_Hunter>
+					<Tribal_HeavyArcher>10</Tribal_HeavyArcher>
+					<Tribal_ChiefRanged>10</Tribal_ChiefRanged>
+				</options>
+			</li>
+    	</pawnGroupMakers>
+	</FactionDef>
+</Defs>

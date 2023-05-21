@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.props" Condition="Exists('..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AB02C448-74BA-4CB2-82E7-67EE545B827E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenWorldRedux</RootNamespace>
+    <AssemblyName>OpenWorld</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\Videogames\Steam\steamapps\common\RimWorld\Mods\Open World\1.4\Assemblies\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="1I18N">
+      <HintPath>Reference\1I18N.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="2I18N.West">
+      <HintPath>Reference\2I18N.West.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\Source\Open World - Client\Open World\refrence\Assemblies\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="com.rlabrecque.steamworks.net">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="HugsLib">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\294100\818773962\v1.4\Assemblies\HugsLib.dll</HintPath>
+      <HintPath>..\..\..\..\Source\Open World - Client\Open World\refrence\Assemblies\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="com.rlabrecque.steamworks.net">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="HugsLib">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\294100\818773962\v1.4\Assemblies\HugsLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Numerics">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Context" />
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>False</Private>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.7.0.2\lib\net462\System.Text.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\Assemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\Assemblies\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\Assemblies\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\..\..\..\Source\Open World - Client\Open World\bin\Debug\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\Assemblies\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\..\..\Source\Open World - Client\Open World\bin\Debug\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\..\..\..\Source\Open World - Client\Open World\bin\Debug\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\Assemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.2.1" ExcludeAssets="runtime" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caches\DifficultyCache.cs" />
+    <Compile Include="Categories\MPChat.cs" />
+    <Compile Include="Dialogs\OW_SendVisitConfirmation.cs" />
+    <Compile Include="Dialogs\OW_SendVisitRequest.cs" />
+    <Compile Include="Dialogs\OW_SavingDialog.cs" />
+    <Compile Include="Files\DifficultyFile.cs" />
+    <Compile Include="Files\NewStoryTellerOverride.cs" />
+    <Compile Include="Files\NewStartingSiteOverride.cs" />
+    <Compile Include="Files\SelectScenarioOverride.cs" />
+    <Compile Include="Handlers\AidHandler.cs" />
+    <Compile Include="Caches\BlackMarketCache.cs" />
+    <Compile Include="Caches\BooleanCache.cs" />
+    <Compile Include="Caches\FactionCache.cs" />
+    <Compile Include="Caches\FactionsCache.cs" />
+    <Compile Include="Caches\FocusCache.cs" />
+    <Compile Include="Caches\LetterCache.cs" />
+    <Compile Include="Caches\TradeCache.cs" />
+    <Compile Include="Caches\WorldCache.cs" />
+    <Compile Include="Categories\MPGame.cs" />
+    <Compile Include="Dialogs\OW_ErrorListDialog.cs" />
+    <Compile Include="Dialogs\OW_ChainErrorDialog.cs" />
+    <Compile Include="Dialogs\OW_ErrorDialog.cs" />
+    <Compile Include="Dialogs\OW_ChainInfoDialog.cs" />
+    <Compile Include="Dialogs\OW_InfoDialog.cs" />
+    <Compile Include="Dialogs\OW_QuantityDialog.cs" />
+    <Compile Include="Dialogs\OW_WaitingDialog.cs" />
+    <Compile Include="Files\ClientAuthFile.cs" />
+    <Compile Include="Files\ClientValuesFile.cs" />
+    <Compile Include="Files\FactionFile.cs" />
+    <Compile Include="Files\LoginDataFile.cs" />
+    <Compile Include="Files\ServerValuesFile.cs" />
+    <Compile Include="Files\SettlementFile.cs" />
+    <Compile Include="Files\StructureFile.cs" />
+    <Compile Include="Files\TradeItem.cs" />
+    <Compile Include="Files\WorldFactionUIOverride.cs" />
+    <Compile Include="Files\WorldGeneratorOverride.cs" />
+    <Compile Include="Handlers\BlackMarketHandler.cs" />
+    <Compile Include="Handlers\ServerHandlers.cs" />
+    <Compile Include="Handlers\FactionHandler.cs" />
+    <Compile Include="Handlers\RimworldHandler.cs" />
+    <Compile Include="Handlers\RoadHandler.cs" />
+    <Compile Include="Handlers\SaveHandler.cs" />
+    <Compile Include="Handlers\TradeHandler.cs" />
+    <Compile Include="Injections\BottomGuiBarInjection.cs" />
+    <Compile Include="Injections\PreGameStartInjection.cs" />
+    <Compile Include="Network\Hash.cs" />
+    <Compile Include="Injections\EnforcementInjections.cs" />
+    <Compile Include="Injections\FloatingOptionInjections.cs" />
+    <Compile Include="Injections\GizmoInjections.cs" />
+    <Compile Include="Injections\InGameMenuInjections.cs" />
+    <Compile Include="Injections\Injections.cs" />
+    <Compile Include="Injections\CreateWorldInjections.cs" />
+    <Compile Include="Injections\MainMenuInjections.cs" />
+    <Compile Include="Injections\WorldMapInjections.cs" />
+    <Compile Include="Mod\Main.cs" />
+    <Compile Include="Mod\ModConfigs.cs" />
+    <Compile Include="Mod\ModStuff.cs" />
+    <Compile Include="Network\Network.cs" />
+    <Compile Include="Handlers\ErrorHandler.cs" />
+    <Compile Include="Handlers\GeneralHandler.cs" />
+    <Compile Include="Network\Packet.cs" />
+    <Compile Include="Handlers\PacketHandler.cs" />
+    <Compile Include="Handlers\WorldHandler.cs" />
+    <Compile Include="Network\Serializer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RTSE\ColonistBarOverwrite.cs" />
+    <Compile Include="RTSE\Comingback.cs" />
+    <Compile Include="RTSE\OnRecievedVisitAccept.cs" />
+    <Compile Include="RTSE\OnSendVisitRequest.cs" />
+    <Compile Include="RTSE\OnVisitAccept.cs" />
+    <Compile Include="Tabs\MP_WITabOnlinePlayers.cs" />
+    <Compile Include="Tabs\MP_WITabSettlementList.cs" />
+    <Compile Include="Network\Threading.cs" />
+    <Compile Include="Windows\Aid\OW_MPAidMenu.cs" />
+    <Compile Include="Windows\Aid\OW_MPConfirmAid.cs" />
+    <Compile Include="Windows\Barter\OW_MPBarterMenu.cs" />
+    <Compile Include="Windows\Barter\OW_MPBarterRequest.cs" />
+    <Compile Include="Windows\Barter\OW_MPConfirmBarter.cs" />
+    <Compile Include="Windows\Black Market\OW_MPBlackMarket.cs" />
+    <Compile Include="Windows\Black Market\OW_MPConfirmBlackMarket.cs" />
+    <Compile Include="Windows\Faction\OW_MPConfirmBankDeposit.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionBankDeposit.cs" />
+    <Compile Include="Windows\Faction\OW_MPConfirmDeposit.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionSiloDeposit.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionSiteUse.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionSiteDemolish.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionSiteConfirmBuild.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionSiteBuilding.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionInvite.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionDemote.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionKick.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionPromote.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionRecruit.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionOnPlayer.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionDisband.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionLeave.cs" />
+    <Compile Include="Windows\Faction\OW_MPFactionMenu.cs" />
+    <Compile Include="Windows\Leave\OW_MPConfirmLeave.cs" />
+    <Compile Include="Windows\Leave\OW_MPLeaveMenu.cs" />
+    <Compile Include="Windows\Leave\OW_MPLeaveRequest.cs" />
+    <Compile Include="Windows\Gift\OW_MPConfirmGift.cs" />
+    <Compile Include="Windows\Gift\OW_MPGiftMenu.cs" />
+    <Compile Include="Windows\Gift\OW_MPGiftRequest.cs" />
+    <Compile Include="Windows\OW_MPConfirmResetSave.cs" />
+    <Compile Include="Windows\OW_MPPasswordCheck.cs" />
+    <Compile Include="Windows\OW_MPSpecialThanks.cs" />
+    <Compile Include="Windows\Roads\OW_MPRoadMenu.cs" />
+    <Compile Include="Windows\Trade\OW_MPTradeRequest.cs" />
+    <Compile Include="Windows\Trade\OW_MPConfirmTrade.cs" />
+    <Compile Include="Windows\Trade\OW_MPTradeMenu.cs" />
+    <Compile Include="Windows\OW_MPConfig.cs" />
+    <Compile Include="Windows\OW_MPConnect.cs" />
+    <Compile Include="Windows\OW_MPLoginType.cs" />
+    <Compile Include="Windows\OW_MPRegister.cs" />
+    <Compile Include="Windows\OW_MPLogin.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Multiplayer\OpenWorldReduxMP.csproj">
+      <Project>{3e51b300-4175-4ebf-b78b-10723314629a}</Project>
+      <Name>OpenWorldReduxMP</Name>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.props'))" />
+    <Error Condition="!Exists('..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.targets'))" />
+  </Target>
+  <Import Project="..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.targets" Condition="Exists('..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>ren "$(TargetDir)Multiplayer.dll" "OpenWorldReduxMP.dll"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

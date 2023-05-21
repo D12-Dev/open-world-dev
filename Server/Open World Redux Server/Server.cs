@@ -1,0 +1,142 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Sockets;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OpenWorldReduxServer
+{
+    public static class Server
+    {
+        public static string mainFolderPath;
+        public static string logsFolderPath;
+        public static string playersFolderPath;
+        public static string savesFolderPath;
+        public static string settlementsFolderPath;
+        public static string factionsFolderPath;
+        public static string dataFolderPath;
+        public static string BackupFolderPath;
+        public static string WorldGenDataPath;
+        public static string enforcedModsFolderPath;
+        public static string whitelistedModsFolderPath;
+        public static string blacklistedModsFolderPath;
+
+
+        public static string CachedVarsPath;
+        public static string valuesFilePath;
+        public static string authFilePath;
+        public static string configFilePath;
+        public static string deepConfigsFilePath;
+        public static string difficultyFilePath;
+        public static string whitelistFilePath;
+
+        public static string serverVersion = "1.0.4";
+        public static ServerValuesFile serverValues;
+        public static CachedVariableFile cachedVariables;
+        public static AuthFile serverAuth;
+        public static ConfigFile serverConfig;
+        public static DeepConfigFile serverDeepConfigs;
+        public static DifficultyFile serverDifficulty;
+        public static WhitelistFile whitelist;
+        public static List<string> ClientsWithVerifiedPass = new List<string>();
+        public static bool isActive = true;
+
+        static void Main()
+        {
+            StartProgram();
+
+            while (isActive) { ListenForCommands(); }
+        }
+
+        private static void StartProgram()
+        {
+            ServerHandler.SetPaths();
+            ServerHandler.SetCulture();
+            ServerHandler.CheckAuthFile();
+            ServerHandler.CheckConfigFile(true);
+            ServerHandler.CheckDeepSettingsFile();
+            ServerHandler.CheckValuesFile();
+            ServerHandler.CheckCachedVarsFile();
+            ServerHandler.CheckDifficultyFile();
+            ServerHandler.CheckWhitelistFile();
+
+            AuthPacketHandler.AcceptedCredentialsHandle();
+
+            ThreadHandler.GenerateServerThread(4);
+
+            //ThreadHandler.GenerateServerThread(3);
+        }
+
+        private static void ListenForCommands()
+        {
+            string command = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(command)) return;
+            CmdPostHandler(command);
+            // Console.WriteLine(CMDRes);
+        }
+
+        public static string CmdPostHandler(string command)
+        {
+
+            try
+            {
+                string commandBase = command.Split(' ')[0];
+                string commandArgumentString = command.Remove(0, commandBase.Length);
+                if (commandArgumentString.StartsWith(' ')) commandArgumentString = commandArgumentString.Remove(0, 1);
+
+                string[] commandArgumentsArray;
+                if (string.IsNullOrWhiteSpace(commandArgumentString)) commandArgumentsArray = new string[0];
+                else commandArgumentsArray = commandArgumentString.Split(' ');
+
+                Command toInvoke = null;
+                foreach (Command cmd in SimpleCommands.commandArray) if (cmd.prefix == commandBase) toInvoke = cmd;
+                foreach (Command cmd in AdvancedCommands.commandArray) if (cmd.prefix == commandBase) toInvoke = cmd;
+
+                if (toInvoke == null)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    CommandHandler.parameterHolder = commandArgumentsArray;
+
+                    if (!CommandHandler.CheckForRequirements(toInvoke))
+                    {
+                        ServerHandler.WriteToConsole($"Missing requirements for [{toInvoke.prefix}] command", ServerHandler.LogMode.Error);
+                        return $"Missing requirements for [{toInvoke.prefix}] command";
+                    }
+
+                    if (CommandHandler.CheckParameterCount(toInvoke))
+                    {
+                        try
+                        {
+                            string ReturnString = (string)toInvoke.actionToDo;
+                            return ReturnString;
+                        }
+                        catch (Exception ex)
+                        {
+                            ServerHandler.WriteToConsole($"Unexpected error at [{toInvoke.prefix}] command, Full stack trace: \n{ex}", ServerHandler.LogMode.Error);
+                            return $"Unexpected error at [{toInvoke.prefix}] command, Full stack trace: \n{ex}";
+                        }
+                    }
+                    else
+                    {
+                        return $"Command [{command}] was not provided with correct amount of parameteres...";
+
+                    }
+                }
+            }
+
+            catch
+            {
+                ServerHandler.WriteToConsole($"Command [{command}] is not recognized by the program. Please try again", ServerHandler.LogMode.Error);
+                return $"Command [{command}] is not recognized by the program. Please try again";
+            }
+
+        }
+    }
+}
+

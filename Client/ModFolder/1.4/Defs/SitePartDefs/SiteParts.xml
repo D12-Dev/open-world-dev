@@ -1,0 +1,78 @@
+<Defs>
+  <SitePartDef>
+    <defName>OnlineSilo</defName>
+    <label>Online Silo</label>
+    <description>Open World's online structure</description>
+    <workerClass>SitePartWorker_Outpost</workerClass>
+    <siteTexture>Sites/Silos</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Outpost</expandingIconTexture>
+    <applyFactionColorToSiteTexture>true</applyFactionColorToSiteTexture>
+    <minThreatPoints>5000</minThreatPoints>
+  </SitePartDef>
+
+  <SitePartDef>
+    <defName>OnlineMarketplace</defName>
+    <label>Online Marketplace</label>
+    <description>Open World's online structure</description>
+    <workerClass>SitePartWorker_Outpost</workerClass>
+    <siteTexture>Sites/Marketplace</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Outpost</expandingIconTexture>
+    <applyFactionColorToSiteTexture>true</applyFactionColorToSiteTexture>
+    <minThreatPoints>5000</minThreatPoints>
+  </SitePartDef>
+
+  <SitePartDef>
+    <defName>OnlineProductionSite</defName>
+    <label>Online Production Site</label>
+    <description>Open World's online structure</description>
+    <workerClass>SitePartWorker_Outpost</workerClass>
+    <siteTexture>Sites/Production</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Outpost</expandingIconTexture>
+    <applyFactionColorToSiteTexture>true</applyFactionColorToSiteTexture>
+    <minThreatPoints>5000</minThreatPoints>
+  </SitePartDef>
+
+  <SitePartDef>
+    <defName>OnlineWonder</defName>
+    <label>Online Wonder</label>
+    <description>Open World's online structure</description>
+    <workerClass>SitePartWorker_Outpost</workerClass>
+    <siteTexture>World/WorldObjects/Sites/Outpost</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Outpost</expandingIconTexture>
+    <applyFactionColorToSiteTexture>true</applyFactionColorToSiteTexture>
+    <minThreatPoints>5000</minThreatPoints>
+  </SitePartDef>
+
+  <SitePartDef>
+    <defName>OnlineBank</defName>
+    <label>Online Bank</label>
+    <description>Open World's online structure</description>
+    <workerClass>SitePartWorker_Outpost</workerClass>
+    <siteTexture>Sites/Bank</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Outpost</expandingIconTexture>
+    <applyFactionColorToSiteTexture>true</applyFactionColorToSiteTexture>
+    <minThreatPoints>5000</minThreatPoints>
+  </SitePartDef>
+
+  <SitePartDef>
+    <defName>OnlineAeroport</defName>
+    <label>Online Aeroport</label>
+    <description>Open World's online structure</description>
+    <workerClass>SitePartWorker_Outpost</workerClass>
+    <siteTexture>Sites/Aeroport</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Outpost</expandingIconTexture>
+    <applyFactionColorToSiteTexture>true</applyFactionColorToSiteTexture>
+    <minThreatPoints>5000</minThreatPoints>
+  </SitePartDef>
+
+  <SitePartDef>
+    <defName>OnlineCourier</defName>
+    <label>Online Courier</label>
+    <description>Open World's online structure</description>
+    <workerClass>SitePartWorker_Outpost</workerClass>
+    <siteTexture>Sites/Courrier</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Outpost</expandingIconTexture>
+    <applyFactionColorToSiteTexture>true</applyFactionColorToSiteTexture>
+    <minThreatPoints>5000</minThreatPoints>
+  </SitePartDef>
+</Defs>
