@@ -33,7 +33,7 @@ namespace OpenWorldRedux
 
                 return true;
             }
-
+            
             [HarmonyPostfix]
             public static void ModifyPost(Rect rect)
             {
