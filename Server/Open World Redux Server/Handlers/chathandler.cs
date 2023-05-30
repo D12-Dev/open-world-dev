@@ -112,7 +112,8 @@ namespace OpenWorldReduxServer
             //client is original sender of request. Msg is person who needs to be sent to.
             try
             {
-                ServerHandler.WriteToConsole("Started visit accept");
+                ServerHandler.WriteToConsole("Started visit request");
+                ServerHandler.WriteToConsole("From:" + client);
                 ServerHandler.WriteToConsole("sent user: " + caravanitems);
                 ServerHandler.WriteToConsole("sent user: " + clienttosend);
                 ServerClient SentUser = ClientHandler.GetClientFromConnected(clienttosend);

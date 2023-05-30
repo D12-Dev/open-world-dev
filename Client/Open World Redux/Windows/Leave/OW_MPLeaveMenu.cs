@@ -41,7 +41,7 @@ namespace OpenWorldRedux
 
             //FocusCache.giftMenuInstance = this;
 
-            GenerateTradeList();
+            GenerateTradeList(true);
             CacheTradeables();
             SetupParameters();
 
@@ -54,6 +54,11 @@ namespace OpenWorldRedux
             absorbInputAroundWindow = true;
             closeOnAccept = false;
             closeOnCancel = true;
+
+            SoundDefOf.Tick_Low.PlayOneShotOnCamera();
+            GenerateTradeList(true);
+            CacheTradeables();
+            TradeSession.deal.Reset();
         }
 
         private void SetupParameters()
@@ -84,7 +89,7 @@ namespace OpenWorldRedux
 
             foreach (Thing thing in mapItems)
             {
-                if (thing is Pawn pawn && !pawn.NonHumanlikeOrWildMan())
+                if (thing is Pawn pawn /*&& !pawn.NonHumanlikeOrWildMan()//***/)
                 {
                     if (ColonistBar_CheckRecacheEntries.concatedstring.Contains(pawn.thingIDNumber.ToString()))
                     {

@@ -25,7 +25,6 @@ namespace OpenWorldRedux
         public static OW_MPAidMenu aidMenuInstance;
         public static OW_WaitingDialog waitWindowInstance;
         public static OW_SavingDialog saveWindowInstance;
-
         public static int quantityChosenOnDialog;
 
         public static int actualSaveTicks;

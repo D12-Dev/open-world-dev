@@ -46,13 +46,14 @@ namespace OpenWorldRedux.RTSE
             {
                 if (sentPawn.def.defName == "Human")
                 {
-                    Log.Message("Pawn to string called: " + sentPawn.Name.ToString());
+                    Log.Message("Pawn to string called 1: " + sentPawn.Name.ToString());
                     visitrequeststring += sentPawn.def.defName.ToString() + "|";
                     visitrequeststring += sentPawn.Name.ToString() + "|";
                     visitrequeststring += sentPawn.ageTracker.AgeBiologicalTicks.ToString() + "|";
                     visitrequeststring += sentPawn.ageTracker.AgeChronologicalTicks.ToString() + "|";
                     visitrequeststring += sentPawn.gender.ToString() + "|";
                     visitrequeststring += sentPawn.thingIDNumber.ToString() + "|";
+                    visitrequeststring += "Pawn" + "|";
                     if (sentPawn.genes.Xenotype != null)
                     {
                         visitrequeststring += sentPawn.genes.Xenotype.ToString();
@@ -71,9 +72,15 @@ namespace OpenWorldRedux.RTSE
 
                     visitrequeststring += "*";
 
-
-                    visitrequeststring += sentPawn.story.Childhood.ToString() + "|";
-                    visitrequeststring += sentPawn.story.Adulthood.ToString() + "|";
+                    if (sentPawn.story.Childhood != null)
+                    {
+                        visitrequeststring += sentPawn.story.Childhood.ToString() + "|";
+                    }
+                    if(sentPawn.story.Adulthood != null)
+                    {
+                        visitrequeststring += sentPawn.story.Adulthood.ToString() + "|";
+                    }
+                    
 
                     visitrequeststring += "*";
 
@@ -138,6 +145,48 @@ namespace OpenWorldRedux.RTSE
 
 
                 }
+                else
+                {
+                    Log.Message("Pawn to string called 2: " + sentPawn.Name.ToString());
+                    visitrequeststring += sentPawn.def.defName.ToString() + "|";
+                    visitrequeststring += sentPawn.Name.ToString() + "|";
+                    visitrequeststring += sentPawn.ageTracker.AgeBiologicalTicks.ToString() + "|";
+                    visitrequeststring += sentPawn.ageTracker.AgeChronologicalTicks.ToString() + "|";
+                    visitrequeststring += sentPawn.gender.ToString() + "|";
+                    visitrequeststring += sentPawn.thingIDNumber.ToString() + "|";
+                    visitrequeststring += "Pawn" + "|"; 
+
+                    visitrequeststring += "*";
+
+                    StringBuilder healthStateBuilder = new StringBuilder();
+
+                    foreach (Hediff hediff in sentPawn.health.hediffSet.hediffs)
+                    {
+                        visitrequeststring += hediff.def.defName + ";" + hediff.Part?.Label + ";" + hediff.Severity + ";" + hediff.IsPermanent() + ";" + "|";
+                    }
+                    visitrequeststring += "*";
+                    StringBuilder trainingInfoBuilder = new StringBuilder();
+
+                    foreach (TrainableDef trainable in DefDatabase<TrainableDef>.AllDefsListForReading)
+                    {
+                        bool canTrain = sentPawn.training.CanAssignToTrain(trainable).Accepted;
+                        bool hasLearned = sentPawn.training.HasLearned(trainable);
+                        bool isDisabled = sentPawn.training.GetWanted(trainable);
+                        trainingInfoBuilder.Append($"{trainable.defName};{canTrain};{hasLearned};{isDisabled}|");
+                    }
+
+                    string trainingInfo = trainingInfoBuilder.ToString();
+
+                    if (trainingInfo.Length > 0)
+                    {
+                        // Remove the trailing '|' from the final string.
+                        trainingInfo = trainingInfo.Substring(0, trainingInfo.Length - 1);
+                    }
+
+                    visitrequeststring += trainingInfo;
+                    visitrequeststring += "*";
+                }
+                visitrequeststring += ":";
 
             }
             return visitrequeststring;
@@ -151,7 +200,7 @@ namespace OpenWorldRedux.RTSE
 
                 foreach (Thing thing in caravan.AllThings)
                 {
-                    if(thing != null && thing.def.defName != "Human")
+                    if(thing != null && !(thing is Pawn))
                     {
                         visitrequeststringfinal += itemtostring(thing);
                     }
@@ -162,7 +211,7 @@ namespace OpenWorldRedux.RTSE
             {
                 foreach (Thing thing in Things)
                 {
-                    if (thing != null && thing.def.defName != "Human")
+                    if (thing != null && !(thing is Pawn))
                     {
                         visitrequeststringfinal += itemtostring(thing);
                     }
@@ -184,7 +233,7 @@ namespace OpenWorldRedux.RTSE
             {
                 if (item != null)
                 {
-                    itemtostring += item.def.defName + "|" + item.stackCount + "|" + item.def.MadeFromStuff + "|" + item.HitPoints + "|" + item.thingIDNumber + ":";
+                    itemtostring += item.def.defName + "|" + item.stackCount + "|" + item.def.MadeFromStuff + "|" + item.HitPoints + "|" + item.thingIDNumber +  "|" + "Item" +  ":";
 
                     return itemtostring;
                 }

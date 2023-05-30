@@ -30,14 +30,15 @@ namespace OpenWorldRedux.RTSE
                 Log.Message("deleting caravan: " + OW_SendVisitRequest.lastrequest.AllThings.Count() + " " + OW_SendVisitRequest.lastrequest.Name);
                 OW_SendVisitRequest.lastrequest.Destroy();
                 Steamworks.CSteamID steamId = new Steamworks.CSteamID(steamIdUlong);
-                GameDataSaveLoader.SaveGame("Open World Server Save " + OW_MPLogin.myusername);
-                SaveHandler.SendSaveToServer("Open World Server Save " + OW_MPLogin.myusername);
+                Find.TickManager.Pause();
+                GameDataSaveLoader.SaveGame("Open World Server Save " + FocusCache.userName);
+                SaveHandler.SendSaveToServer("Open World Server Save " + FocusCache.userName);
                 BooleanCache.ishostingrtseserver = false;
                 MemoryUtility.ClearAllMapsAndWorld();
                 GenScene.GoToMainMenu();
                 Comingback.iscomingbackfromsettlement = true;
                 Log.Message("Connecting through Steam: " + steamId);
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 try
                 {
                     Multiplayer.Client.Multiplayer.session = new MultiplayerSession
@@ -46,7 +47,7 @@ namespace OpenWorldRedux.RTSE
                         steamHost = steamId
                     };
                     Find.WindowStack.Add(new SteamConnectingWindow(steamId) { returnToServerBrowser = false });
-                    Thread.Sleep(1000);
+                    Thread.Sleep(1500);
                     Multiplayer.Client.Multiplayer.session.ReapplyPrefs();
                     Multiplayer.Client.Multiplayer.Client.State = ConnectionStateEnum.ClientSteam;
                 }

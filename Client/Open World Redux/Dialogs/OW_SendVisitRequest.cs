@@ -74,7 +74,6 @@ namespace OpenWorldRedux
                 lastrequest = FocusCache.focusedCaravan;
                 Network.SendData(NewMsgPacket);
                 Close();
-                
             }
             if (Widgets.ButtonText(new Rect(new Vector2(centeredX - buttonX / 2 -100, rect.yMax - buttonY), new Vector2(buttonX, buttonY)), "Cancel"))
             {

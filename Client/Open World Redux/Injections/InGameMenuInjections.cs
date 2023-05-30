@@ -28,7 +28,7 @@ namespace OpenWorldRedux
                     Vector2 buttonSize = new Vector2(170f, 45f);
                     if (Widgets.ButtonText(new Rect(0, (buttonSize.y + 7) * 2, buttonSize.x, buttonSize.y), ""))
                     {
-                        GameDataSaveLoader.SaveGame(("Open World Server Save " + OW_MPLogin.myusername));
+                        GameDataSaveLoader.SaveGame(("Open World Server Save"));
                         Network.DisconnectFromServer();
                     }
                     Vector2 buttonSize2 = new Vector2(170f, 45f);

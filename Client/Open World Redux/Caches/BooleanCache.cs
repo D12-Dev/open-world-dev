@@ -13,7 +13,7 @@ namespace OpenWorldRedux
         public static bool isGeneratingWorldFromPacket;
 
         public static bool worldGenerated;
-        public static bool BottomBarVis;
+        public static bool BottomBarVis = true;
         public static bool worldSaved;
 
         public static bool newPlayer;

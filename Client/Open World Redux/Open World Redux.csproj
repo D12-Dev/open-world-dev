@@ -328,6 +328,7 @@
   </Target>
   <Import Project="..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.targets" Condition="Exists('..\packages\Krafs.Publicizer.2.2.1\build\Krafs.Publicizer.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>ren "$(TargetDir)Multiplayer.dll" "OpenWorldReduxMP.dll"</PostBuildEvent>
+    <PostBuildEvent>del "$(TargetDir)OpenWorldReduxMP.dll"
+ren "$(TargetDir)Multiplayer.dll" "OpenWorldReduxMP.dll"</PostBuildEvent>
   </PropertyGroup>
 </Project>

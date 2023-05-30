@@ -87,7 +87,7 @@ namespace OpenWorldRedux
 
             foreach (Pawn pawn in caravan.pawns)
             {
-                if (!pawn.NonHumanlikeOrWildMan()) continue;
+               if (!pawn.NonHumanlikeOrWildMan()) continue;
 
                 Tradeable tradeable = new Tradeable();
                 tradeable.AddThing(pawn, Transactor.Colony);

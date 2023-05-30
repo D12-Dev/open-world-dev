@@ -113,7 +113,8 @@ namespace OpenWorldRedux
         [HarmonyPostfix]
         public static void GetIDFromExistingGame()
         {
-            if (!BooleanCache.isConnectedToServer && !BooleanCache.ishostingrtseserver) return;
+            Log.Message("Debug: " + BooleanCache.isConnectedToServer + BooleanCache.ishostingrtseserver + Comingback.iscomingbackfromsettlement);
+            if (!BooleanCache.isConnectedToServer && !BooleanCache.ishostingrtseserver && !Comingback.iscomingbackfromsettlement) return;
             else
             {
                 FactionsCache.FindOnlineFactionsInWorld();
@@ -142,12 +143,13 @@ namespace OpenWorldRedux
 
 
                 }
+                BooleanCache.hasLoadedCorrectly = true;
                 if (Current.ProgramState == ProgramState.Playing && ColonistBar_CheckRecacheEntries.savedlastcaravan != null && ColonistBar_CheckRecacheEntries.savedcaravan != null && Comingback.iscomingbackfromsettlement && Multiplayer.Client.Multiplayer.session == null)
                 {
                     Log.Message("CALLLLED COMING BACK RFOM PING");
                     Comingback.Comingbackfromsettlement();
                 }
-                BooleanCache.hasLoadedCorrectly = true;
+                
             }
         }
     }

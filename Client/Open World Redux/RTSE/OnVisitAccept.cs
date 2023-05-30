@@ -334,22 +334,33 @@ namespace OpenWorldRedux.RTSE
                         Log.Message("called1");
                         if (weaponData.Split(';')[0] == null || weaponData.Split(';')[0] == "" || weaponData.Split(';')[0] == " " || weaponData.Split(';')[1] == null || weaponData.Split(';')[1] == "" || weaponData.Split(';')[1] == " " || weaponData.Split(';')[2] == null || weaponData.Split(';')[2] == "" || weaponData.Split(';')[2] == " ")
                         {
-
+                            Log.Message("Weapon data is null");
                         }
                         else
                         {
+                            Log.Message("About to set weapon defstring");
                             string weapondef = weaponData.Split(';')[0];
+                            Log.Message("About to set weapon hitpointsstring");
                             string weaponhitpoints = weaponData.Split(';')[1];
+                            Log.Message("called hitpoints");
                             if (Enum.TryParse(weaponData.Split(';')[2], out RimWorld.QualityCategory weaponquality))
                             {
+                                Log.Message("About to set weapon def");
                                 ThingDef weaponDef = DefDatabase<ThingDef>.GetNamed(weapondef);
+                                Log.Message("About to set weapon hitpoints");
                                 ThingWithComps newWeapon = (ThingWithComps)ThingMaker.MakeThing(weaponDef, null);
+                                Log.Message("dont setting new weapon");
+                                Log.Message("setting hit points " + int.Parse(weaponhitpoints));
                                 newWeapon.HitPoints = int.Parse(weaponhitpoints);
+                                Log.Message("dont setting hitpoints");
                                 newWeapon.TryGetComp<CompQuality>().SetQuality(weaponquality, ArtGenerationContext.Outsider);
+                                Log.Message("done setting quality");
                                 //Log.Message("called7");
                                 newPawn.equipment.AddEquipment(newWeapon);
+                                Log.Message("added new weapon");
                             }
                         }
+                        Log.Message("finished weapon");
 
                     }
                 }
@@ -413,6 +424,118 @@ float.TryParse(skincolorComponents[3], out a))
                 }
 
             }
+            else
+            {
+                Log.Message("Got here: " + pawnstring);
+                Pawn newPawn = PawnGenerator.GeneratePawn(PawnKindDef.Named(pawnstring.Split('|')[0]), Faction.OfPlayer);
+                Log.Message("Got here2");
+                newPawn.Name = new NameSingle(pawnstring.Split('|')[1]);
+                
+                Log.Message("Got here3");
+                int.TryParse(pawnstring.Split('|')[2], out int ageBiologicalTicks);
+                Log.Message("Got here4");
+                int.TryParse(pawnstring.Split('|')[3], out int ageChronologicalTicks);
+                Log.Message("Got here5");
+                newPawn.ageTracker.AgeBiologicalTicks = ageBiologicalTicks;
+                Log.Message("Got here6");
+                newPawn.ageTracker.AgeChronologicalTicks = ageChronologicalTicks;
+                Log.Message("Got here7");
+                string gender = pawnstring.Split('|')[4];
+                Log.Message("Got here8");
+                if (Enum.TryParse(gender, true, out Gender finalGender))
+                    Log.Message("Got here9");
+                newPawn.gender = finalGender;
+                Log.Message("Got here10");
+
+                newPawn.health.RemoveAllHediffs();
+                newPawn.health.Reset();
+                Log.Message("Got here11");
+                foreach (string healthissues in pawnstring.Split('*')[1].Split('|'))
+                {
+                    Log.Message("Got here12");
+                    string hediffDefName;
+                    string bodyPartLabel;
+                    float severity;
+                    bool scar;
+                    if (healthissues is null || healthissues == "" || healthissues == " ")
+                    {
+                        continue;
+                    }
+
+                    hediffDefName = healthissues.Split(';')[0];
+                    severity = float.Parse(healthissues.Split(';')[2]);
+                    HediffDef hediffDef = DefDatabase<HediffDef>.GetNamed(hediffDefName);
+                    bodyPartLabel = "null";
+                    try
+                    {
+                        bodyPartLabel = healthissues.Split(';')[1];
+                    }
+                    catch
+                    {
+                        Log.Message("Error bruh");
+                    }
+
+                    BodyPartRecord bodyPart = bodyPartLabel == "null" ? null : newPawn.RaceProps.body.AllParts.FirstOrDefault(bp => bp.Label == bodyPartLabel);
+                    Hediff hediff = HediffMaker.MakeHediff(hediffDef, newPawn, bodyPart);
+                    hediff.Severity = severity;
+                    bool.TryParse(healthissues.Split(';')[3], out scar);
+                    try
+                    {
+                        if (scar)
+                        {
+                            HediffComp_GetsPermanent hediffComp = hediff.TryGetComp<HediffComp_GetsPermanent>();
+                            hediffComp.IsPermanent = true;
+                        }
+
+                    }
+                    catch
+                    {
+                        Log.Message("Error bruh");
+                    }
+                    newPawn.health.AddHediff(hediff);
+                }
+
+                string[] trainingInfoStrings = pawnstring.Split('*')[2].Split('|');
+                Log.Message("Got here13");
+                foreach (string trainingInfoString in trainingInfoStrings)
+                {
+                    Log.Message("Got here14");
+                    if (string.IsNullOrEmpty(trainingInfoString))
+                    {
+                        continue;
+                    }
+
+                    string[] trainingInfoParts = trainingInfoString.Split(';');
+                    TrainableDef trainable = DefDatabase<TrainableDef>.GetNamedSilentFail(trainingInfoParts[0]);
+
+                    if (trainable == null)
+                    {
+                        continue;
+                    }
+                    Log.Message("Got here15");
+
+                    bool canTrain = bool.Parse(trainingInfoParts[1]);
+                    bool hasLearned = bool.Parse(trainingInfoParts[2]);
+                    bool isdisabled = bool.Parse(trainingInfoParts[3]);
+                    Log.Message("Got here16");
+
+                    if (canTrain)
+                    {
+                        newPawn.training.Train(trainable, null, complete: hasLearned);
+                    }
+
+                    if (isdisabled)
+                    {
+                        newPawn.training.SetWantedRecursive(trainable, true);
+                    }
+                    Log.Message("Got here17");
+                }
+                Log.Message("Got here18");
+
+
+
+                return newPawn;
+            }
 
             return null;
         }
@@ -473,7 +596,6 @@ float.TryParse(skincolorComponents[3], out a))
                         break;
                     }
                 }
-
                 thing.stackCount = int.Parse(item.Split('|')[1]);
                 return thing;
             }
@@ -508,9 +630,14 @@ float.TryParse(skincolorComponents[3], out a))
             {
                 if(str != null && str != "" && str != " ")
                 {
+                    string itemDefName = "Item";
                     Log.Message("For each string in updatetradbles called:" + str);
-                    string itemDefName = str.Split('|')[0];
-                    if (itemDefName == "Human")
+                    if(str.Split('|').Length > 6)
+                    {
+                        itemDefName = str.Split('|')[6];
+                        Log.Message("Updated itemdef name: " + itemDefName);
+                    }
+                    if (itemDefName == "Pawn")
                     {
                         //Log.Message("Original ID:" + pawnstring.Split(':')[index].Split('|')[5]);
                         Pawn newPawn = stringtopawn(str);

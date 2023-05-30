@@ -35,7 +35,7 @@ namespace OpenWorldRedux
             forcePause = true;
             closeOnAccept = false;
             closeOnCancel = false;
-            string description = "Are you sure you want to accept? ";
+            string description = "Request from: '" + Fromuser + "'. Do you want to accept?";
             windowDescription = description;
             RequestFromUser = Fromuser;
             caravanitemsandpawnsfinal = caravanitemsandpawns;

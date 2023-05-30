@@ -32,8 +32,13 @@ namespace OpenWorldRedux.RTSE
             }
             Multiplayer.Client.Multiplayer.session = null;
             iscomingbackfromsettlement = false;
-            
+            caravanitems = null;
+            caravanPawns = null;
+
+            // this may cause an issue. Keep an eye on it.
             //ColonistBar_CheckRecacheEntries.savedlastcaravan = null;
+            //
+
             ColonistBar_CheckRecacheEntries.savedcaravan = null;
 
             FactionsCache.FindOnlineFactionsInWorld();
@@ -58,7 +63,7 @@ namespace OpenWorldRedux.RTSE
             {
                 if (string.IsNullOrWhiteSpace(str)) continue;
                 string itemDefName = str.Split('|')[0];
-                if (itemDefName == "Human")
+                if (itemDefName == "Human" || str.Split('|').Length > 6 && str.Split('|')[6] == "Pawn")
                 {
                     Pawn newPawn = OnVisitAccept.stringtopawn(str);
                     //Log.Message("18");
@@ -77,7 +82,7 @@ namespace OpenWorldRedux.RTSE
             {
                 if (string.IsNullOrWhiteSpace(str)) continue;
                 string itemDefName = str.Split('|')[0];
-                if (itemDefName != "Human")
+                if (itemDefName != "Human" && str.Split('|').Length > 6 && str.Split('|')[6] != "Pawn")
                 {
                     Thing newitem = OnVisitAccept.stringtoitem(str);
                     //Log.Message("18");
