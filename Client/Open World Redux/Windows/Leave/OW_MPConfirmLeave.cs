@@ -75,26 +75,28 @@ namespace OpenWorldRedux
                 {
                     ColonistBar_CheckRecacheEntries.savedlastcaravan += OnSendVisitRequest.pawntostring(pawn);
                 }
-                if (tradeable.AnyThing is Thing item && tradeable.CountToTransfer != 0)
+                else if (tradeable.AnyThing is Thing item && tradeable.CountToTransfer != 0)
                 {
                     ColonistBar_CheckRecacheEntries.savedlastcaravan += OnSendVisitRequest.itemtostring(item, tradeable.CountToTransfer);
                 }
             }
+            MemoryUtility.ClearAllMapsAndWorld();
+            GenScene.GoToMainMenu();
             string packetType = "LeaveNotification";
             string focusedusername = OnRecievedVisitAccept.savedmultiplayerhost;
             string[] contents = new string[] { focusedusername + ":" + ColonistBar_CheckRecacheEntries.savedlastcaravan };
             Log.Message(contents[0]);
             Packet NewMsgPacket = new Packet(packetType, contents);
             Network.SendData(NewMsgPacket);
+
             Comingback.iscomingbackfromsettlement = true;
             Multiplayer.Client.Multiplayer.session = null;
             BooleanCache.ishostingrtseserver = false;
             string[] contents2 = new string[] { };
-            Packet ClientSaveFilePacket = new Packet("Requestsave", contents2);
-            //MemoryUtility.ClearAllMapsAndWorld();
-           // GenScene.GoToMainMenu();
+            Packet ClientSaveFilePacket = new Packet("RequestFullsave", contents2);
+
             Network.SendData(ClientSaveFilePacket);
-            //GameDataSaveLoader.LoadGame("Last Peer Open World Save");
+            //GameDataSaveLoader.LoadGame("Open World Server Save " + FocusCache.userName);
             
 
         }

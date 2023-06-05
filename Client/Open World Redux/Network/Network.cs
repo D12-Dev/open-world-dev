@@ -63,7 +63,7 @@ namespace OpenWorldRedux
                 FocusCache.waitWindowInstance.Close();
             }
         }
-        private static bool oneplayerjoined = false;
+        public static bool oneplayerjoined = false;
         public static void ListenToServer()
         {
             GeneralHandler.SendAuthFile();

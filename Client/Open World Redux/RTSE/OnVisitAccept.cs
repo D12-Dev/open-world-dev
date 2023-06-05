@@ -131,38 +131,43 @@ namespace OpenWorldRedux.RTSE
                     }
                 }
 
-                if (pawnstring.Split('|')[6] != null && pawnstring.Split('|')[6] != "" && pawnstring.Split('|')[6] != " " && pawnstring.Split('|')[6] != "*")
+                //if (pawnstring.Split('|')[7] != null && pawnstring.Split('|')[7] != "" && pawnstring.Split('|')[7] != " " && pawnstring.Split('|')[7] != "*")
+                //{
+                //    newPawn.genes.xenotypeName = pawnstring.Split('|')[7];
+                // }
+
+                if (pawnstring.Split('|').Length > 7)
                 {
-                    newPawn.genes.xenotypeName = pawnstring.Split('|')[6];
+                    if (pawnstring.Split('|')[7] != null && pawnstring.Split('|')[7] != "" && pawnstring.Split('|')[7] != " " && pawnstring.Split('|')[7] != "*")
+                    {
+                        newPawn.genes.xenotypeName = pawnstring.Split('|')[7];
+                    }
+
                 }
 
                 if (pawnstring.Split('|').Length > 8)
                 {
-                    if (pawnstring.Split('|')[8] != null && pawnstring.Split('|')[8] != "" && pawnstring.Split('|')[8] != " " && pawnstring.Split('|')[8] != "*")
+                    if(pawnstring.Split('|')[8] != null)
                     {
-                        newPawn.genes.xenotypeName = pawnstring.Split('|')[8];
-                    }
+                        string favcolorString = pawnstring.Split('|')[8];
 
-                }
-
-                if (pawnstring.Split('|')[7] != null)
-                {
-                    string favcolorString = pawnstring.Split('|')[7];
-
-                    string[] favcolorComponents = favcolorString.Replace("RGBA(", "").Replace(")", "").Split(',');
-                    if (favcolorComponents.Length == 4)
-                    {
-                        float r, g, b, a;
-                        if (float.TryParse(favcolorComponents[0], out r) &&
-                            float.TryParse(favcolorComponents[1], out g) &&
-                            float.TryParse(favcolorComponents[2], out b) &&
-                            float.TryParse(favcolorComponents[3], out a))
+                        string[] favcolorComponents = favcolorString.Replace("RGBA(", "").Replace(")", "").Split(',');
+                        if (favcolorComponents.Length == 4)
                         {
-                            UnityEngine.Color favhairColor = new UnityEngine.Color(r, g, b, a);
-                            newPawn.story.favoriteColor = favhairColor;
+                            float r, g, b, a;
+                            if (float.TryParse(favcolorComponents[0], out r) &&
+                                float.TryParse(favcolorComponents[1], out g) &&
+                                float.TryParse(favcolorComponents[2], out b) &&
+                                float.TryParse(favcolorComponents[3], out a))
+                            {
+                                UnityEngine.Color favhairColor = new UnityEngine.Color(r, g, b, a);
+                                newPawn.story.favoriteColor = favhairColor;
+                            }
                         }
                     }
+
                 }
+            
                 List<string> skillList = pawnstring.Split('*')[2].Split('|').ToList();
                 for (int i = 0; i < 12; i++)
                 {
@@ -420,6 +425,124 @@ float.TryParse(skincolorComponents[3], out a))
                     }
                     string bodytype = pawnstring.Split('*')[4].Split('|')[5];
                     newPawn.story.bodyType = (BodyTypeDef)DefDatabase<BodyTypeDef>.GetNamed(bodytype);
+
+
+                    newPawn.genes.ClearXenogenes();
+                    newPawn.genes.Endogenes.Clear();
+                    Log.Message("Genes: " + pawnstring.Split('*')[8]);
+                    Log.Message("Genes: " + pawnstring.Split('*')[9]);
+                    string[] genes = null;
+                    if (pawnstring.Split('*')[8].Split('|') != null)
+                    {
+                        genes = pawnstring.Split('*')[8].Split('|');
+                    }
+                    if (pawnstring.Split('*')[8].Length >= 2 && genes != null)
+                    {
+
+                        //Log.Message(str.Split('‼')[9]);
+                        //Log.Message("about to trying setting genes");
+                        foreach (string gene in genes)
+                        {
+                            //  Log.Message("about to trying setting genes2");
+                            if (gene.Split(';')[0] != null && gene.Split(';')[0] != "" && gene.Split(';')[0] != " ")
+                            {
+                                string finalgene = gene.Split(';')[0];
+                                List<string> finalabilitylist = gene.Split(';').Skip(1).ToList();
+                                GeneDef genedef = DefDatabase<GeneDef>.GetNamed(finalgene, false);
+                                // Log.Message("about to trying setting genes 3");
+                                Gene geneToAdd = GeneMaker.MakeGene(genedef, newPawn); // Create a new Gene object
+                                geneToAdd.def = genedef; // Set the def property of the Gene object to t
+                                                         //  Log.Message("about to trying setting genes 4");
+                                foreach (string ability in finalabilitylist)
+                                {
+                                    //   Log.Message("about to trying setting genes 5");
+                                    if (ability != null && ability != "" && ability != " " && ability != "*")
+                                    {
+                                        Log.Message("about to trying setting genes6: " + ability.ToString());
+                                        string finalability = ability;
+                                        AbilityDef abilitydef = DefDatabase<AbilityDef>.GetNamed(finalability, false);
+                                        Ability abilityToAdd = new Ability(); // Create a new Gene object
+                                        Log.Message("about to setting genes 6 2.");
+                                        geneToAdd.def.abilities.Add(abilitydef);
+                                        Log.Message("about to setting genes 6 3.");
+                                        newPawn.abilities.abilities.Add(abilityToAdd);
+                                        Log.Message("about to setting genes 6 4.");
+                                        newPawn.abilities.GainAbility(abilitydef);
+                                        Log.Message("about to setting genes 6 5.");
+                                        //     Log.Message("about to trying setting genes 7 ");
+                                    }
+
+                                    //  Log.Message("about to trying setting genes8");
+                                }
+                                //   Log.Message("about to trying setting genes9");
+                                // newPawn.genes.AddGene(genedef, false);
+                                //  Log.Message("about to trying setting genes10");
+                                newPawn.genes.Xenogenes.Add(geneToAdd);
+                                geneToAdd.PostAdd();
+
+
+                                //  Log.Message("about to trying setting genes11");
+
+                            }
+
+                        }
+                        newPawn.needs?.AddOrRemoveNeedsAsAppropriate();
+                        newPawn.health.hediffSet.DirtyCache();
+                        newPawn.skills?.Notify_GenesChanged();
+                        newPawn.Notify_DisabledWorkTypesChanged();
+                    }
+                    string[] endogenes = null;
+                    //Log.Message("Genes: " + str.Split('‼')[9]);
+                    if (pawnstring.Split('*')[9].Split('|') != null)
+                    {
+                        endogenes = pawnstring.Split('*')[9].Split('|');
+                    }
+                    
+                    if (pawnstring.Split('*')[9].Length >= 2 && endogenes != null)
+                    {
+                        foreach (string endogene in endogenes)
+                        {
+                            if (endogene != null && endogene != "" && endogene != " " && endogene != "*")
+                            {
+                                Log.Message("looking at endogene: " + endogene);
+                                string finalendogene = endogene;
+                                GeneDef endogenedef = DefDatabase<GeneDef>.GetNamed(finalendogene, false);
+                                Log.Message("checkpoint");
+                                // Log.Message("about to trying setting genes 3");
+                                Gene endogeneToAdd = new Gene(); // Create a new Gene object
+                                endogeneToAdd.def = endogenedef; // Set the def property of the Gene object to t
+                                                                 //  Log.Message("about to trying setting genes 4");
+                                Log.Message("checkpoint 2 ");
+                                //   Log.Message("about to trying setting genes9");
+                                // newPawn.genes.AddGene(genedef, false);
+                                //  Log.Message("about to trying setting genes10");
+                                newPawn.genes.Endogenes.Add(endogeneToAdd);
+
+                                Log.Message("checkpoint 3 ");
+                                //endogeneToAdd.PostAdd();
+                                Log.Message("checkpoint 4 ");
+
+
+                                //  Log.Message("about to trying setting genes11");
+
+                            }
+                            newPawn.needs?.AddOrRemoveNeedsAsAppropriate();
+                            newPawn.health.hediffSet.DirtyCache();
+                            newPawn.skills?.Notify_GenesChanged();
+                            newPawn.Notify_DisabledWorkTypesChanged();
+
+                        }
+                        newPawn.needs?.AddOrRemoveNeedsAsAppropriate();
+                        newPawn.health.hediffSet.DirtyCache();
+                        newPawn.skills?.Notify_GenesChanged();
+                        newPawn.Notify_DisabledWorkTypesChanged();
+
+                    }
+
+
+
+
+
                     return newPawn;
                 }
 
@@ -634,7 +757,7 @@ float.TryParse(skincolorComponents[3], out a))
                     Log.Message("For each string in updatetradbles called:" + str);
                     if(str.Split('|').Length > 6)
                     {
-                        itemDefName = str.Split('|')[6];
+                        itemDefName = "Pawn";
                         Log.Message("Updated itemdef name: " + itemDefName);
                     }
                     if (itemDefName == "Pawn")

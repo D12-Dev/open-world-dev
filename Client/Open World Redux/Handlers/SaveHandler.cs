@@ -30,11 +30,12 @@ namespace OpenWorldRedux
         public static void LoadFromServerSave(Packet receivedPacket)
         {
             FocusCache.waitWindowInstance.Close();
-
-            string filePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Saves" + Path.DirectorySeparatorChar + "Open World Server Save.rws";
+            BooleanCache.ishostingrtseserver = false;
+            string dateTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string filePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Saves" + Path.DirectorySeparatorChar + "Open World Server Save-" + dateTime + "-" + FocusCache.userName + ".rws";
 
             File.WriteAllBytes(filePath, Unzip(Convert.FromBase64String(receivedPacket.contents[0])));
-            GameDataSaveLoader.LoadGame("Open World Server Save");
+            GameDataSaveLoader.LoadGame("Open World Server Save-" + dateTime + "-" + FocusCache.userName);
         }
 
 

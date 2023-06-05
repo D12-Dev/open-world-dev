@@ -38,7 +38,7 @@ namespace OpenWorldRedux
             }
         }
     }
-
+    
     //Inject when saving
     [HarmonyPatch(typeof(GameDataSaveLoader), "SaveGame", typeof(string))]
     public static class SaveOnlineGame
@@ -89,11 +89,12 @@ namespace OpenWorldRedux
             if (!BooleanCache.isConnectedToServer) return;
             else
             {
+                Log.Message("New game started");
                 FactionsCache.FindOnlineFactionsInWorld();
 
                 WorldHandler.PrepareWorld();
 
-                WorldHandler.TryPatchOldWorlds();
+               WorldHandler.TryPatchOldWorlds();
 
                 RimworldHandler.ToggleDevOptions();
 
@@ -113,10 +114,11 @@ namespace OpenWorldRedux
         [HarmonyPostfix]
         public static void GetIDFromExistingGame()
         {
-            Log.Message("Debug: " + BooleanCache.isConnectedToServer + BooleanCache.ishostingrtseserver + Comingback.iscomingbackfromsettlement);
+            Log.Message("Might call loadgame");
             if (!BooleanCache.isConnectedToServer && !BooleanCache.ishostingrtseserver && !Comingback.iscomingbackfromsettlement) return;
             else
             {
+                Log.Message("Called loadgame");
                 FactionsCache.FindOnlineFactionsInWorld();
 
                 WorldHandler.PrepareWorld();
@@ -126,6 +128,8 @@ namespace OpenWorldRedux
                 RimworldHandler.ToggleDevOptions();
 
                 RimworldHandler.EnforceDificultyTweaks();
+
+                
 
 
                 if (WorldRendererUtility.WorldRenderedNow == true)
@@ -143,7 +147,9 @@ namespace OpenWorldRedux
 
 
                 }
+
                 BooleanCache.hasLoadedCorrectly = true;
+
                 if (Current.ProgramState == ProgramState.Playing && ColonistBar_CheckRecacheEntries.savedlastcaravan != null && ColonistBar_CheckRecacheEntries.savedcaravan != null && Comingback.iscomingbackfromsettlement && Multiplayer.Client.Multiplayer.session == null)
                 {
                     Log.Message("CALLLLED COMING BACK RFOM PING");

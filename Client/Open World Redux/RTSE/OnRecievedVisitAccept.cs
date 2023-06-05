@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Multiplayer.Client;
 using Multiplayer.Client.Networking;
 using Multiplayer.Common;
+using OpenWorldRedux.Handlers;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -31,9 +32,12 @@ namespace OpenWorldRedux.RTSE
                 OW_SendVisitRequest.lastrequest.Destroy();
                 Steamworks.CSteamID steamId = new Steamworks.CSteamID(steamIdUlong);
                 Find.TickManager.Pause();
-                GameDataSaveLoader.SaveGame("Open World Server Save " + FocusCache.userName);
-                SaveHandler.SendSaveToServer("Open World Server Save " + FocusCache.userName);
+                ServerHandlers.SaveAndSendToSever();
+                string dateTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                
+                //GameDataSaveLoader.SaveGame("Open World Server Save-" + dateTime + "-" + FocusCache.userName);
                 BooleanCache.ishostingrtseserver = false;
+                Multiplayer.Client.Multiplayer.session = null;
                 MemoryUtility.ClearAllMapsAndWorld();
                 GenScene.GoToMainMenu();
                 Comingback.iscomingbackfromsettlement = true;

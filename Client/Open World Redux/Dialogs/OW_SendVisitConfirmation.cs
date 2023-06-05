@@ -60,6 +60,7 @@ namespace OpenWorldRedux
             if (Widgets.ButtonText(new Rect(new Vector2(centeredX - buttonX / 2 + 100, rect.yMax - buttonY), new Vector2(buttonX, buttonY)), "Yes"))
             {
                 Log.Message("yes called");
+                Network.oneplayerjoined = false;
                 string packetType = "VisitAccept";
                 Log.Message("About to update tradeables");
                 OnVisitAccept.UpdateTradeableItems(caravanitemsandpawnsfinal);
@@ -104,7 +105,6 @@ namespace Multiplayer.Client
         {
             Multiplayer.settings.serverSettings.steam = true;
             Multiplayer.settings.serverSettings.pauseOnJoin = false;
-            Multiplayer.settings.serverSettings.syncConfigs = false;
             Multiplayer.settings.showCursors = false;
             Multiplayer.settings.autoAcceptSteam = true;
             MethodInfo privateMethod = typeof(HostWindow).GetMethod("TryHost", BindingFlags.NonPublic | BindingFlags.Instance);

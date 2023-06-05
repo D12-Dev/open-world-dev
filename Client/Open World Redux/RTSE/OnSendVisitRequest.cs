@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Multiplayer.Client;
+using OpenWorldRedux.Handlers;
 using RimWorld;
 using RimWorld.Planet;
 using System;
@@ -140,6 +141,38 @@ namespace OpenWorldRedux.RTSE
                     }
                     visitrequeststring += "*";
 
+
+
+
+                    //pawnData += "‼";
+
+                    foreach (Gene gene in sentPawn.genes.Xenogenes)
+                    {
+                        visitrequeststring += gene.def.defName.ToString() + ";";
+                        if (gene.def.abilities != null)
+                        {
+                            foreach (AbilityDef ability in gene.def.abilities)
+                            {
+                                visitrequeststring += ability.defName.ToString() + ";";
+
+                            }
+                        }
+                        visitrequeststring += "|";
+                    }
+                    visitrequeststring += "*";
+                    //pawnData += "‼";
+                    foreach (Gene endogene in sentPawn.genes.Endogenes)
+                    {
+
+                        visitrequeststring += endogene.def.defName.ToString() + "|";
+                    }
+
+
+
+
+
+
+
                     visitrequeststring += ":";
 
 
@@ -252,7 +285,7 @@ namespace OpenWorldRedux.RTSE
                 if (item != null && item != "")
                 {
                     Log.Message(item.Split('|')[0]);
-                    if (item.Split('|')[0] == "Human")
+                    if (item.Split('|').Length > 6 && item.Split('|')[6] == "Pawn")
                     {
                         Log.Message("Human found");
                         try
@@ -296,42 +329,34 @@ namespace OpenWorldRedux.RTSE
                 }
 
             }
-           // HostUtil.SetAllUniqueIds(Multiplayer.Client.Multiplayer.GlobalIdBlock.Current);
-            //Multiplayer.Client.Multiplayer.StopMultiplayer();
+            //HostUtil.SetAllUniqueIds(Multiplayer.Client.Multiplayer.GlobalIdBlock.Current);
+            Multiplayer.Client.Multiplayer.StopMultiplayer();
+            Multiplayer.Client.Multiplayer.session = null;
+            BooleanCache.ishostingrtseserver = false;
+            ColonistBar_CheckRecacheEntries.savedcaravan = null;
+            OnSendVisitRequest.visitrequeststringfinal = null;
+            visitrequeststringfinal = null;
+            Find.TickManager.Pause();
+
+            LongEventHandler.QueueLongEvent(delegate {
+                GameDataSaveLoader.SaveGame("Open World Last Hosted Save");
+            }, "Saving", true, null);
+            Multiplayer.Client.Multiplayer.session = null;
+            // Load the saved game
+            LongEventHandler.QueueLongEvent(delegate {
+                MemoryUtility.ClearAllMapsAndWorld();
+                GenScene.GoToMainMenu();
+                GameDataSaveLoader.LoadGame("Open World Last Hosted Save");
+            }, "LoadingLongEvent", true, null);
             //Multiplayer.Client.Multiplayer.session = null;
 
-                try
-                {
-                    const string suffix = "-preconvert";
-                    var saveName = $"{GenFile.SanitizedFileName(Multiplayer.Client.Multiplayer.session.gameName)}{suffix}";
 
-                    new FileInfo(Path.Combine(Multiplayer.Client.Multiplayer.ReplaysDir, saveName + ".zip")).Delete();
-                    Replay.ForSaving(saveName).WriteCurrentData();
-                }
-                catch (Exception e)
-                {
-                    Log.Warning($"Convert to singleplayer failed to write pre-convert file: {e}");
-                }
-
-                Find.GameInfo.permadeathMode = false;
-                HostUtil.SetAllUniqueIds(Multiplayer.Client.Multiplayer.GlobalIdBlock.Current);
-
-                Multiplayer.Client.Multiplayer.StopMultiplayer();
-
-            BooleanCache.ishostingrtseserver = false;
-            GameDataSaveLoader.SaveGame("Open World Server Save " + OW_MPLogin.myusername);
-            SaveHandler.SendSaveToServer("Open World Server Save " + OW_MPLogin.myusername);
-            MemoryUtility.ClearAllMapsAndWorld();
-            GenScene.GoToMainMenu();
-            string[] contents = new string[] { };
-            Packet ClientSaveFilePacket = new Packet("Requestsave", contents);
-            Network.SendData(ClientSaveFilePacket);
-            //GameDataSaveLoader.LoadGame("Last Hosted Open World Save");
-             
-
-            // MemoryUtility.ClearAllMapsAndWorld();
-            // GenScene.GoToMainMenu();
-
+            //ServerHandlers.SaveAndSendToSever();
+            //string[] contents = new string[] { };
+            //Packet ClientSaveFilePacket = new Packet("Requestsave", contents);
+            //MemoryUtility.ClearAllMapsAndWorld();
+            //GenScene.GoToMainMenu();
+            //Network.SendData(ClientSaveFilePacket);
         }
 
     }

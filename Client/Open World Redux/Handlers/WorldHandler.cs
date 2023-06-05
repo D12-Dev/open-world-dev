@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Verse;
@@ -12,13 +13,24 @@ namespace OpenWorldRedux
 {
     public static class WorldHandler
     {
+        public static bool HasBioTechFactions;
+        public static bool HasRoyaltyFactions;
+        public static bool HasIdeologyFactions;
+
         public static void CreateNewWorldHandle()
         {
-            FocusCache.waitWindowInstance.Close();
 
+
+            FocusCache.waitWindowInstance.Close();
+            if (ModsConfig.RoyaltyActive || ModsConfig.BiotechActive || ModsConfig.IdeologyActive)
+            {
+                Network.DisconnectFromServer();
+                Find.WindowStack.Add(new OW_ErrorDialog("You must generate the world without DLC first!"));
+                return;
+            }
             BooleanCache.isGeneratingNewWorld = true;
 
-            Find.WindowStack.Add(new Page_CustomSelectScenario()); // Need to change to world gen
+            Find.WindowStack.Add(new Page_CustomSelectScenario());
 
             string[] chainInfo = new string[]
             {
@@ -33,35 +45,29 @@ namespace OpenWorldRedux
 
         public static void CreateWorldFromPacketHandle(Packet receivedPacket)
         {
+
+
+
+            //  Log.Message("Getting world from packet");
+            BooleanCache.isGeneratingWorldFromPacket = true;
+            SaveHandler.LoadFromWorldGen(receivedPacket);
+            //  Log.Message("Finished loading world from packet");
             FocusCache.waitWindowInstance.Close();
 
-            /*WorldCache.seedString = receivedPacket.contents[0];
-            WorldCache.planetCoverage = float.Parse(receivedPacket.contents[1]);
-            WorldCache.overallRainfall = (OverallRainfall)int.Parse(receivedPacket.contents[2]);
-            WorldCache.overallTemperature = (OverallTemperature)int.Parse(receivedPacket.contents[3]);
-            WorldCache.overallPopulation = (OverallPopulation)int.Parse(receivedPacket.contents[4]);
-            WorldCache.pollution = float.Parse(receivedPacket.contents[5]);*/
 
 
-            SaveHandler.LoadFromWorldGen(receivedPacket);
-            System.Threading.Thread.Sleep(5000);
 
-            BooleanCache.isGeneratingWorldFromPacket = true;
 
-            Find.WindowStack.Add(new Page_CustomSelectScenario());
 
-            string[] chainInfo = new string[]
-            {
-                "Welcome to the multiplayer world generation screen",
-                "Configure the settings you will use for this save",
-                "Locked variables are automatically handled by the server"
-            };
-            Find.WindowStack.Add(new OW_ChainInfoDialog(chainInfo));
+
+
+
+
         }
 
         public static void SendWorldDataRequest()
         {
-            Log.Message("Trying to send data request!");
+            //Log.Message("Trying to send data request!");
 
             Packet GetSaveData = new Packet("ReceiveBaseSaveRequest");
             Network.SendData(GetSaveData);
@@ -137,23 +143,12 @@ namespace OpenWorldRedux
         {
             CleanWorld();
             RebuildWorld();
+            PlaceDlcFactionsOnMap();
         }
 
-        public static void CleanWorld()
+        private static void CleanWorld()
         {
-            List<string> BiotechFactions = new List<string>() {
-                "PirateWaster",
-            };
-            List<string> IdeologyFactions = new List<string>() {
-                "Pilgrims",
-                "Beggars",
-                "Ancients",
-                "AncientsHostile"
-            };
-            List<string> RoyaltyFactions = new List<string>() {
-                "Empire",
-                "OutlanderRefugee"
-            };
+
             //Destroy settlements
             Settlement[] settlementsToDestroy = Find.WorldObjects.Settlements.ToArray();
             foreach (Settlement settlement in settlementsToDestroy)
@@ -168,34 +163,12 @@ namespace OpenWorldRedux
 
 
                 }
+
                 //Log.Message(settlement.ToString());
                 //if (settlement in WorldCache.onlineSettlementsDeflate) continue;
                 // else if (settlement.Faction == FactionsCache.onlineNeutralTribe) continue;
                 // else if (settlement.Faction == FactionsCache.onlineEnemyTribe) continue;
-                /*              if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
-                              {
-                                  if (BiotechFactions.Contains(settlement.Faction.def.defName)) {
-                                      Find.WorldObjects.Remove(settlement);
 
-                                  }
-                              }
-                              if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
-                              {
-                                  if (RoyaltyFactions.Contains(settlement.Faction.def.defName))
-                                  {
-                                      Find.WorldObjects.Remove(settlement);
-
-                                  }
-                              }
-
-                              if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
-                              {
-                                  if (IdeologyFactions.Contains(settlement.Faction.def.defName))
-                                  {
-                                      Find.WorldObjects.Remove(settlement);
-
-                                  }
-                              }*/
 
 
 
@@ -234,10 +207,106 @@ namespace OpenWorldRedux
 
                 else continue;
             }
+
+        }
+
+
+        public static void PlaceDlcFactionsOnMap()
+        { // Place dlc, use this for future map sync
+
+            List<FactionDef> ToTryToAddFactions = new List<FactionDef>();
+
+            if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
+            {
+                List<FactionDef> BiotechFactions = new List<FactionDef>() {
+                        FactionDefOf.PirateWaster,
+
+
+                    };
+                ToTryToAddFactions.AddRange(BiotechFactions);
+            }
+            if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
+            {
+                List<FactionDef> RoyaltyFactions = new List<FactionDef>() {
+                        FactionDefOf.Empire,
+                        FactionDefOf.OutlanderRefugee
+                    };
+                ToTryToAddFactions.AddRange(RoyaltyFactions);
+            }
+
+            if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
+            {
+                List<FactionDef> IdeologyFactions = new List<FactionDef>() {
+                            FactionDefOf.Pilgrims,
+                            FactionDefOf.Beggars,
+                            FactionDefOf.Ancients,
+                            FactionDefOf.AncientsHostile,
+                        };
+                ToTryToAddFactions.AddRange(IdeologyFactions);
+            }
+            /* foreach (FactionDef X in ToTryToAddFactions)
+             {
+                 Log.Message("Logging Faction Name");
+                 Log.Message(X.defName);
+
+
+             }*/
+            if (ToTryToAddFactions.Count > 0)
+            {
+
+
+                FloatRange SettlementsPer100kTiles = new FloatRange(150f, 190f);
+                if (ToTryToAddFactions != null)
+                {
+                    foreach (FactionDef faction2 in ToTryToAddFactions)
+                    {
+                        Find.FactionManager.Add(FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(faction2)));
+                    }
+                }
+                else
+                {
+                    foreach (FactionDef item in DefDatabase<FactionDef>.AllDefs.OrderBy((FactionDef x) => x.hidden))
+                    {
+                        for (int i = 0; i < item.requiredCountAtGameStart; i++)
+                        {
+                            Find.FactionManager.Add(FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(item)));
+                        }
+                    }
+                }
+
+                IEnumerable<Faction> source = Find.World.factionManager.AllFactionsListForReading.Where((Faction x) => !x.def.isPlayer && !x.Hidden && !x.temporary);
+                if (source.Any())
+                {
+                    int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * SettlementsPer100kTiles.RandomInRange * Find.World.info.overallPopulation.GetScaleFactor());
+                    num -= Find.WorldObjects.Settlements.Count;
+                    for (int j = 0; j < num; j++)
+                    {
+                        Faction faction = source.RandomElementByWeight((Faction x) => x.def.settlementGenerationWeight);
+                        Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+                        settlement.SetFaction(faction);
+                        settlement.Tile = TileFinder.RandomSettlementTileFor(faction);
+                        settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement);
+                        Find.WorldObjects.Add(settlement);
+                    }
+                }
+
+                Find.IdeoManager.SortIdeos();
+
+
+                //FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
+
+                Log.Message("[Open World] > Trying to add missing dlc factions");
+            }
         }
 
         private static void RebuildWorld()
         {
+
+
+
+
+
+
             //Spawn settlements
             WorldCache.onlineSettlements.Clear(); // This could kill settlement
             foreach (SettlementFile settlement in WorldCache.onlineSettlementsDeflate)

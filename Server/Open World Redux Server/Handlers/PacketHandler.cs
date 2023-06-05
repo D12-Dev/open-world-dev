@@ -126,7 +126,22 @@ namespace OpenWorldReduxServer
                 else if(receivedPacket.header == "Requestsave")
                 {
                     ClientSaveHandler.SendSaveFile(client);
+
                 }
+                else if (receivedPacket.header == "RequestFullsave")
+                {
+                    ClientSaveHandler.SendSaveFile(client);
+
+                    SettlementHandler.SendCurrentSettlements(client);
+
+                    FactionHandler.GetAllFactionStructures(client);
+
+                    FactionHandler.RefreshFactionDetails(client);
+
+                }
+
+
+
 
 
 

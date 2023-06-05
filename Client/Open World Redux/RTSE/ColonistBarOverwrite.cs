@@ -18,6 +18,8 @@ using Multiplayer;
 namespace OpenWorldRedux.RTSE
 {
 
+
+
     [HarmonyPatch(typeof(Pawn_DraftController), "GetGizmos")]
     public static class NoDraftButtonPatch
     {
@@ -91,77 +93,6 @@ namespace OpenWorldRedux.RTSE
     }
 
 
-    [HarmonyPatch(typeof(Pawn), "GetGizmos")]
-    public static class NoAnimalButtonPatch
-    {
-        public static string concatedstring;
-        static void Postfix(ref IEnumerable<Gizmo> __result, Pawn __instance)
-        {
-           // if (!ShouldRemoveAnimalButton(__instance, ColonistBar_CheckRecacheEntries.savedlastcaravan.Split(':')))
-
-            //{
-                List<Gizmo> gizmos = new List<Gizmo>(__result);
-                Gizmo animalButton = gizmos.Find(g => g is Command_Action && ((Command_Action)g).defaultLabel == "Slaughter" || ((Command_Action)g).defaultLabel == "Release to Wild");
-                if (animalButton != null)
-                {
-                    gizmos.Remove(animalButton);
-                }
-                __result = gizmos;
-            //}
-        }
-
-        static bool ShouldRemoveAnimalButton(Pawn pawn, string[] savedtostring)
-        {
-            if (Multiplayer.Client.Multiplayer.session == null)
-            {
-                return true;
-            }
-
-
-            concatedstring = "";
-
-            if (savedtostring != null)
-            {
-                foreach (string s in savedtostring)
-                {
-                    if (s.Split('|').Length > 6 && s.Split('|')[6] == "Pawn")
-                    {
-                        concatedstring += int.Parse(s.Split('|')[5]) + ",";
-                    }
-                    else if (s.Split('|').Length > 4 && s.Split('|')[0] != "Human")
-                    {
-                        concatedstring += int.Parse(s.Split('|')[4]) + ",";
-                    }
-                }
-
-            }
-
-            if (BooleanCache.isConnectedToServer && BooleanCache.ishostingrtseserver)
-            {
-                if (!concatedstring.Contains(pawn.thingIDNumber.ToString()))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                if (concatedstring.Contains(pawn.thingIDNumber.ToString()))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return false;
-        }
-    }
 
 
     [HarmonyPatch(typeof(MainTabWindow_PawnTable), "get_Pawns")]
@@ -557,7 +488,7 @@ public static class ITab_Pawn_Gear_CanControlColonist_Patch
                 {
                     concatedstring += int.Parse(s.Split('|')[5]) + ",";
                 }
-                else
+                else if (s.Split('|').Length > 4 && s.Split('|')[0] != "Human")
                 {
                     concatedstring += int.Parse(s.Split('|')[4]) + ",";
                 }
