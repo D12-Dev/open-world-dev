@@ -214,34 +214,54 @@ namespace OpenWorldRedux
         public static void PlaceDlcFactionsOnMap() { // Place dlc, use this for future map sync
 
                 List<FactionDef> ToTryToAddFactions = new List<FactionDef>();
+                List<Faction> factions = Find.FactionManager.AllFactions.ToList();
+                foreach (Faction faction2 in factions) {
+                    Log.Message(faction2.def.label);
+                }
+                Faction ShatteredEmpireFact = factions.Find(fetch => fetch.def.label == "shattered empire");
+                Faction PirateWastersFact = factions.Find(fetch => fetch.def.label == "waster pirates");
+                Faction AncientHostileFact = factions.Find(fetch => fetch.def.label == "hostile ancients");
 
-                if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
+            if (ModsConfig.IsActive("ludeon.rimworld.biotech"))
                 {
-                    List<FactionDef> BiotechFactions = new List<FactionDef>() {
-                        FactionDefOf.PirateWaster,
+                    if (!Find.FactionManager.AllFactions.Contains(PirateWastersFact))
+                    {
+                        List<FactionDef> BiotechFactions = new List<FactionDef>() {
+                                FactionDefOf.PirateWaster,
 
 
-                    };
-                    ToTryToAddFactions.AddRange(BiotechFactions);
+                            };
+                        ToTryToAddFactions.AddRange(BiotechFactions);
+                        Log.Message("[Open World] Added Pirate Waster faction");
+                    }
                 }
                 if (ModsConfig.IsActive("ludeon.rimworld.royalty"))
                 {
-                    List<FactionDef> RoyaltyFactions = new List<FactionDef>() {
-                        FactionDefOf.Empire,
-                        FactionDefOf.OutlanderRefugee
-                    };
-                    ToTryToAddFactions.AddRange(RoyaltyFactions);
+                    if (!Find.FactionManager.AllFactions.Contains(ShatteredEmpireFact))
+                    {
+                        List<FactionDef> RoyaltyFactions = new List<FactionDef>() {
+                                FactionDefOf.Empire,
+                                FactionDefOf.OutlanderRefugee
+                            };
+                        ToTryToAddFactions.AddRange(RoyaltyFactions);
+                        Log.Message("[Open World] Added Empire faction");
+                    }
                 }
                 
                 if (ModsConfig.IsActive("ludeon.rimworld.ideology"))
                 {
-                    List<FactionDef> IdeologyFactions = new List<FactionDef>() {
-                            FactionDefOf.Pilgrims,
-                            FactionDefOf.Beggars,
-                            FactionDefOf.Ancients,
-                            FactionDefOf.AncientsHostile,
-                        };
-                    ToTryToAddFactions.AddRange(IdeologyFactions);
+
+                    if (!Find.FactionManager.AllFactions.Contains(AncientHostileFact))
+                    {
+                        List<FactionDef> IdeologyFactions = new List<FactionDef>() {
+                                FactionDefOf.Pilgrims,
+                                FactionDefOf.Beggars,
+                                FactionDefOf.Ancients,
+                                FactionDefOf.AncientsHostile,
+                            };
+                        ToTryToAddFactions.AddRange(IdeologyFactions);
+                        Log.Message("[Open World] Added Accient faction");
+                    }
                 }
                /* foreach (FactionDef X in ToTryToAddFactions)
                 {
@@ -293,7 +313,7 @@ namespace OpenWorldRedux
 
                //FactionGenerator.GenerateFactionsIntoWorld(ToTryToAddFactions);
 
-                    Log.Message("[Open World] > Trying to add missing dlc factions");
+                    
                 }
         }
 
