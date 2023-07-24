@@ -215,9 +215,9 @@ namespace OpenWorldRedux
 
                 List<FactionDef> ToTryToAddFactions = new List<FactionDef>();
                 List<Faction> factions = Find.FactionManager.AllFactions.ToList();
-                foreach (Faction faction2 in factions) {
+ /*               foreach (Faction faction2 in factions) {
                     Log.Message(faction2.def.label);
-                }
+                }*/
                 Faction ShatteredEmpireFact = factions.Find(fetch => fetch.def.label == "shattered empire");
                 Faction PirateWastersFact = factions.Find(fetch => fetch.def.label == "waster pirates");
                 Faction AncientHostileFact = factions.Find(fetch => fetch.def.label == "hostile ancients");
