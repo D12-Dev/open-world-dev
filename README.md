@@ -2,7 +2,7 @@
 
 ## **Introduction**
 
-This is the developer-only version of the Open World mod and allows all of our developers to work from one space. Create branches as you like; however, try not to merge them unless necessary, as sometimes merging them can be problematic depending on the amount of unresolved conflicts. For any questions regarding the repo, either message D12 or Primate, as they should be able to guide you or fix any problems you are having.
+This is the developer-only version of the Open World mod and allows all of our developers to work from one space. Create branches as you like; however, try not to merge them unless necessary, as sometimes merging them can be problematic depending on the amount of unresolved conflicts. 
 
 ## **How to commit changes**
 
